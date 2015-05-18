@@ -1,9 +1,8 @@
 git init
 git clone https://github.com/kamilgolabek1/Projekt-In-ynierski.git
 git remote add origin https://github.com/kamilgolabek1/Projekt-In-ynierski.git
-
-git add -u
-
+git add -A
+git commit -m "first commmit"
 
 //commit
 git commit // lokalnie
@@ -11,3 +10,6 @@ git push -u origin master
 
 // update from remote
 git pull
+
+
+//ssssssssssssssssssssssssssssss
