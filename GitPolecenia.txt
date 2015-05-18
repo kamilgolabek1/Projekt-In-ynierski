@@ -1,0 +1,13 @@
+git init
+git clone https://github.com/kamilgolabek1/Projekt-In-ynierski.git
+git remote add origin https://github.com/kamilgolabek1/Projekt-In-ynierski.git
+
+git add -u
+
+
+//commit
+git commit // lokalnie
+git push -u origin master
+
+// update from remote
+git pull
