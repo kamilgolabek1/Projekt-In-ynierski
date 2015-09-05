@@ -1,0 +1,9 @@
+adres strony: localhost/~Virtual_Guide/frontend/web
+
+adres admina: http://localhost/~Virtual_Guide/backend/web/
+
+config do bazy znajdujê siê w : common/config/main-local.php
+
+ebook do yii: http://it-ebooks.info/book/4641/
+
+video tut do yii: https://www.youtube.com/watch?v=z1xtFbO9jgQ&list=PLRd0zhQj3CBmusDbBzFgg3H20VxLx2mkF&index=1
