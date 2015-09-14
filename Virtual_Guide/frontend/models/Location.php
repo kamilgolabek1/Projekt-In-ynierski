@@ -68,7 +68,7 @@ class Location extends \yii\db\ActiveRecord
      */
     public function getComments()
     {
-        return $this->hasMany(Comments::className(), ['LocationID' => 'ID']);
+        return $this->hasMany(Comments::className(), ['LocationID' => 'ID'])->orderBy(['Comments.Data'=>SORT_DESC]);
     }
 
     /**

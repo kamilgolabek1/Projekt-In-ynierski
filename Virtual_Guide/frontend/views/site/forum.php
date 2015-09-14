@@ -12,9 +12,6 @@ $this->title = 'Forum';
 //$this->params['breadcrumbs'][] = ['label' => '', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="jumbotron">
-        <h1>Forum</h1>
-    </div>
 
 
   

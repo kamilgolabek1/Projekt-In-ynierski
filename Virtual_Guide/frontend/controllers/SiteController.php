@@ -13,6 +13,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use frontend\models\Location;
+use frontend\models\Comments;
 
 /**
  * Site controller
@@ -226,7 +227,25 @@ class SiteController extends Controller
             ]);
     }
     
-     protected function findLocation($id)
+    public function actionAdd(){
+        
+        $request = Yii::$app->request;
+        $id = $request->post('id');   
+        $kom = $request->post('komentarz');   
+        
+        $comment = new Comments();
+        $comment->Comment = $kom;
+        $comment->Data = new \yii\db\Expression('NOW()');
+        $comment->LocationID = $id;
+        $comment->UserID = 1;
+        $comment->save();
+       return $this->render('komentarze', [
+                'model' => $this->findLocation($id),
+            ]);
+    }
+
+
+    protected function findLocation($id)
     {
         if (($model = Location::findOne($id)) !== null) {
             return $model;
