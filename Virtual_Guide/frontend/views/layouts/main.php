@@ -58,8 +58,13 @@ AppAsset::register($this);
 
     <div class="container">
         <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
+        'homeLink' => ['label' => 'Strona Główna',
+        'url' => Yii::$app->getHomeUrl()],
+        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [], 
+    ]); ?>
+        
+       
+        
         <?= Alert::widget() ?>
         <?= $content ?>
     </div>
@@ -67,7 +72,7 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+        <p class="pull-left">&copy; Virtual Guide <?= date('Y') ?></p>
 
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>

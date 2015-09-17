@@ -19,15 +19,14 @@ $this->params['breadcrumbs'][] = $this->title;
 <tr>
     <th>Nazwa</th>
     <th>Adres</th>
-    <th></th>
+   
    
 </tr>
  <?php
     foreach($locations as $row)
   { 
         $url=Yii::$app->urlManager->createUrl(['site/komentarze', 'id' => $row->ID]);
-    echo "<tr><td>".$row->Nazwa."</td><td>".$row->Adres."</td>";
-    echo '<td><a href="';echo $url; echo '" title="View" aria-label="View" data-pjax="0"><span class="glyphicon glyphicon-eye-open"></span></a></td></tr>';
+    echo "<tr><td><a href='".$url."'>".$row->Nazwa."</a></td><td>".$row->Adres."</td></tr>";
   
  
     
