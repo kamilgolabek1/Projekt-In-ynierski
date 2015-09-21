@@ -8,15 +8,15 @@ use frontend\models\User;
  * and open the template in the editor.
  */
 
-$this->title = $model->Nazwa;
+$this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Forum', 'url' => ['forum']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <script src="../../js/ckeditor/ckeditor.js"></script>
 
-<?php echo "<h3>".$model->Nazwa."</h3>";
+<?php echo "<h3>".$model->name."</h3>";
 
- echo "<h5>".$model->Opis."</h5>";
+ echo "<h5>".$model->descr."</h5>";
 ?>
 </br>
 <?php 
@@ -48,12 +48,12 @@ $this->params['breadcrumbs'][] = $this->title;
     foreach($model->comments as $row)
   { 
       $User = User::find()
-    ->where(['id' => $row->UserID])
+    ->where(['id' => $row->userID])
     ->one();
 
     echo "<tr><td width='20%'>".$User->username.""
             . "</br>"
-            .$row->Data. "</td><td>".$row->Comment."</td></tr>";
+            .$row->date. "</td><td>".$row->comment."</td></tr>";
   }?>
 </table>
 

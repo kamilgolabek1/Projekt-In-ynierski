@@ -13,7 +13,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use frontend\models\Location;
-use frontend\models\Comments;
+use frontend\models\Comment;
 
 /**
  * Site controller
@@ -233,11 +233,11 @@ class SiteController extends Controller
         $id = $request->post('id');   
         $kom = $request->post('komentarz');   
         
-        $comment = new Comments();
-        $comment->Comment = $kom;
-        $comment->Data = new \yii\db\Expression('NOW()');
-        $comment->LocationID = $id;
-        $comment->UserID = 1;
+        $comment = new Comment();
+        $comment->comment = $kom;
+        $comment->date = new \yii\db\Expression('NOW()');
+        $comment->locationID = $id;
+        $comment->userID = 1;
         $comment->save();
        return $this->render('komentarze', [
                 'model' => $this->findLocation($id),
