@@ -174,11 +174,11 @@ class SiteController extends Controller
         $model = new PasswordResetRequestForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail()) {
-                Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
+                Yii::$app->session->setFlash('success', 'Email z linkiem do zmiany hasła został wysłany.');
 
                 return $this->goHome();
             } else {
-                Yii::$app->session->setFlash('error', 'Sorry, we are unable to reset password for email provided.');
+                Yii::$app->session->setFlash('error', 'Nie znaleniono użytkownika z podanym adresem email.');
             }
         }
 
@@ -237,7 +237,7 @@ class SiteController extends Controller
         $comment->comment = $kom;
         $comment->date = new \yii\db\Expression('NOW()');
         $comment->locationID = $id;
-        $comment->userID = 1;
+        $comment->userID = $userId = \Yii::$app->user->identity->id;
         $comment->save();
        return $this->render('komentarze', [
                 'model' => $this->findLocation($id),

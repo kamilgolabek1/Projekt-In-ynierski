@@ -36,9 +36,10 @@ AppAsset::register($this);
     ]);
     $menuItems = [
         ['label' => 'Lokalizacje', 'url' => ['/location/index']],
-        ['label' => 'Komentarze', 'url' => ['/comments/index']],
-        ['label' => 'Tagi', 'url' => ['/tags/index']],
-        ['label' => 'Zdjęcia', 'url' => ['/photos/index']],
+        ['label' => 'Komentarze', 'url' => ['/comment/index']],
+        ['label' => 'Tagi', 'url' => ['/tag/index']],
+        ['label' => 'Zdjęcia', 'url' => ['/photo/index']],
+        ['label' => 'Użytkownicy', 'url' => ['/user/index']],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];

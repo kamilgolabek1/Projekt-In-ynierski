@@ -1,13 +1,13 @@
 <?php
 
-namespace frontend\models;
+namespace backend\models;
 
 use Yii;
 
 /**
  * This is the model class for table "user".
  *
- * @property integer $id
+ * @property integer $ID
  * @property string $username
  * @property string $auth_key
  * @property string $password_hash
@@ -17,8 +17,8 @@ use Yii;
  * @property integer $created_at
  * @property integer $updated_at
  *
- * @property Comments[] $comments
- * @property Photos[] $photos
+ * @property Comment[] $comments
+ * @property Photo[] $photos
  */
 class User extends \yii\db\ActiveRecord
 {
@@ -49,8 +49,8 @@ class User extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'username' => 'Login',
+            'ID' => 'ID',
+            'username' => 'Username',
             'auth_key' => 'Auth Key',
             'password_hash' => 'Password Hash',
             'password_reset_token' => 'Password Reset Token',
@@ -66,7 +66,7 @@ class User extends \yii\db\ActiveRecord
      */
     public function getComments()
     {
-        return $this->hasMany(Comments::className(), ['UserID' => 'id']);
+        return $this->hasMany(Comment::className(), ['userID' => 'ID']);
     }
 
     /**
@@ -74,6 +74,6 @@ class User extends \yii\db\ActiveRecord
      */
     public function getPhotos()
     {
-        return $this->hasMany(Photos::className(), ['UserId' => 'id']);
+        return $this->hasMany(Photo::className(), ['userId' => 'ID']);
     }
 }

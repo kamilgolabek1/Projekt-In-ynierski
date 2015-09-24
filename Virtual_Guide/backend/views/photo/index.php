@@ -4,19 +4,19 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel backend\models\LocationSearch */
+/* @var $searchModel backend\models\PhotoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Locations';
+$this->title = 'Photos';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="location-index">
+<div class="photo-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Location', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Photo', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -26,14 +26,10 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'ID',
-            'name',
-            'descr',
-            'lon',
-            'lat',
-            // 'forumID',
-            // 'address',
-            // 'category',
-            // 'zoom',
+            'locationID',
+            'filename',
+            'comment',
+            'userId',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

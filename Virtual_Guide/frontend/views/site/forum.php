@@ -17,16 +17,24 @@ $this->params['breadcrumbs'][] = $this->title;
   
   <table class="table table-striped table-bordered detail-view">
 <tr>
-    <th>Nazwa</th>
-    <th>Adres</th>
    
+    </br></br>
    
 </tr>
  <?php
     foreach($locations as $row)
   { 
+         $connection=Yii::$app->db;
+         $sql = "Select * from Comment where locationID  = ".$row->ID;
+         
+   $command=$connection->createCommand($sql);
+   $dataReader=$command->query();
+   $rowCount = $dataReader->rowCount;
+    
+        
         $url=Yii::$app->urlManager->createUrl(['site/komentarze', 'id' => $row->ID]);
-    echo "<tr><td><a href='".$url."'>".$row->name."</a></td><td>".$row->address."</td></tr>";
+    echo "<tr><td><a href='".$url."'><h4>".$row->name."</h4></a></td>";
+    echo "<td>"."Opinie: ".$rowCount." </br> ".$row->address."</td></tr>";
   
  
     

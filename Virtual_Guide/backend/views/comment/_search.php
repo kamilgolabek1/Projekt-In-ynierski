@@ -4,11 +4,11 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model backend\models\LocationSearch */
+/* @var $model backend\models\CommentSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="location-search">
+<div class="comment-search">
 
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
@@ -17,21 +17,13 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'ID') ?>
 
-    <?= $form->field($model, 'name') ?>
+    <?= $form->field($model, 'locationID') ?>
 
-    <?= $form->field($model, 'descr') ?>
+    <?= $form->field($model, 'comment') ?>
 
-    <?= $form->field($model, 'lon') ?>
+    <?= $form->field($model, 'userID') ?>
 
-    <?= $form->field($model, 'lat') ?>
-
-    <?php // echo $form->field($model, 'forumID') ?>
-
-    <?php // echo $form->field($model, 'address') ?>
-
-    <?php // echo $form->field($model, 'category') ?>
-
-    <?php // echo $form->field($model, 'zoom') ?>
+    <?= $form->field($model, 'date') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

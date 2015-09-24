@@ -63,5 +63,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <script>
  CKEDITOR.replace( 'komentarz' );
+ CKEDITOR.config.height  = 150;  
  
 </script>

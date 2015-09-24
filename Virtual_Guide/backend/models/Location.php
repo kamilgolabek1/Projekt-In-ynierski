@@ -8,18 +8,18 @@ use Yii;
  * This is the model class for table "location".
  *
  * @property integer $ID
- * @property string $Nazwa
- * @property string $Opis
- * @property string $Lon
- * @property string $Lat
- * @property string $ForumID
- * @property string $Adres
- * @property integer $Category
- * @property integer $Zoom
+ * @property string $name
+ * @property string $descr
+ * @property string $lon
+ * @property string $lat
+ * @property string $forumID
+ * @property string $address
+ * @property integer $category
+ * @property integer $zoom
  *
- * @property Comments[] $comments
- * @property Photos[] $photos
- * @property Tags[] $tags
+ * @property Comment[] $comments
+ * @property Photo[] $photos
+ * @property Tag[] $tags
  */
 class Location extends \yii\db\ActiveRecord
 {
@@ -37,11 +37,10 @@ class Location extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['ID'], 'required'],
-            [['ID', 'Category', 'Zoom'], 'integer'],
-            [['Nazwa', 'ForumID', 'Adres'], 'string', 'max' => 100],
-            [['Opis'], 'string', 'max' => 2000],
-            [['Lon', 'Lat'], 'string', 'max' => 50]
+            [['category', 'zoom'], 'integer'],
+            [['name', 'forumID', 'address'], 'string', 'max' => 100],
+            [['descr'], 'string', 'max' => 2000],
+            [['lon', 'lat'], 'string', 'max' => 50]
         ];
     }
 
@@ -52,14 +51,14 @@ class Location extends \yii\db\ActiveRecord
     {
         return [
             'ID' => 'ID',
-            'Nazwa' => 'Nazwa',
-            'Opis' => 'Opis',
-            'Lon' => 'Lon',
-            'Lat' => 'Lat',
-            'ForumID' => 'Forum ID',
-            'Adres' => 'Adres',
-            'Category' => 'Category',
-            'Zoom' => 'Zoom',
+            'name' => 'Name',
+            'descr' => 'Descr',
+            'lon' => 'Lon',
+            'lat' => 'Lat',
+            'forumID' => 'Forum ID',
+            'address' => 'Address',
+            'category' => 'Category',
+            'zoom' => 'Zoom',
         ];
     }
 
@@ -68,7 +67,7 @@ class Location extends \yii\db\ActiveRecord
      */
     public function getComments()
     {
-        return $this->hasMany(Comments::className(), ['LocationID' => 'ID']);
+        return $this->hasMany(Comment::className(), ['locationID' => 'ID']);
     }
 
     /**
@@ -76,7 +75,7 @@ class Location extends \yii\db\ActiveRecord
      */
     public function getPhotos()
     {
-        return $this->hasMany(Photos::className(), ['LocationID' => 'ID']);
+        return $this->hasMany(Photo::className(), ['locationID' => 'ID']);
     }
 
     /**
@@ -84,6 +83,6 @@ class Location extends \yii\db\ActiveRecord
      */
     public function getTags()
     {
-        return $this->hasMany(Tags::className(), ['LocationID' => 'ID']);
+        return $this->hasMany(Tag::className(), ['locationID' => 'ID']);
     }
 }
