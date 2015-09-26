@@ -40,6 +40,7 @@ function createPopupMask() {
 	//overlay.style.display = 'none';
 	document.body.appendChild(overlay);
 	
+	
 }
 createPopupMask();
 
@@ -54,6 +55,12 @@ function createPopup(container, func, overlay) {
 			toggle_visibility('popupMask');
 		}
 		
+		var infoBox = document.getElementById('infoBox');
+		
+		if (infoBoxStatus == 1) {
+			toggle_visibility('infoBox');
+			infoBoxStatus ^= 1;
+		}
 		//window.status = gPopupMask.style.top + " " + gPopupMask.style.left + " " + gi++;
 		
 		//addEvent(window, "resize", centerPopup('popupMask'));
@@ -159,4 +166,17 @@ function addingPoint() {
 	addPoint.style.position = 'absolute';
 	addPoint.style.zIndex = 1205;
 	addPoint.style.display = 'block';
+	document.getElementById("addForm").reset();
+	
+	var old_element = document.getElementById('popupMask');
+	var new_element = old_element.cloneNode(true);
+	
+	old_element.parentNode.replaceChild(new_element, old_element);
+	var overlay = document.getElementById('popupMask');
+	
+	overlay.addEventListener('click', function() {
+		toggle_visibility('popupMask');
+		toggle_visibility('addPoint');
+		}, false);
+	
 	}

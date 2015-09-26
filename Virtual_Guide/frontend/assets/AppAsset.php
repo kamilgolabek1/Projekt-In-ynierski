@@ -20,6 +20,8 @@ class AppAsset extends AssetBundle
     public $css = [
         'css/site.css',
         'css/style3.css',
+        'css/style3.css',
+				'css/lightbox.css',
     ];
     public $js = [
 				
@@ -27,6 +29,7 @@ class AppAsset extends AssetBundle
         'lib/FeaturePopups.js',
 				'js/virtualguide.js',
 				'js/csspopup.js',
+				'js/lightbox-plus-jquery.min.js',
 				
     ];
     public $depends = [

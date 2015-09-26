@@ -88,6 +88,9 @@ var map, vectorlayer, features, stylemap, select;
 
 var infoBoxId = "";
 var infoBoxStatus = 0;
+var lastRetrComm = 0;
+var lastRetrPic = 0;
+var lastRetrPoint = "-1"
 //var json = [{"id":"1","lon":"54.32312","lat":"18.60212","title":"Orlen","street":"ul. \u015awi\u0119tokrzyska 2","city":"Gda\u0144sk"},{"id":"2","lon":"54.37715","lat":"18.52172","title":"BP","street":"ul. S\u0142owackiego 80","city":"Gda\u0144sk"},{"id":"3","lon":"54.35812","lat":"18.58332","title":"BP","street":"ul. Rakoczego 15","city":"Gda\u0144sk"},{"id":"4","lon":"54.39468","lat":"18.58011","title":"BP","street":"al. Grunwaldzka","city":"Gda\u0144sk"},{"id":"5","lon":"54.39398","lat":"18.58689","title":"BP","street":"al. Grunwaldzka 229\/237","city":"Gda\u0144sk"},{"id":"6","lon":"54.33805","lat":"18.61407","title":"BP","street":"ul. Witosa","city":"Gda\u0144sk"},{"id":"7","lon":"54.43233","lat":"18.4889","title":"Lotos","street":"ul. Spacerowa 50","city":"Gda\u0144sk"},{"id":"8","lon":"54.34934","lat":"18.68168","title":"Lotos","street":"ul. Elbl\u0105ska 87","city":"Gda\u0144sk"},{"id":"9","lon":"54.33782","lat":"18.6296","title":"Lotos","street":"ul. Cienista 14 c","city":"Gda\u0144sk"},{"id":"10","lon":"54.37123","lat":"18.62785","title":"Lotos","street":"al. Zwyci\u0119stwa 13","city":"Gda\u0144sk"},{"id":"11","lon":"54.32889","lat":"18.61754","title":"Lotos","street":"ul. Ma\u0142omiejska 31","city":"Gda\u0144sk"},{"id":"12","lon":"54.31448","lat":"18.62952","title":"Shell","street":"ul. Trakt \u015bw. Wojciecha 223","city":"Gda\u0144sk"},{"id":"13","lon":"54.40076","lat":"18.59151","title":"Shell","street":"al. Rzeczypospolitej 8","city":"Gda\u0144sk"},{"id":"15","lon":"54.35202","lat":"18.64663","title":"Shell","street":"ul. Pa\u0142ubickiego 12","city":"Gda\u0144sk"},{"id":"16","lon":"54.32677","lat":"18.61032","title":"Shell","street":"ul. \u015awi\u0119tokrzyska 1","city":"Gda\u0144sk"},{"id":"17","lon":"54.37391","lat":"18.52192","title":"Shell","street":"ul. Z\u0142ota Karczma","city":"Gda\u0144sk"},{"id":"18","lon":"54.37853","lat":"18.63367","title":"Statoil","street":"ul. Marynarki Polskiej 93","city":"Gda\u0144sk"},{"id":"19","lon":"54.34701","lat":"18.60374","title":"Abi Sp. z o.o.","street":"ul. \u0141ostowicka 4","city":"Gda\u0144sk"},{"id":"20","lon":"54.31002","lat":"18.63466","title":"Aib Andrzej Bu\u015bko","street":"ul. Trakt \u015bw. Wojciecha 43","city":"Gda\u0144sk"},{"id":"21","lon":"54.34883","lat":"18.66036","title":"Bednar Sp. z o.o.","street":"ul. Szafarnia 11 lok. F8","city":"Gda\u0144sk"},{"id":"22","lon":"54.33505","lat":"18.65121","title":"&quot;Moto&quot; Przedsi\u0119biorstwo Handlowe Stacja Paliw J\u00f3zef Ku\u0142aga","street":"ul. Olszy\u0144ska 3","city":"Gda\u0144sk"},{"id":"23","lon":"54.38296","lat":"18.64483","title":"&quot;Moto&quot; Przedsi\u0119biorstwo Handlowe Stacja Paliw J\u00f3zef Ku\u0142aga","street":"ul. Marynarki Polskiej 73","city":"Gda\u0144sk"},{"id":"24","lon":"54.39361","lat":"18.58075","title":"Orlen","street":"al. Grunwaldzka 258","city":"Gda\u0144sk"},{"id":"25","lon":"54.33409","lat":"18.63585","title":"Orlen","street":"ul. Trakt \u015bw. Wojciecha 43 \/45","city":"Gda\u0144sk"},{"id":"26","lon":"54.39665","lat":"18.57915","title":"Orlen","street":"al. Grunwaldzka 341","city":"Gda\u0144sk"},{"id":"27","lon":"54.35905","lat":"18.64037","title":"Orlen","street":"ul. D\u0105browskiego 4","city":"Gda\u0144sk"},{"id":"28","lon":"54.40268","lat":"18.66379","title":"Orlen","street":"ul. Oliwska 37","city":"Gda\u0144sk"},{"id":"29","lon":"54.34835","lat":"18.68232","title":"Orlen","street":"ul. Mia\u0142ki Szlak 14","city":"Gda\u0144sk"},{"id":"30","lon":"54.38153","lat":"18.47584","title":"Orlen","street":"ul. S\u0142owackiego 198","city":"Gda\u0144sk"}];
 var json = [];
 
@@ -1045,10 +1048,23 @@ function getCoordinates() {
 	var data = e.feature.cluster[0].attributes;
 	var infoBox = document.getElementById('infoBox');
 	var thisBoxId = data.id;
+	lastRetrPoint = thisBoxId;
 	if (thisBoxId !== infoBoxId) {
 		while (infoBox.firstChild) {
 			infoBox.removeChild(infoBox.firstChild);
 		}
+		
+		
+		var infoBoxCloseBtn = document.createElement('h1');
+		infoBoxCloseBtn.innerHTML = '<span>X Close</span>';
+		infoBoxCloseBtn.className = 'infoBoxLabel infoBoxCloseBtn';
+		//infoBoxLabel.nextSibling.style.display = 'block';
+		infoBoxCloseBtn.addEventListener('click', function(){
+			toggle_visibility('infoBox');
+			infoBoxStatus ^= 1;
+			}, false);
+		infoBox.appendChild(infoBoxCloseBtn);
+		
 		
 		var infoBoxLabel = document.createElement('h1');
 		infoBoxLabel.innerHTML = '<span>' + data.name + '</span>';
@@ -1151,6 +1167,10 @@ function afterGetComments() {
 			commList.id = 'commentList';
 			commList.className = 'commentList';
 			
+			while (parent.firstChild) {
+			parent.removeChild(parent.firstChild);
+		}
+			
 			for ( var i=0; i< len; i++){
 				var commListItemContent = document.createElement('li');
 				commListItemContent.className = 'commListItem comment';
@@ -1166,16 +1186,38 @@ function afterGetComments() {
 				commListItemDate.className = 'commListItem date';
 				commListItemDate.innerHTML = commObj[i].date;
 				commList.appendChild(commListItemDate);
+				
+				if ( i == len-1) {
+				lastRetrComm = commObj[i].id;
+				}
 			}
 			parent.appendChild(commList);
 			//console.log(commObj);
+			var moreCommLink = document.createElement('div');
+			var getCommLink = document.createElement('a');
+			getCommLink.href = "#";
 			
+			
+			var dataString3 = 'pointId=' + lastRetrPoint + '&commId=' + lastRetrComm;
+			
+			
+			getCommLink.onclick = function() {
+				makeRequest('POST', 'getComments.php', dataString3, afterGetComments, false);
+			};
+			
+			var getCommLinkTN = document.createTextNode("More comments");
+			getCommLink.appendChild(getCommLinkTN);
+			moreCommLink.appendChild(getCommLink);
+			
+		
+			parent.appendChild(moreCommLink);
 	
 		} else {
 			alert('There was a problem with the request.');
 		}
 	}
 }
+
 
 
 function afterGetPics() {
@@ -1190,6 +1232,10 @@ function afterGetPics() {
 			picsList.id = 'picsList';
 			picsList.className = 'picsList';
 			
+				while (parent.firstChild) {
+			parent.removeChild(parent.firstChild);
+		}
+			
 			for ( var i=0; i< len; i++){
 				var picsListItemContent = document.createElement('li');
 				picsListItemContent.className = 'picsListItem pic';
@@ -1197,6 +1243,8 @@ function afterGetPics() {
 				var link = document.createElement('a');
 				link.href = 'http://127.0.0.1/dyplom/examples/gallery/' + picsObj[i].filename + '_z.jpg';
 				link.title = picsObj[i].login + ' ' + picsObj[i].date;
+				link.dataset.lightbox = "set";
+				
 				
 				var thumb = document.createElement('img');
 				thumb.src = 'http://127.0.0.1/dyplom/examples/gallery/' + picsObj[i].filename + '_m.jpg';
@@ -1207,8 +1255,34 @@ function afterGetPics() {
 				picsListItemContent.appendChild(link);
 				picsList.appendChild(picsListItemContent);
 				
+				if ( i == len-1) {
+				lastRetrPic = picsObj[i].id;
+				}
+				
 			}
 			parent.appendChild(picsList);
+			
+		
+			var morePicsLink = document.createElement('div');
+			
+			var getPicsLink = document.createElement('a');
+			 getPicsLink.href = "#";
+			
+			
+			var dataString4 = 'pointId=' + lastRetrPoint + '&picId=' + lastRetrPic;
+			
+			
+			 getPicsLink.onclick = function() {
+				makeRequest('POST', 'getPictures.php', dataString4, afterGetPics, false);
+			};
+			
+			var getPicsLinkTN = document.createTextNode("More pictures");
+			getPicsLink.appendChild(getPicsLinkTN);
+			morePicsLink.appendChild(getPicsLink);
+			
+
+			parent.appendChild(morePicsLink);
+			
 			//console.log(picsObj);
 			
 	

@@ -13,7 +13,7 @@ if (isset($_POST['pointId']) && isset($_POST['commId']))
 						FROM comment INNER JOIN user on comment.userID=user.id 
 						WHERE locationId = '".$pointid."' AND comment.id < '".$commid."'
 						ORDER BY date DESC
-						LIMIT 10";
+						LIMIT 5";
 						
 		$result = mysqli_query($con, $sql);
 
