@@ -12,10 +12,12 @@ use Yii;
  * @property string $descr
  * @property string $lon
  * @property string $lat
- * @property string $forumID
+ * @property string $country
+ * @property string $province
+ * @property string $city
  * @property string $address
- * @property integer $category
  * @property integer $zoom
+ * @property integer $category
  *
  * @property Comment[] $comments
  * @property Photo[] $photos
@@ -37,8 +39,8 @@ class Location extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['category', 'zoom'], 'integer'],
-            [['name', 'forumID', 'address'], 'string', 'max' => 100],
+            [[ 'zoom', 'category'], 'integer'],
+            [['city','name', 'country', 'province', 'address'], 'string', 'max' => 100],
             [['descr'], 'string', 'max' => 2000],
             [['lon', 'lat'], 'string', 'max' => 50]
         ];
@@ -55,10 +57,12 @@ class Location extends \yii\db\ActiveRecord
             'descr' => 'Descr',
             'lon' => 'Lon',
             'lat' => 'Lat',
-            'forumID' => 'Forum ID',
+            'country' => 'Country',
+            'province' => 'Province',
+            'city' => 'City',
             'address' => 'Address',
-            'category' => 'Category',
             'zoom' => 'Zoom',
+            'category' => 'Category',
         ];
     }
 

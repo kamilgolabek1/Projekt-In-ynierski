@@ -27,12 +27,14 @@ CREATE TABLE `location` (
   `descr` varchar(2000)   DEFAULT NULL,
   `lon` varchar(50)   DEFAULT NULL,
   `lat` varchar(50)   DEFAULT NULL,
+  `country` varchar(100)   DEFAULT NULL,
+  `province` varchar(100)   DEFAULT NULL,
+  `city` tinyint(20) DEFAULT NULL,
   `address` varchar(100)   DEFAULT NULL,
-  `category` tinyint(20) DEFAULT NULL,
   `zoom` tinyint(20) DEFAULT NULL,
+  `category` int(11) DEFAULT NULL,
   PRIMARY KEY (`ID`)
 );
-
 
 DROP TABLE IF EXISTS `user`;
 
@@ -80,7 +82,12 @@ CREATE TABLE `tag` (
 );
 
 
-
+ALTER DATABASE virtualguide CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+ALTER TABLE user CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+ALTER TABLE comment CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+ALTER TABLE location CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+ALTER TABLE photo CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+ALTER TABLE tag CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 
 

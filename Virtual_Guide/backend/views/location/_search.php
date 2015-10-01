@@ -25,13 +25,17 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'lat') ?>
 
-    <?php // echo $form->field($model, 'forumID') ?>
+    <?php // echo $form->field($model, 'country') ?>
+
+    <?php // echo $form->field($model, 'province') ?>
+
+    <?php // echo $form->field($model, 'city') ?>
 
     <?php // echo $form->field($model, 'address') ?>
 
-    <?php // echo $form->field($model, 'category') ?>
-
     <?php // echo $form->field($model, 'zoom') ?>
+
+    <?php // echo $form->field($model, 'category') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

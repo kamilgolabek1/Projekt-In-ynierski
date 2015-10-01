@@ -33,10 +33,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'descr',
             'lon',
             'lat',
-            'forumID',
+            'country',
+            'province',
+            'city',
             'address',
-            'category',
             'zoom',
+            'category',
         ],
     ]) ?>
 

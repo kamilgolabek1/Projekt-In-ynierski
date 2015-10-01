@@ -20,13 +20,17 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'lat')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'forumID')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'country')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'province')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'city')->textInput() ?>
 
     <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'category')->textInput() ?>
-
     <?= $form->field($model, 'zoom')->textInput() ?>
+
+    <?= $form->field($model, 'category')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

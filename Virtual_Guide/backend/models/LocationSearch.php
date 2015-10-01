@@ -18,8 +18,8 @@ class LocationSearch extends Location
     public function rules()
     {
         return [
-            [['ID', 'category', 'zoom'], 'integer'],
-            [['name', 'descr', 'lon', 'lat', 'forumID', 'address'], 'safe'],
+            [['ID', 'city', 'zoom', 'category'], 'integer'],
+            [['name', 'descr', 'lon', 'lat', 'country', 'province', 'address'], 'safe'],
         ];
     }
 
@@ -57,15 +57,17 @@ class LocationSearch extends Location
 
         $query->andFilterWhere([
             'ID' => $this->ID,
-            'category' => $this->category,
+            'city' => $this->city,
             'zoom' => $this->zoom,
+            'category' => $this->category,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'descr', $this->descr])
             ->andFilterWhere(['like', 'lon', $this->lon])
             ->andFilterWhere(['like', 'lat', $this->lat])
-            ->andFilterWhere(['like', 'forumID', $this->forumID])
+            ->andFilterWhere(['like', 'country', $this->country])
+            ->andFilterWhere(['like', 'province', $this->province])
             ->andFilterWhere(['like', 'address', $this->address]);
 
         return $dataProvider;

@@ -34,7 +34,8 @@ $this->params['breadcrumbs'][] = $this->title;
         
         $url=Yii::$app->urlManager->createUrl(['site/komentarze', 'id' => $row->ID]);
     echo "<tr><td><a href='".$url."'><h4>".$row->name."</h4></a></td>";
-    echo "<td>"."Opinie: ".$rowCount." </br> ".$row->address."</td></tr>";
+    echo "<td>"."Opinie: ".$rowCount." </br> ".$row->country." , ".$row->province;
+    echo  " , ".$row->city."</td></tr>";
   
  
     
