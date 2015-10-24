@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
     foreach($locations as $row)
   { 
          $connection=Yii::$app->db;
-         $sql = "Select * from Comment where locationID  = ".$row->ID;
+         $sql = "Select * from comment where locationID  = ".$row->ID;
          
    $command=$connection->createCommand($sql);
    $dataReader=$command->query();

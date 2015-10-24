@@ -3,23 +3,13 @@ CREATE DATABASE IF NOT EXISTS  `VirtualGuide` ;
 USE `VirtualGuide`;
 
 
+DROP TABLE IF EXISTS `photo`;
 DROP TABLE IF EXISTS `comment`;
-
-CREATE TABLE `comment` (
-  `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `locationID` int(11) DEFAULT NULL,
-  `comment` varchar(2000)  DEFAULT NULL,
-  `userID` int(11) DEFAULT NULL,
-  `date` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  KEY `location_idx` (`locationID`),
-  KEY `FkUser_idx` (`userID`),
-  CONSTRAINT `fklocation` FOREIGN KEY (`locationID`) REFERENCES `location` (`ID`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `fkuser` FOREIGN KEY (`userID`) REFERENCES `user` (`ID`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ;
-
-
+DROP TABLE IF EXISTS `user`;
+DROP TABLE IF EXISTS `tag`;
 DROP TABLE IF EXISTS `location`;
+
+
 
 CREATE TABLE `location` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -36,8 +26,6 @@ CREATE TABLE `location` (
   PRIMARY KEY (`ID`)
 );
 
-DROP TABLE IF EXISTS `user`;
-
 CREATE TABLE `user` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) NOT NULL,
@@ -53,7 +41,25 @@ CREATE TABLE `user` (
 
 
 
-DROP TABLE IF EXISTS `photo`;
+
+CREATE TABLE `comment` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `locationID` int(11) DEFAULT NULL,
+  `comment` varchar(2000)  DEFAULT NULL,
+  `userID` int(11) DEFAULT NULL,
+  `date` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `location_idx` (`locationID`),
+  KEY `FkUser_idx` (`userID`),
+  CONSTRAINT `fklocation` FOREIGN KEY (`locationID`) REFERENCES `location` (`ID`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `fkuser` FOREIGN KEY (`userID`) REFERENCES `user` (`ID`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ;
+
+
+
+
+
+
 
 CREATE TABLE `photo` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -70,7 +76,7 @@ CREATE TABLE `photo` (
 
 
 
-DROP TABLE IF EXISTS `tag`;
+
 
 CREATE TABLE `tag` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
@@ -88,7 +94,6 @@ ALTER TABLE comment CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE location CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE photo CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE tag CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
-
 
 
 

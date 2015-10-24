@@ -1,0 +1,192 @@
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+html,body {
+	height: 100%;
+	width: 100%;
+	font-family: Helvetica, Arial, Verdana, sans-serif;
+	font-size: 12px;
+}
+
+#map {
+	width: 60%;
+	height: 90%;
+	border: 1px solid black;
+	float: right;
+}
+
+#left_column {
+	width: 39%;
+	}
+
+.olPopup {
+	border-radius: 5px;
+}
+
+#pop_GroupDiv {
+	border: 1px solid red;
+	border-radius: 5px;
+}
+
+.popupContent {
+	font-family: Helvetica, Arial, Verdana, sans-serif;
+}
+
+.popupContent > img {
+position: absolute;
+top: 10px;
+left:10px;
+clear: both;
+}
+
+.popupContent > h2 {
+	font-size: 20px;
+	margin-left:60px;
+}
+
+.button  {
+	background-color: #000068;
+	border: 1px solid #000068;
+	border-radius: 2px 2px 2px 2px;
+	color: #fff;
+	cursor: pointer;
+	display: block;
+
+	font-size: 12px;
+	font-weight: bold;
+	line-height: 20px;
+	margin: 10px;
+	
+	padding:7px 10px;
+	text-transform: none;
+	text-align: left;
+	transition: all 0.3s ease 0s;
+	-moz-transition: all 0.3s ease 0s;
+	-webkit-transition: all 0.3s ease 0s;
+	width: 90%;
+	
+}
+
+.button:hover {
+	background-color: #fff;
+	color: #000068;
+}
+
+
+.toggle {
+	display: none;
+	}
+	
+#dist {
+	display: none;
+	}
+	
+ul#distContent, ul#listContent {
+margin:10px;
+}
+
+ul#distContent li, ul#listContent li{
+margin:10px;
+}
+
+ul#distContent li span {
+	font-weight:bold;
+}
+#listContent {
+	max-height: 500px;
+	overflow: scroll;
+	}
+
+.listItemTitle {
+	font-weight:bold;
+	font-size: 14px;
+	padding-top:5px;
+	border-top: 1px solid #ddd;
+	}
+
+.listItemTitle:nth-of-type(1)
+{
+    border: none;
+} 
+	
+.form {	
+margin-top:10px;
+}
+	
+.form input{
+    border: 1px solid #CCC;
+    height: 14px;
+    line-height:14px;
+    margin-bottom: 5px;
+    margin-top: 2px;
+    outline: 0 none;
+    padding: 5px 0px 5px 5px;
+    width: 70%;
+    border-radius: 2px;
+}
+
+.form input[type=submit]{
+    margin-left: 10px;
+	width:92%;
+	cursor:pointer;
+	display: block;
+	height: 14px;
+	padding:15px; 
+	
+}
+
+.form label {
+    display: block;
+    margin: 0px 0px 5px;
+}
+
+.form label>span{
+    float: left;
+    width: 24%;
+    text-align: right;
+    padding-right: 10px;
+    margin-top: 10px;
+}
+
