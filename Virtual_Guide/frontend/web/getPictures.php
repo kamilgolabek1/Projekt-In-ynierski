@@ -28,6 +28,7 @@ if (isset($_POST['pointId']) && isset($_POST['picId']))
 			echo $sql;
 		}
 	}
+	
 mysqli_close($con);
 
 ?>
