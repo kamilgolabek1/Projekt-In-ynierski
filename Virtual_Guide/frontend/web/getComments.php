@@ -9,7 +9,7 @@ if (isset($_POST['pointId']) && isset($_POST['commId']))
 			$commid = 1000000;
 		}
 
-		$sql = "SELECT comment.id, comment.comment, comment.date, user.login
+		$sql = "SELECT comment.id, comment.comment, comment.date, user.username
 						FROM comment INNER JOIN user on comment.userID=user.id 
 						WHERE locationId = '".$pointid."' AND comment.id < '".$commid."'
 						ORDER BY date DESC

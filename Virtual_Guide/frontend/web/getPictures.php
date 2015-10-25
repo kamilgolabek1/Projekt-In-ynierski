@@ -9,10 +9,10 @@ if (isset($_POST['pointId']) && isset($_POST['picId']))
 			$picid = 1000000;
 		}
 
-		$sql = "SELECT photo.id, filename, photo.date, user.login
+		$sql = "SELECT photo.id, filename, user.username
 						FROM photo INNER JOIN user on photo.userID=user.id 
 						WHERE locationId = '".$pointid."' AND photo.id < '".$picid."'
-						ORDER BY date DESC
+						ORDER BY photo.id DESC
 						LIMIT 10";
 						
 		$result = mysqli_query($con, $sql);
