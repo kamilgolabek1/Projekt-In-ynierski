@@ -3,7 +3,7 @@ namespace frontend\controllers;
 
 use Yii;
 use common\models\LoginForm;
-use frontend\models\PasswordResetRequestForm;
+use common\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
@@ -12,8 +12,8 @@ use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use frontend\models\Location;
-use frontend\models\Comment;
+use common\models\Location;
+use common\models\Comment;
 
 /**
  * Site controller
@@ -215,9 +215,13 @@ class SiteController extends Controller
     
     
     public function actionForum(){
-        $locations = Location::find()->all();
-        
-        return $this->render('forum',['locations'=>$locations]);
+        $searchModel = new LocationSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider->pagination->pageSize=2;
+        return $this->render('forum', [
+        		'searchModel' => $searchModel,
+        		'dataProvider' => $dataProvider,
+        ]);
     }
     
      public function actionKomentarze($id)

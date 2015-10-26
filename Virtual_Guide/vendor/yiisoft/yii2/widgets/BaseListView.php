@@ -191,7 +191,7 @@ abstract class BaseListView extends Widget
             $page = $pagination->getPage() + 1;
             $pageCount = $pagination->pageCount;
             if (($summaryContent = $this->summary) === null) {
-                return Html::tag($tag, Yii::t('yii', 'Showing <b>{begin, number}-{end, number}</b> of <b>{totalCount, number}</b> {totalCount, plural, one{item} other{items}}.', [
+                return Html::tag($tag, Yii::t('yii', 'widoczne <b>{begin, number}-{end, number}</b> z <b>{totalCount, number} </b> {totalCount, plural, one{miejsce} other{miejsc}}.', [
                         'begin' => $begin,
                         'end' => $end,
                         'count' => $count,

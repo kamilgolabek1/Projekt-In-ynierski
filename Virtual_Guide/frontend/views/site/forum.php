@@ -1,44 +1,46 @@
-<?php 
+<?php
+
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\widgets\Pjax;
 
+/* @var $this yii\web\View */
+/* @var $searchModel backend\models\LocationSearch */
+/* @var $dataProvider yii\data\ActiveDataProvider */
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-$this->title = 'Forum';
-//$this->params['breadcrumbs'][] = ['label' => '', 'url' => ['index']];
+$this->title = 'Locations';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<div class="location-index">
 
+    <h1><?= Html::encode($this->title) ?></h1>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-  
-  <table class="table table-striped table-bordered detail-view">
-<tr>
-   
-    </br></br>
-   
-</tr>
- <?php
-    foreach($locations as $row)
-  { 
-         $connection=Yii::$app->db;
-         $sql = "Select * from comment where locationID  = ".$row->ID;
-         
-   $command=$connection->createCommand($sql);
-   $dataReader=$command->query();
-   $rowCount = $dataReader->rowCount;
-    
-        
-        $url=Yii::$app->urlManager->createUrl(['site/komentarze', 'id' => $row->ID]);
-    echo "<tr><td><a href='".$url."'><h4>".$row->name."</h4></a></td>";
-    echo "<td>"."Opinie: ".$rowCount." </br> ".$row->country." , ".$row->province;
-    echo  " , ".$row->city."</td></tr>";
-  
- 
-    
-  }?>
+    <p>
+        <?= Html::a('Create Location', ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
+	 <?php  Pjax::begin();?>
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
 
-</table>
+            'ID',
+            'name',
+            'descr',
+            'lon',
+            'lat',
+            // 'country',
+            // 'province',
+            // 'city',
+            // 'address',
+            // 'zoom',
+            // 'category',
+
+            ['class' => 'yii\grid\ActionColumn'],
+        ],
+    ]); ?>
+     <?php Pjax::end();?>
+
+</div>

@@ -40,6 +40,7 @@ AppAsset::register($this);
     $menuItems = [
         ['label' => 'Strona Główna', 'url' => ['/site/index']],
         ['label' => 'Forum', 'url' => ['/site/forum']],
+    	['label' => 'Forum2', 'url' => ['/location/index']],
         ['label' => 'Kontakt', 'url' => ['/site/contact']],
     ];
     if (Yii::$app->user->isGuest) {
