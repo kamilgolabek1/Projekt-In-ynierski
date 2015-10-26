@@ -1179,7 +1179,7 @@ function afterGetComments() {
 				
 				var commListItemAuthor =  document.createElement('li');
 				commListItemAuthor.className = 'commListItem author';
-				commListItemAuthor.innerHTML = commObj[i].login;
+				commListItemAuthor.innerHTML = commObj[i].username;
 				commList.appendChild(commListItemAuthor);
 				
 				var commListItemDate =  document.createElement('li');
@@ -1284,6 +1284,7 @@ function afterGetPics() {
 			parent.appendChild(morePicsLink);
 			
 			//console.log(picsObj);
+			
 			
 	
 		} else {
