@@ -20,3 +20,5 @@ git pull
 // jeśli macie ustawione inny remote to tym poleceniem update
 git remote set-url origin git@github.com:kamilgolabek1/ProjektInzynierski.git
 
+// ssh key instruction
+https://help.github.com/articles/generating-ssh-keys/
