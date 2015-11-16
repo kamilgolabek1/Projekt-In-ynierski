@@ -40,6 +40,7 @@ AppAsset::register($this);
         ['label' => 'Tagi', 'url' => ['/tag/index']],
         ['label' => 'Zdjęcia', 'url' => ['/photo/index']],
         ['label' => 'Użytkownicy', 'url' => ['/user/index']],
+    	['label' => 'Kategorie', 'url' => ['/category/index']],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];

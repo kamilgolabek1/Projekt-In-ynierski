@@ -1,7 +1,11 @@
 <?php
 use yii\helpers\Html;
-use frontend\models\User;
+use common\models\User;
  Html::csrfMetaTags();
+ use frontend\assets\AppAsset;
+
+ AppAsset::register($this);
+ //LocateAsset::register($this)
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -9,15 +13,24 @@ use frontend\models\User;
  */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Forum', 'url' => ['forum']];
+$this->params['breadcrumbs'][] = ['label' => 'Lokalizacje', 'url' => ['location/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<script src="../../js/ckeditor/ckeditor.js"></script>
 
-<?php echo "<h3>".$model->name."</h3>";
 
- echo "<h5>".$model->descr."</h5>";
-?>
+<?php echo "<h2>".$model->name."</h2>";?>
+<div class="row">
+	<div class="col-lg-4">
+	<h4>Położenie</h4>
+		Kraj: <?=  $model->country ? $model->country->country_name : "nie ustawiono" ?> </br>
+		długość geograficzna: <?= $model->lon ?> </br>
+		Szerokość geograficzna: <?= $model->lat ?> </br>
+	</div>
+	<div class="col-lg-6">
+	<h4>Opis</h4>
+		<?= $model->descr ?>
+	</div>
+</div>
 </br>
 <?php 
 
@@ -56,13 +69,9 @@ $this->params['breadcrumbs'][] = $this->title;
             .$row->date. "</td><td>".$row->comment."</td></tr>";
   }?>
 </table>
+  <script src="../js/ckeditor/ckeditor.js"></script>
 
 
-
-
-
-<script>
- CKEDITOR.replace( 'komentarz' );
- CKEDITOR.config.height  = 150;  
- 
+<script type="text/javascript">
+    CKEDITOR.replace('komentarz') ;
 </script>

@@ -1,16 +1,16 @@
 <?php
 
-namespace backend\models;
+namespace common\models;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\Comment;
+use common\models\Category;
 
 /**
- * CommentSearch represents the model behind the search form about `backend\models\Comment`.
+ * CategorySearch represents the model behind the search form about `common\models\Category`.
  */
-class CommentSearch extends Comment
+class CategorySearch extends Category
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class CommentSearch extends Comment
     public function rules()
     {
         return [
-            [['ID', 'locationID', 'userID'], 'integer'],
-            [['comment', 'date'], 'safe'],
+            [['id'], 'integer'],
+            [['name'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class CommentSearch extends Comment
      */
     public function search($params)
     {
-        $query = Comment::find();
+        $query = Category::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -56,13 +56,10 @@ class CommentSearch extends Comment
         }
 
         $query->andFilterWhere([
-            'ID' => $this->ID,
-            'locationID' => $this->locationID,
-            'userID' => $this->userID,
-            'date' => $this->date,
+            'id' => $this->id,
         ]);
 
-        $query->andFilterWhere(['like', 'comment', $this->comment]);
+        $query->andFilterWhere(['like', 'name', $this->name]);
 
         return $dataProvider;
     }

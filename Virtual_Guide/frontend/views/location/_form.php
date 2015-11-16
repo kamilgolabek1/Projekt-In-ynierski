@@ -2,11 +2,9 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use common\models\Countries;
-use yii\helpers\ArrayHelper;
-use common\models\Category;
+
 /* @var $this yii\web\View */
-/* @var $model backend\models\Location */
+/* @var $model common\models\Location */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -22,17 +20,13 @@ use common\models\Category;
 
     <?= $form->field($model, 'lat')->textInput(['maxlength' => true]) ?>
 
-	 <?php $countries=Countries::find()->all(); $listData=ArrayHelper::map($countries,'id','country_name');?>
-    <?=  $form->field($model, 'countryID')->dropDownList( $listData,['prompt'=>'Kraj']); ?>
-
-
+    <?= $form->field($model, 'countryID')->textInput() ?>
 
     <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'zoom')->textInput() ?>
 
-   <?php $categories=Category::find()->all(); $listData2=ArrayHelper::map($categories,'id','name');?>
-    <?=  $form->field($model, 'categoryID')->dropDownList( $listData2,['prompt'=>'kategoria']); ?>
+    <?= $form->field($model, 'categoryID')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

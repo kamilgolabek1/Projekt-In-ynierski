@@ -12,14 +12,14 @@ use Yii;
  * @property string $descr
  * @property string $lon
  * @property string $lat
- * @property string $country
- * @property string $province
- * @property integer $city
+ * @property integer $countryID
  * @property string $address
  * @property integer $zoom
- * @property integer $category
+ * @property integer $categoryID
  *
  * @property Comment[] $comments
+ * @property Category $category
+ * @property Countries $country
  * @property Photo[] $photos
  * @property Tag[] $tags
  */
@@ -39,8 +39,8 @@ class Location extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['city', 'zoom', 'category'], 'integer'],
-            [['name', 'country', 'province', 'address'], 'string', 'max' => 100],
+            [['countryID', 'zoom', 'categoryID'], 'integer'],
+            [['name', 'address'], 'string', 'max' => 100],
             [['descr'], 'string', 'max' => 2000],
             [['lon', 'lat'], 'string', 'max' => 50]
         ];
@@ -53,16 +53,14 @@ class Location extends \yii\db\ActiveRecord
     {
         return [
             'ID' => 'ID',
-            'name' => 'Nazwa',
-            'descr' => 'Opis',
+            'name' => 'Name',
+            'descr' => 'Descr',
             'lon' => 'Lon',
             'lat' => 'Lat',
-            'country' => 'Pastwo',
-            'province' => 'Dzielnica/Region',
-            'city' => 'Miasto',
-            'address' => 'Adres',
+            'countryID' => 'Country ID',
+            'address' => 'Address',
             'zoom' => 'Zoom',
-            'category' => 'Kategoria',
+            'categoryID' => 'Category ID',
         ];
     }
 
@@ -72,6 +70,22 @@ class Location extends \yii\db\ActiveRecord
     public function getComments()
     {
         return $this->hasMany(Comment::className(), ['locationID' => 'ID']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCategory()
+    {
+        return $this->hasOne(Category::className(), ['id' => 'categoryID']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCountry()
+    {
+        return $this->hasOne(Countries::className(), ['id' => 'countryID']);
     }
 
     /**

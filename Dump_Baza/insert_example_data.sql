@@ -22,7 +22,7 @@ INSERT INTO `comment` (`ID`, `locationID`, `comment`, `userID`, `date`) VALUES
 -- Dumping data for table virtualguide.location: ~0 rows (approximately)
 DELETE FROM `location`;
 /*!40000 ALTER TABLE `location` DISABLE KEYS */;
-INSERT INTO `location` (`ID`, `name`, `descr`, `lon`, `lat`, `address`, `category`, `zoom`) VALUES
+INSERT INTO `location` (`ID`, `name`, `descr`, `lon`, `lat`, `address`, `categoryID`, `zoom`) VALUES
 	(5, 'Biskupia górka', 'jakis tam opis', '18.2', '54.5', 'ul.Zaroślak 10, Gdańsk', 3, 2),
 	(6, 'Port Lotniczy', 'międzynarodowy port lotniczy położony w gdańskiej dzielnicy Matarnia, pierwotnie nazywany Gdańsk Rębiechowo, położony w dogodnej lokalizacji od centrów miejskich Gdańska (10 km), Sopotu (10 km) i Gdyni (23 km). Port położony jest niedaleko trójmiejskiej obwodnicy oraz przy skrzyżowaniu ważnych dróg krajowych. W promieniu 100 km od niego mieszka ok. 2,5 mln osób. Gdańskie lotnisko stanowi także lotnisko zapasowe dla warszawskiego Lotniska Chopina.', '18.4748840332043', '54.3457511874126', 'ul. Słowackiego 200, Gdańsk', 3, 11),
 	(7, 'Gdańsk', 'Gdańsk (łac. Dantiscum, Dantis, Gedanum[4], niem. Danzig) – miasto na prawach powiatu w północnej Polsce, położone nad Morzem Bałtyckim, u ujścia Motławy do Wisły, nad Zatoką Gdańską, na Pobrzeżu Gdańskim. Centrum kulturalne, naukowe i gospodarcze oraz węzeł komunikacyjny północnej Polski, stolica województwa pomorskiego. Ośrodek gospodarki morskiej z dużym portem handlowym', '18.594360351563953', '54.4609161906565', '', 1, 7),

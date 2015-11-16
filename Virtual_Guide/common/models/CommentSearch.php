@@ -1,16 +1,16 @@
 <?php
 
-namespace frontend\controllers;
+namespace common\models;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\Location;
+use common\models\Comment;
 
 /**
- * LocationSearch represents the model behind the search form about `backend\models\Location`.
+ * CommentSearch represents the model behind the search form about `backend\models\Comment`.
  */
-class LocationSearch extends Location
+class CommentSearch extends Comment
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class LocationSearch extends Location
     public function rules()
     {
         return [
-            [['ID', 'city', 'zoom', 'category'], 'integer'],
-            [['name', 'descr', 'lon', 'lat', 'country', 'province', 'address'], 'safe'],
+            [['ID', 'locationID', 'userID'], 'integer'],
+            [['comment', 'date'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class LocationSearch extends Location
      */
     public function search($params)
     {
-        $query = Location::find();
+        $query = Comment::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -57,18 +57,12 @@ class LocationSearch extends Location
 
         $query->andFilterWhere([
             'ID' => $this->ID,
-            'city' => $this->city,
-            'zoom' => $this->zoom,
-            'category' => $this->category,
+            'locationID' => $this->locationID,
+            'userID' => $this->userID,
+            'date' => $this->date,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'descr', $this->descr])
-            ->andFilterWhere(['like', 'lon', $this->lon])
-            ->andFilterWhere(['like', 'lat', $this->lat])
-            ->andFilterWhere(['like', 'country', $this->country])
-            ->andFilterWhere(['like', 'province', $this->province])
-            ->andFilterWhere(['like', 'address', $this->address]);
+        $query->andFilterWhere(['like', 'comment', $this->comment]);
 
         return $dataProvider;
     }

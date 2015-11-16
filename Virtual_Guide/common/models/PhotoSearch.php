@@ -1,16 +1,16 @@
 <?php
 
-namespace backend\models;
+namespace common\models;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\Tag;
+use common\models\Photo;
 
 /**
- * TagSearch represents the model behind the search form about `backend\models\Tag`.
+ * PhotoSearch represents the model behind the search form about `backend\models\Photo`.
  */
-class TagSearch extends Tag
+class PhotoSearch extends Photo
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class TagSearch extends Tag
     public function rules()
     {
         return [
-            [['ID', 'locationID'], 'integer'],
-            [['name'], 'safe'],
+            [['ID', 'locationID', 'userId'], 'integer'],
+            [['filename', 'comment'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class TagSearch extends Tag
      */
     public function search($params)
     {
-        $query = Tag::find();
+        $query = Photo::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -58,9 +58,11 @@ class TagSearch extends Tag
         $query->andFilterWhere([
             'ID' => $this->ID,
             'locationID' => $this->locationID,
+            'userId' => $this->userId,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
+        $query->andFilterWhere(['like', 'filename', $this->filename])
+            ->andFilterWhere(['like', 'comment', $this->comment]);
 
         return $dataProvider;
     }

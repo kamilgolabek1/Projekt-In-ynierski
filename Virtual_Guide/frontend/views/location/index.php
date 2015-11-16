@@ -4,28 +4,27 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 
-$this->title = 'Forum';
+
+$this->title = 'Lokalizacje';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="location-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
-     
+    </br>
+    <?php  echo $this->render('_search', ['model' => $searchModel]); ?>
+	</br>
 	 <?php  Pjax::begin();?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-       // 'filterModel' => $searchModel,
         'columns' => [
-//            ['class' => 'yii\grid\SerialColumn'],
+            //['class' => 'yii\grid\SerialColumn'],
             [ 'attribute' => 'name','label' => 'Nazwa',
             	'format' => 'raw',
        			'value'=>function ($data) {
-            	return Html::a('site/komentarze');
+            	return Html::a(Html::encode($data->name),['site/komentarze', 'id' => $data->ID]);
         	},],
              [ 'attribute' => 'descr','label' => 'Opis'],
-        	[ 'attribute' => 'country','label' => 'Kraj'],
+        	['attribute' => 'countryID','label' => 'Kraj','value' => 'country.country_name'],
+        	['attribute' => 'categoryID','label' => 'Kategoria','value' => 'category.name'],
         	
         ],
     ]); ?>

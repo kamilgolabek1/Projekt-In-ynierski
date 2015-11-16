@@ -1,0 +1,11 @@
+{
+    "name": "vg/pro",
+    "description": "projekt inzynierski",
+    "authors": [
+        {
+            "name": "Kamil Golabek",
+            "email": "kgit.future@gmail.com"
+        }
+    ],
+    "require": {"kartik-v/yii2-field-range": "dev-master"}
+}

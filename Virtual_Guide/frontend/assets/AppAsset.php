@@ -30,10 +30,11 @@ class AppAsset extends AssetBundle
 				'js/virtualguide.js',
 				'js/csspopup.js',
 				'js/lightbox-plus-jquery.min.js',
+    			'js/ckeditor/ckeditor.js'
 				
     ];
     public $depends = [
-        'yii\web\YiiAsset',
+        'yii\web\YiiAsset'
         
     ];
 }

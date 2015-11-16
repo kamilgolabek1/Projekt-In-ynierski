@@ -1,14 +1,14 @@
 <?php
 
-namespace backend\models;
+namespace common\models;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\Location;
+use common\models\Location;
 
 /**
- * LocationSearch represents the model behind the search form about `backend\models\Location`.
+ * LocationSearch represents the model behind the search form about `frontend\models\Location`.
  */
 class LocationSearch extends Location
 {
@@ -18,8 +18,8 @@ class LocationSearch extends Location
     public function rules()
     {
         return [
-            [['ID', 'city', 'zoom', 'category'], 'integer'],
-            [['name', 'descr', 'lon', 'lat', 'country', 'province', 'address'], 'safe'],
+            [['ID', 'zoom'], 'integer'],
+            [['name', 'descr', 'lon', 'lat', 'categoryID','countryID',  'address'], 'safe'],
         ];
     }
 
@@ -57,17 +57,16 @@ class LocationSearch extends Location
 
         $query->andFilterWhere([
             'ID' => $this->ID,
-            'city' => $this->city,
             'zoom' => $this->zoom,
-            'category' => $this->category,
+            
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'descr', $this->descr])
             ->andFilterWhere(['like', 'lon', $this->lon])
             ->andFilterWhere(['like', 'lat', $this->lat])
-            ->andFilterWhere(['like', 'country', $this->country])
-            ->andFilterWhere(['like', 'province', $this->province])
+            ->andFilterWhere(['like', 'countryID', $this->countryID])
+            ->andFilterWhere(['like', 'categoryID', $this->categoryID])
             ->andFilterWhere(['like', 'address', $this->address]);
 
         return $dataProvider;
