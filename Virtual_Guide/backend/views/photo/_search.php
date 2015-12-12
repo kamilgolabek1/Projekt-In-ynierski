@@ -23,7 +23,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'comment') ?>
 
-    <?= $form->field($model, 'userId') ?>
+    <?= $form->field($model, 'userID') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

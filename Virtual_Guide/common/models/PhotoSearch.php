@@ -18,7 +18,7 @@ class PhotoSearch extends Photo
     public function rules()
     {
         return [
-            [['ID', 'locationID', 'userId'], 'integer'],
+            [['ID', 'locationID', 'userID'], 'integer'],
             [['filename', 'comment'], 'safe'],
         ];
     }
@@ -58,7 +58,7 @@ class PhotoSearch extends Photo
         $query->andFilterWhere([
             'ID' => $this->ID,
             'locationID' => $this->locationID,
-            'userId' => $this->userId,
+            'userId' => $this->userID,
         ]);
 
         $query->andFilterWhere(['like', 'filename', $this->filename])
