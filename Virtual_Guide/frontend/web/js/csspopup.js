@@ -23,7 +23,7 @@ function window_pos(popUpDivVar) {
 		}
 	}
 	var popUpDiv = document.getElementById(popUpDivVar);
-	window_width=window_width/2-150;//150 is half popup's width
+	window_width=window_width/2-225;//150 is half popup's width
 	popUpDiv.style.left = window_width + 'px';
 }
 
@@ -65,6 +65,7 @@ function createPopup(container, func, overlay) {
 		
 		//addEvent(window, "resize", centerPopup('popupMask'));
 		addEvent(window, "resize", centerPopup);
+		addEvent(window, "resize", window_pos(container));
 		//addEvent(window, "scroll", centerPopWin('popupMask'));
 		//window.onscroll = centerPopup('popupMask');
 		window.onscroll = function () {
@@ -74,7 +75,7 @@ function createPopup(container, func, overlay) {
 		func();
 		
 		
-	//window_pos(container);
+	window_pos(container);
 	
 	//toggle(container);		
 }

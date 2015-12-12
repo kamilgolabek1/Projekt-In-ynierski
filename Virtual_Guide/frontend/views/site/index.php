@@ -10,7 +10,7 @@ $this->title = 'Virtual Guide';
         <!-- <h1>Miejsce na mapę</h1> -->
 				<ul>
 							<li>
-								<button class="button nav" onclick="createPopup('addPoint2', addingPoint, true);">Add point</button>
+								<button class="button nav" onclick="createPopup('addPoint', addingPoint, true);">Add point</button>
 							</li>
 							<li class="current">
 								<div id="search">
@@ -29,11 +29,12 @@ $this->title = 'Virtual Guide';
 					<label><span class="form_label">Name</span><input class="form_field"type="text" name="name"></label>
 					<label><span class="form_label">Address</span><input class="form_field" type="text" name="addr"></label> 
 					<label><span class="form_label">Description</span><input class="form_field"  type="text" name="descr"></label> 
-					<label><span class="form_label">Longitude</span><input class="form_field" type="text" name="lon" readonly><button class="cordsBtn" onclick="return getCoordinates();">Get Coordinates</button></label> 
+					<label><span class="form_label">Longitude</span><input class="form_field" type="text" name="lon" readonly></label> 
 					<label><span class="form_label">Latitude</span><input class="form_field" type="text" name="lat" readonly></label>
+					<label><button class="cordsBtn btn btn-primary" onclick="return getCoordinates();">Get Coordinates</button></label>
 					<label><span class="form_label">Zoom</span><input class="form_field" type="text" name="zoom" readonly></label>
 					<label><span class="form_label">Category</span><input class="form_field" type="text" name="cat"></label>
-					<input type="submit" value="Submit"/>
+					<input class="inputBtn btn btn-primary" type="submit" value="Submit"/>
 					<h3 id="addFormMsg"></h3>
 				</form>
 							<div id="search_result"></div>

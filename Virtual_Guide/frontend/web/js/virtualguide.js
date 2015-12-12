@@ -71,7 +71,7 @@ OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {
 									//click.deactivate();
 									vectorlayer.setVisibility(true);
 									var overlay = document.getElementById('popupMask');
-									overlay.style.zIndex = 1002;
+									overlay.style.zIndex = 1010;
 									console.log(this);
 									map.removeControl(this);
 									toggle_visibility('addPoint');
@@ -91,7 +91,6 @@ var infoBoxStatus = 0;
 var lastRetrComm = 0;
 var lastRetrPic = 0;
 var lastRetrPoint = "-1"
-//var json = [{"id":"1","lon":"54.32312","lat":"18.60212","title":"Orlen","street":"ul. \u015awi\u0119tokrzyska 2","city":"Gda\u0144sk"},{"id":"2","lon":"54.37715","lat":"18.52172","title":"BP","street":"ul. S\u0142owackiego 80","city":"Gda\u0144sk"},{"id":"3","lon":"54.35812","lat":"18.58332","title":"BP","street":"ul. Rakoczego 15","city":"Gda\u0144sk"},{"id":"4","lon":"54.39468","lat":"18.58011","title":"BP","street":"al. Grunwaldzka","city":"Gda\u0144sk"},{"id":"5","lon":"54.39398","lat":"18.58689","title":"BP","street":"al. Grunwaldzka 229\/237","city":"Gda\u0144sk"},{"id":"6","lon":"54.33805","lat":"18.61407","title":"BP","street":"ul. Witosa","city":"Gda\u0144sk"},{"id":"7","lon":"54.43233","lat":"18.4889","title":"Lotos","street":"ul. Spacerowa 50","city":"Gda\u0144sk"},{"id":"8","lon":"54.34934","lat":"18.68168","title":"Lotos","street":"ul. Elbl\u0105ska 87","city":"Gda\u0144sk"},{"id":"9","lon":"54.33782","lat":"18.6296","title":"Lotos","street":"ul. Cienista 14 c","city":"Gda\u0144sk"},{"id":"10","lon":"54.37123","lat":"18.62785","title":"Lotos","street":"al. Zwyci\u0119stwa 13","city":"Gda\u0144sk"},{"id":"11","lon":"54.32889","lat":"18.61754","title":"Lotos","street":"ul. Ma\u0142omiejska 31","city":"Gda\u0144sk"},{"id":"12","lon":"54.31448","lat":"18.62952","title":"Shell","street":"ul. Trakt \u015bw. Wojciecha 223","city":"Gda\u0144sk"},{"id":"13","lon":"54.40076","lat":"18.59151","title":"Shell","street":"al. Rzeczypospolitej 8","city":"Gda\u0144sk"},{"id":"15","lon":"54.35202","lat":"18.64663","title":"Shell","street":"ul. Pa\u0142ubickiego 12","city":"Gda\u0144sk"},{"id":"16","lon":"54.32677","lat":"18.61032","title":"Shell","street":"ul. \u015awi\u0119tokrzyska 1","city":"Gda\u0144sk"},{"id":"17","lon":"54.37391","lat":"18.52192","title":"Shell","street":"ul. Z\u0142ota Karczma","city":"Gda\u0144sk"},{"id":"18","lon":"54.37853","lat":"18.63367","title":"Statoil","street":"ul. Marynarki Polskiej 93","city":"Gda\u0144sk"},{"id":"19","lon":"54.34701","lat":"18.60374","title":"Abi Sp. z o.o.","street":"ul. \u0141ostowicka 4","city":"Gda\u0144sk"},{"id":"20","lon":"54.31002","lat":"18.63466","title":"Aib Andrzej Bu\u015bko","street":"ul. Trakt \u015bw. Wojciecha 43","city":"Gda\u0144sk"},{"id":"21","lon":"54.34883","lat":"18.66036","title":"Bednar Sp. z o.o.","street":"ul. Szafarnia 11 lok. F8","city":"Gda\u0144sk"},{"id":"22","lon":"54.33505","lat":"18.65121","title":"&quot;Moto&quot; Przedsi\u0119biorstwo Handlowe Stacja Paliw J\u00f3zef Ku\u0142aga","street":"ul. Olszy\u0144ska 3","city":"Gda\u0144sk"},{"id":"23","lon":"54.38296","lat":"18.64483","title":"&quot;Moto&quot; Przedsi\u0119biorstwo Handlowe Stacja Paliw J\u00f3zef Ku\u0142aga","street":"ul. Marynarki Polskiej 73","city":"Gda\u0144sk"},{"id":"24","lon":"54.39361","lat":"18.58075","title":"Orlen","street":"al. Grunwaldzka 258","city":"Gda\u0144sk"},{"id":"25","lon":"54.33409","lat":"18.63585","title":"Orlen","street":"ul. Trakt \u015bw. Wojciecha 43 \/45","city":"Gda\u0144sk"},{"id":"26","lon":"54.39665","lat":"18.57915","title":"Orlen","street":"al. Grunwaldzka 341","city":"Gda\u0144sk"},{"id":"27","lon":"54.35905","lat":"18.64037","title":"Orlen","street":"ul. D\u0105browskiego 4","city":"Gda\u0144sk"},{"id":"28","lon":"54.40268","lat":"18.66379","title":"Orlen","street":"ul. Oliwska 37","city":"Gda\u0144sk"},{"id":"29","lon":"54.34835","lat":"18.68232","title":"Orlen","street":"ul. Mia\u0142ki Szlak 14","city":"Gda\u0144sk"},{"id":"30","lon":"54.38153","lat":"18.47584","title":"Orlen","street":"ul. S\u0142owackiego 198","city":"Gda\u0144sk"}];
 var json = [];
 
 
@@ -507,94 +506,7 @@ function alertContents() {
 }
 
   
-  // funkcja zwracajaca liste stacji z obiektow json
-function appendList(jsonObj) {
-	
-	var len = jsonObj.length;
-	//list.innerHTML = "";
-	var parent = document.getElementById('list');
-	
-	while (parent.firstChild) {
-    parent.removeChild(parent.firstChild);
-	}
-	
-	var h2 = document.createElement('h2');
-	h2.id = "listTitle";
-	h2.className = "button";
-	h2.setAttribute("onclick", "toggle_visibility('listContent')");
-	
-	var div = document.createElement('div');
-	div.id = "listContent";
-	div.className = "toggle";
-	h2.appendChild(document.createTextNode('Gas stations'));
-	
-	parent.appendChild(h2);
-	parent.appendChild(div);
-	
-	var sortP = document.createElement('select');
-	sortP.id = 'sort';
-	sortP.name  = 'paliwo';
-	
-	var o1 = document.createElement('option');
-	o1.text = 'ON';
-	o1.value = 'ON_';
-	sortP.add(o1);
-	
-	var o2 = document.createElement('option');
-	o2.text = 'PB95';
-	o2.value = 'PB95';
-	sortP.add(o2);
-	
-	var o3 = document.createElement('option');
-	o3.text = 'PB98';
-	o3.value = 'PB98';
-	sortP.add(o3);
-	
-	var o4 = document.createElement('option');
-	o4.text = 'LPG';
-	o4.value = 'LPG';
-	sortP.add(o4);
-	
-	
-	var sortT = document.createElement('select');
-	sortP.id = 'sort';
-	sortP.name  = 'paliwo';
-	
-	var o5 = document.createElement('option');
-	o5.text = 'Ascending';
-	o5.value = 'ASC';
-	sortT.add(o5);
-	
-	var o6 = document.createElement('option');
-	o6.text = 'Descending';
-	o6.value = 'DESC';
-	sortT.add(o6);
-	
-	parent.appendChild(sortP);
-	parent.appendChild(sortT);
-	
-	
-	var	btn3 = document.createElement('button');
-		btn3.setAttribute("type", "button");
-		btn3.setAttribute("onclick", "sortList()");
-		btn3.appendChild(document.createTextNode("Sort list"));
-		parent.appendChild(btn3);
-	
-	/*
-	listContent.innerHTML += "Sortowanie : <select id=\"sort\" name='paliwo'>" + 
-	" <option value='ON_'>ON</option>" + 
-	"<option value='PB95'>PB95</option>" + 
-	"<option value='PB98'>PB98</option>" + 
-	"<option value='LPG'>LPG</option></select>";
-	listContent.innerHTML += "<select id=\"typsort\" name='typ'>" + 
-	"<option value='ASC'>Rosnąco</option>" + 
-	"<option value='DESC'>Majejąco</option></select>" +
-	"<button type=\"button\" name=\"sortuj\" onclick=\"sortuj()\"></t> Sortuj</button>";
-	*/
-	//list.innerHTML = "<h2 id=\"listTitle\" class=\"button\" onclick=\"toggle_visibility(\'listContent\')\">Gas stations</h2><div id=\"listContent\" class=\"toggle\"></div>";
-	//tableCreate(jsonObj);
-	
-}
+
   
 function tableCreate(jsonObj) {
 
@@ -1004,25 +916,7 @@ function afterSearch() {
 		}
 	}
 }
- // funkcja zwracajaca miniaturke w popupie na podstawie nazwy stacji
-function pickThumbnail(brand) {
-	switch(brand) {
-		case 'Orlen':
-			return '../img/orlen.jpg'
-			break;
-		case 'Lotos':
-			return '../img/lotos.jpg'
-			break;
-		case 'Shell':
-			return '../img/shell.jpg'
-			break;
-		case 'BP':
-			return '../img/bp.jpg'
-			break;
-		default:
-			return '../img/inne.png'
-	}
-}
+
 
 function controlFeatureClick(e) {
 	console.log(e);	
