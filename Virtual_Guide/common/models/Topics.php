@@ -45,7 +45,7 @@ class Topics extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
+            'ID' => 'ID',
             'subject' => 'Subject',
             'date' => 'Date',
             'categoryID' => 'category ID',

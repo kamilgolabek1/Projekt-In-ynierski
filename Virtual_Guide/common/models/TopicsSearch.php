@@ -18,7 +18,7 @@ class TopicsSearch extends Topics
     public function rules()
     {
         return [
-            [['id', 'categoryID', 'userID'], 'integer'],
+            [['ID', 'categoryID', 'userID'], 'integer'],
             [['subject', 'date'], 'safe'],
         ];
     }
@@ -56,10 +56,10 @@ class TopicsSearch extends Topics
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
+            'ID' => $this->ID,
             'date' => $this->date,
             'categoryID' => $this->categoryID,
-            'UserID' => $this->UserID,
+            'userID' => $this->userID,
         ]);
 
         $query->andFilterWhere(['like', 'subject', $this->subject]);

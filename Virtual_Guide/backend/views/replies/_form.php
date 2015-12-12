@@ -19,7 +19,7 @@ use yii\helpers\ArrayHelper;
 
     <?= $form->field($model, 'data')->textInput() ?>
 
-   <?php $topics=Topics::find()->all(); $listData2=ArrayHelper::map($topics,'id','subject');?>
+   <?php $topics=Topics::find()->all(); $listData2=ArrayHelper::map($topics,'ID','subject');?>
     <?=  $form->field($model, 'topicID')->dropDownList( $listData2,['prompt'=>'Wątek']); ?>
     
     <?php $users=User::find()->all(); $listData=ArrayHelper::map($users,'ID','username');?>

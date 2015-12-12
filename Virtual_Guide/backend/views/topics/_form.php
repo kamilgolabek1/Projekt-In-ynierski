@@ -21,12 +21,12 @@ use yii\helpers\ArrayHelper;
 
     
     
-      <?php $categories=Category::find()->all(); $listData2=ArrayHelper::map($categories,'id','name');?>
-    <?=  $form->field($model, 'CategoryID')->dropDownList( $listData2,['prompt'=>'kategoria']); ?>
+      <?php $categories=Category::find()->all(); $listData2=ArrayHelper::map($categories,'ID','name');?>
+    <?=  $form->field($model, 'categoryID')->dropDownList( $listData2,['prompt'=>'kategoria']); ?>
     
     
     <?php $users=User::find()->all(); $listData=ArrayHelper::map($users,'ID','username');?>
-    <?=  $form->field($model, 'UserID')->dropDownList( $listData,['prompt'=>'Uzytkownik']); ?>
+    <?=  $form->field($model, 'userID')->dropDownList( $listData,['prompt'=>'Uzytkownik']); ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

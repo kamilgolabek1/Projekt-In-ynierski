@@ -18,7 +18,7 @@ class RepliesSearch extends Replies
     public function rules()
     {
         return [
-            [['id', 'topicID', 'userID'], 'integer'],
+            [['ID', 'topicID', 'userID'], 'integer'],
             [['content', 'data'], 'safe'],
         ];
     }
@@ -56,7 +56,7 @@ class RepliesSearch extends Replies
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
+            'ID' => $this->ID,
             'data' => $this->data,
             'topicID' => $this->topicID,
             'userID' => $this->userID,

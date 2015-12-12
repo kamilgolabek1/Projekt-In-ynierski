@@ -37,7 +37,6 @@ AppAsset::register($this);
     $menuItems = [
         ['label' => 'Lokalizacje', 'url' => ['/location/index']],
         ['label' => 'Komentarze', 'url' => ['/comment/index']],
-        ['label' => 'Tagi', 'url' => ['/tag/index']],
         ['label' => 'Zdjęcia', 'url' => ['/photo/index']],
         ['label' => 'Użytkownicy', 'url' => ['/user/index']],
     	['label' => 'Kategorie', 'url' => ['/category/index']],

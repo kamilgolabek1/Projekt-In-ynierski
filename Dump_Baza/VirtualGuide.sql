@@ -428,9 +428,4 @@ ALTER TABLE `photo`
   ADD CONSTRAINT `fklocphoto` FOREIGN KEY (`locationID`) REFERENCES `location` (`ID`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `fkuserphoto` FOREIGN KEY (`userID`) REFERENCES `user` (`ID`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
---
--- Ograniczenia dla tabeli `tag`
---
-ALTER TABLE `tag`
-  ADD CONSTRAINT `fkLocTag` FOREIGN KEY (`locationID`) REFERENCES `location` (`ID`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
