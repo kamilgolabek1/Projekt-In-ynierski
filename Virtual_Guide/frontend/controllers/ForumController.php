@@ -61,12 +61,12 @@ class ForumController extends \yii\web\Controller
     	$topic = new Topics();
     	$topic->subject = $sub;
     	$topic->date = new \yii\db\Expression('NOW()');
-    	$topic->UserID =  $userId = \Yii::$app->user->identity->id;
-    	$topic->CategoryID = $id;
+    	$topic->userID =  $userId = \Yii::$app->user->identity->id;
+    	$topic->categoryID = $id;
     	$topic->save();
     	
     	
-    	$sql = "Select t.*, u.username ,(select count(*) from replies where topicID = t.ID) as odpowiedzi from topics t join user u on t.userID = u.ID where CategoryID = $id ";
+    	$sql = "Select t.*, u.username ,(select count(*) from replies where topicID = t.ID) as odpowiedzi from topics t join user u on t.userID = u.ID where categoryID = $id ";
     	$subject = Category::findOne($id)->name;
     	$rows = Yii::$app->db->createCommand($sql)->queryAll();
     	return $this->render('topics', [

@@ -10,8 +10,8 @@ use Yii;
  * @property integer $id
  * @property string $subject
  * @property string $date
- * @property integer $CategoryID
- * @property integer $UserID
+ * @property integer $categoryID
+ * @property integer $userID
  *
  * @property Category $category
  * @property User $user
@@ -32,9 +32,9 @@ class Topics extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['subject', 'date', 'CategoryID', 'UserID'], 'required'],
+            [['subject', 'date', 'categoryID', 'userID'], 'required'],
             [['date'], 'safe'],
-            [['CategoryID', 'UserID'], 'integer'],
+            [['categoryID', 'userID'], 'integer'],
             [['subject'], 'string', 'max' => 200]
         ];
     }
@@ -48,8 +48,8 @@ class Topics extends \yii\db\ActiveRecord
             'id' => 'ID',
             'subject' => 'Subject',
             'date' => 'Date',
-            'CategoryID' => 'Category ID',
-            'UserID' => 'User ID',
+            'categoryID' => 'category ID',
+            'userID' => 'User ID',
         ];
     }
 
@@ -58,7 +58,7 @@ class Topics extends \yii\db\ActiveRecord
      */
     public function getCategory()
     {
-        return $this->hasOne(Category::className(), ['id' => 'CategoryID']);
+        return $this->hasOne(Category::className(), ['id' => 'categoryID']);
     }
 
     /**
@@ -66,6 +66,6 @@ class Topics extends \yii\db\ActiveRecord
      */
     public function getUser()
     {
-        return $this->hasOne(User::className(), ['ID' => 'UserID']);
+        return $this->hasOne(User::className(), ['ID' => 'userID']);
     }
 }
