@@ -10,7 +10,7 @@ $this->title = 'Virtual Guide';
         <!-- <h1>Miejsce na mapę</h1> -->
 				<ul>
 							<li>
-								<button class="button nav" onclick="createPopup('addPoint', addingPoint, true);">Add point</button>
+								<button class="button nav" onclick="createPopup('addPoint', addingPoint, true);">Dodaj miejsce</button>
 							</li>
 							<li class="current">
 								<div id="search">
@@ -26,14 +26,14 @@ $this->title = 'Virtual Guide';
 								<div id="addPoint">
 				<h2 id="addPointTitle" class="button" onclick="toggle_visibility('addForm')">Add point</h2>
 				<form id="addForm" class="form toggle" name="addForm" action="#" onsubmit="return validateAddForm()" method="post">
-					<label><span class="form_label">Name</span><input class="form_field"type="text" name="name"></label>
-					<label><span class="form_label">Address</span><input class="form_field" type="text" name="addr"></label> 
-					<label><span class="form_label">Description</span><input class="form_field"  type="text" name="descr"></label> 
-					<label><span class="form_label">Longitude</span><input class="form_field" type="text" name="lon" readonly></label> 
-					<label><span class="form_label">Latitude</span><input class="form_field" type="text" name="lat" readonly></label>
-					<label><button class="cordsBtn btn btn-primary" onclick="return getCoordinates();">Get Coordinates</button></label>
+					<label><span class="form_label">Nazwa</span><input class="form_field"type="text" name="name"></label>
+					<label><span class="form_label">Adres</span><input class="form_field" type="text" name="addr"></label> 
+					<label><span class="form_label">Opis</span><input class="form_field"  type="text" name="descr"></label> 
+					<label><span class="form_label">Dł. geograficzna</span><input class="form_field" type="text" name="lon" readonly></label> 
+					<label><span class="form_label">Sz. geograficzna</span><input class="form_field" type="text" name="lat" readonly></label>
+					<label><button class="cordsBtn btn btn-primary" onclick="return getCoordinates();">Pobierz współrzędne</button></label>
 					<label><span class="form_label">Zoom</span><input class="form_field" type="text" name="zoom" readonly></label>
-					<label><span class="form_label">Category</span><input class="form_field" type="text" name="cat"></label>
+					<label><span class="form_label">Kategoria</span><input class="form_field" type="text" name="cat"></label>
 					<input class="inputBtn btn btn-primary" type="submit" value="Submit"/>
 					<h3 id="addFormMsg"></h3>
 				</form>
