@@ -41,6 +41,8 @@ AppAsset::register($this);
         ['label' => 'Zdjęcia', 'url' => ['/photo/index']],
         ['label' => 'Użytkownicy', 'url' => ['/user/index']],
     	['label' => 'Kategorie', 'url' => ['/category/index']],
+    	['label' => 'Forum - Wątki', 'url' => ['/topics/index']],
+    	['label' => 'Forum - odpowiedzi', 'url' => ['/replies/index']],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];

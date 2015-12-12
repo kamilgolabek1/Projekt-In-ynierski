@@ -7,7 +7,7 @@ use Yii;
 /**
  * This is the model class for table "countries".
  *
- * @property integer $id
+ * @property integer $ID
  * @property string $country_code
  * @property string $country_name
  */
@@ -38,7 +38,7 @@ class Countries extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
+            'ID' => 'ID',
             'country_code' => 'Country Code',
             'country_name' => 'Country Name',
         ];

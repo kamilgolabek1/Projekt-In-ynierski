@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'locationID',
             'filename',
             'comment',
-            'userId',
+            'userID',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

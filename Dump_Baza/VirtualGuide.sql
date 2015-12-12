@@ -99,11 +99,27 @@ CREATE TABLE `virtualguide`.`category`
  PRIMARY KEY (`id`)
  ) ;
 
- ALTER TABLE `location` ADD CONSTRAINT `fkcountry` FOREIGN KEY (`countryID`)
- REFERENCES `virtualguide`.`countries`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ CREATE TABLE `topics` ( `id` int(11) NOT NULL,
+ `subject` varchar(200) COLLATE utf8_unicode_ci NOT NULL, 
+ `date` datetime NOT NULL,
+ `CategoryID` int(11) NOT NULL,
+ `UserID` int(11) NOT NULL ) 
+ ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+ 
 
-ALTER TABLE `location` ADD CONSTRAINT `fkcategory` FOREIGN KEY (`categoryID`)
- REFERENCES `virtualguide`.`category`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ 
+ CREATE TABLE `virtualguide`.`Replies` ( 
+ `id` INT NOT NULL AUTO_INCREMENT , 
+ `content` VARCHAR(1000) NOT NULL , 
+ `data` DATETIME NOT NULL , 
+ `topicID` INT NOT NULL , 
+ `userID` INT NOT NULL , 
+ PRIMARY KEY (`id`), 
+ INDEX (`userID`), 
+ INDEX (`topicID`)) 
+ ENGINE = InnoDB;
+ 
+
  
 ALTER DATABASE virtualguide CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE user CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
@@ -111,6 +127,10 @@ ALTER TABLE comment CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE location CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE photo CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 ALTER TABLE tag CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+ALTER TABLE category CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+ALTER TABLE topics CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+ALTER TABLE replies CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+
 
 
 -- insert countries

@@ -22,7 +22,7 @@ use common\models\Category;
 
     <?= $form->field($model, 'lat')->textInput(['maxlength' => true]) ?>
 
-	 <?php $countries=Countries::find()->all(); $listData=ArrayHelper::map($countries,'id','country_name');?>
+	 <?php $countries=Countries::find()->all(); $listData=ArrayHelper::map($countries,'ID','country_name');?>
     <?=  $form->field($model, 'countryID')->dropDownList( $listData,['prompt'=>'Kraj']); ?>
 
 
@@ -31,7 +31,7 @@ use common\models\Category;
 
     <?= $form->field($model, 'zoom')->textInput() ?>
 
-   <?php $categories=Category::find()->all(); $listData2=ArrayHelper::map($categories,'id','name');?>
+   <?php $categories=Category::find()->all(); $listData2=ArrayHelper::map($categories,'ID','name');?>
     <?=  $form->field($model, 'categoryID')->dropDownList( $listData2,['prompt'=>'kategoria']); ?>
 
     <div class="form-group">
