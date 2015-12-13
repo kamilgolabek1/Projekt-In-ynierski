@@ -29,10 +29,10 @@ return [
             'errorAction' => 'site/error',
         ],
     		'urlManager' => [
-'class' => 'yii\web\UrlManager',
-'enablePrettyUrl' => true,
-'showScriptName' => false
-],
+					'class' => 'yii\web\UrlManager',
+					'enablePrettyUrl' => false,
+					'showScriptName' => false
+			],
     ],
     'params' => $params,
 ];
