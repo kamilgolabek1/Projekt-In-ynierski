@@ -8,6 +8,7 @@ function toggle_visibility(id) {
 
 
 function window_pos(popUpDivVar) {
+	//console.log("wywolano window_pos");
 	if (typeof window.innerWidth != 'undefined') {
 		viewportwidth = window.innerHeight;
 	} else {
@@ -24,7 +25,9 @@ function window_pos(popUpDivVar) {
 	}
 	var popUpDiv = document.getElementById(popUpDivVar);
 	window_width=window_width/2-225;//150 is half popup's width
+	//console.log("window_width/2: "+window_width);
 	popUpDiv.style.left = window_width + 'px';
+	//console.log("popup.style.left: "+popUpDiv.style.left);
 }
 
 function createPopupMask() {
@@ -61,24 +64,18 @@ function createPopup(container, func, overlay) {
 			toggle_visibility('infoBox');
 			infoBoxStatus ^= 1;
 		}
-		//window.status = gPopupMask.style.top + " " + gPopupMask.style.left + " " + gi++;
-		
-		//addEvent(window, "resize", centerPopup('popupMask'));
+
 		addEvent(window, "resize", centerPopup);
-		addEvent(window, "resize", window_pos(container));
-		//addEvent(window, "scroll", centerPopWin('popupMask'));
-		//window.onscroll = centerPopup('popupMask');
-		window.onscroll = function () {
-		//centerPopup(overlay);
-			//console.log(getViewportHeight() + " " + getViewportWidth())
-		};
+		addEvent(window, "resize", function(){var cont=container; window_pos(cont)});
+
 		func();
 		
 		
 	window_pos(container);
 	
-	//toggle(container);		
+		
 }
+
 
 	function centerPopup() {
 		//var container = document.getElementById(cont);
@@ -175,9 +172,9 @@ function addingPoint() {
 	old_element.parentNode.replaceChild(new_element, old_element);
 	var overlay = document.getElementById('popupMask');
 	
-	overlay.addEventListener('click', function() {
-		toggle_visibility('popupMask');
-		toggle_visibility('addPoint');
-		}, false);
+	//overlay.addEventListener('click', function() {
+		//toggle_visibility('popupMask');
+		//toggle_visibility('addPoint');
+	//	}, false);
 	
 	}
