@@ -2,6 +2,9 @@
 
 /* @var $this yii\web\View */
 
+use app\assets\IndexAssetBundle;
+IndexAssetBundle::register($this);
+
 $this->title = 'Virtual Guide';
 ?>
 <div class="site-index">
@@ -10,7 +13,7 @@ $this->title = 'Virtual Guide';
         <!-- <h1>Miejsce na mapę</h1> -->
 				<ul>
 							<li>
-								<button class="button nav" onclick="createPopup('addPoint2', addingPoint, true);">Add point</button>
+								<button class="button nav" onclick="createPopup('addPoint', addingPoint, true);">Add point</button>
 							</li>
 							<li class="current">
 								<div id="search">
@@ -24,16 +27,17 @@ $this->title = 'Virtual Guide';
 								</div>
 								
 								<div id="addPoint">
-				<h2 id="addPointTitle" class="button" onclick="toggle_visibility('addForm')">Add point</h2>
+				<h2 id="addPointTitle" class="button" onclick="toggle_visibility('addForm')">Dodanie miejsca</h2>
 				<form id="addForm" class="form toggle" name="addForm" action="#" onsubmit="return validateAddForm()" method="post">
-					<label><span class="form_label">Name</span><input class="form_field"type="text" name="name"></label>
-					<label><span class="form_label">Address</span><input class="form_field" type="text" name="addr"></label> 
-					<label><span class="form_label">Description</span><input class="form_field"  type="text" name="descr"></label> 
-					<label><span class="form_label">Longitude</span><input class="form_field" type="text" name="lon" readonly><button class="cordsBtn" onclick="return getCoordinates();">Get Coordinates</button></label> 
-					<label><span class="form_label">Latitude</span><input class="form_field" type="text" name="lat" readonly></label>
+					<label><span class="form_label">Nazwa</span><input class="form_field"type="text" name="name"></label>
+					<label><span class="form_label">Adres</span><input class="form_field" type="text" name="addr"></label> 
+					<label><span class="form_label">Opis</span><input class="form_field"  type="text" name="descr"></label> 
+					<label><span class="form_label">Długość</span><input class="form_field" type="text" name="lon" readonly></label>
+					<label><span class="form_label">Szerokość</span><input class="form_field" type="text" name="lat" readonly></label>
+					<button class="cordsBtn btn btn-primary" onclick="return getCoordinates();">Pobierz współrzędne</button> 
 					<label><span class="form_label">Zoom</span><input class="form_field" type="text" name="zoom" readonly></label>
-					<label><span class="form_label">Category</span><input class="form_field" type="text" name="cat"></label>
-					<input type="submit" value="Submit"/>
+					<label><span class="form_label">Kategoria</span><input class="form_field" type="text" name="cat"></label>
+					<input class="submitBtn btn btn-primary" type="submit" value="Dodaj miejsce"/>
 					<h3 id="addFormMsg"></h3>
 				</form>
 							<div id="search_result"></div>

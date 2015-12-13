@@ -340,8 +340,10 @@ display: none;
 	background: rgba(188, 202, 206, 0.15);
 }
 
-.cordsBtn, .inputBtn {
+.cordsBtn, .submitBtn {
 	width: 100%;
 }
 
-
+.cordsBtn.btn, {
+	margin-bottom: 12px;
+}
