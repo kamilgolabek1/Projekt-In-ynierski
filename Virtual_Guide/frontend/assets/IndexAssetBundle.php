@@ -9,7 +9,7 @@ class IndexAssetBundle extends AssetBundle
 		public $basePath = '@webroot';
 		public $baseUrl = '@web';
 		public $css = [ 
-			'css/site.css',
+			
 			'css/style3.css',
 			'css/lightbox.css'
 		]; 
