@@ -20,14 +20,16 @@ $this->params['breadcrumbs'][] = ['label' => $category, 'url' => $url];
 <table class="table  ">
 <tr>
 	<th width='20%'>
-		<div align="center"><img src="../../web/img/user.png" width="80"/></div>
+		<div align="center"><img src="../../img/user.png" width="80"/></div>
 		<div align="center"><a href="#"><h3><?php echo $topic->user->username; ?></h3></a></div></br>
 		<div align="center"><?php echo $topic->date?></div>
 	</th>
 	<th>
 		<h4 ><?php echo $nazwa ?></h4>
+		
 	</th>
 </tr>
+<tr><td><h4>Tagi: <a> <?= $topic->tag?></a></h4></td></tr>
 </table>
 
 </br>
@@ -53,28 +55,22 @@ $this->params['breadcrumbs'][] = ['label' => $category, 'url' => $url];
 
 </br>
 <h4>Odpowiedzi</h4>
-<table class="table table-striped table-bordered">
-<tbody>
-<?php 
-
- foreach($model as $row)    {   
- 	echo "<tr>";
- 	echo "<td  style='width: 15%;'>";
- 	echo $row['username']; echo "</br>";
-echo  $row['data'];
- 	echo "</td>";
- 	echo "<td>";
- 	echo $row['content'];
- 	echo "</td>";
- 	echo "</tr>";
-}
-?>
-</tbody>
-</table>
+<?= GridView::widget([
+    'dataProvider' => $dataProvider,
+    'columns' => [
+        'username',
+         [ 'attribute' => 'content','label' => 'Nazwa',
+         		'format' => 'raw',
+       			'value'=>function ($data) {
+            	return $data['content'];
+        	},
+         ],
+    ],
+]); ?>
 
 
 </div>
-  <script src="../js/ckeditor/ckeditor.js"></script>
+<script src="../../js/ckeditor/ckeditor.js"></script>
 
 
 <script type="text/javascript">

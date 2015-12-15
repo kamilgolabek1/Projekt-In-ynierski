@@ -31,6 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		<?= $model->descr ?>
 	</div>
 </div>
+<div>Tagi:<a> <?php echo $model->tag?></a></div>
 </br>
 <?php 
 
@@ -69,7 +70,7 @@ $this->params['breadcrumbs'][] = $this->title;
             .$row->date. "</td><td>".$row->comment."</td></tr>";
   }?>
 </table>
-  <script src="../js/ckeditor/ckeditor.js"></script>
+  <script src="../../js/ckeditor/ckeditor.js"></script>
 
 
 <script type="text/javascript">

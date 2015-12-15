@@ -2,11 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use yii\base\Application;
 
-/* @var $this yii\web\View */
-/* @var $searchModel common\models\CategorySearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Categories';
 $this->params['breadcrumbs'][] = ['label' => 'Forum', 'url' => ['forum/index']];
@@ -28,7 +24,12 @@ $this->params['breadcrumbs'][] = $nazwa
 <div id="create_topic" style="display:none">
 	<form action=<?php echo Yii::$app->urlManager->createUrl('forum/newtopic');  ?>  method="POST">
 <h3>Temat</h3>
-<textarea name="temat" id="temat" rows="2" cols="10" ></textarea></td>
+<textarea name="temat" id="temat" rows="2" cols="10" placeholder="Komentarz" ></textarea></br>
+<input type="text" name="tag"  style="background-color: #D0D0D0;width: 100%; 
+     box-sizing: border-box;
+     -webkit-box-sizing:border-box;
+     -moz-box-sizing: border-box;" placeholder="Tagi" />
+</br>
 </br>
 		<input type="submit" value="Dodaj wątek" class="btn btn-primary">
 	 	<input type="hidden" name="_csrf" value="<?=Yii::$app->request->getCsrfToken()?>" />
@@ -42,45 +43,27 @@ $this->params['breadcrumbs'][] = $nazwa
 
 
 </br></br>
-<table class="table table-striped ">
-<thead>
-	<tr>
-		<th>Temat</th>
-		<th>Data założenia</th>
-		<th>Utworzył</th>
-		<th>Odpowiedzi</th>
-	</tr>
-</thead>
-<tbody>
-<?php 
 
- foreach($model as $row)    {   
- 	echo "<tr>";
-	echo "<td>";
-		echo Html::a( $row['subject'],['forum/replies', 'id' => $row['ID']]);
- 	echo "</td>";
- 	echo "<td>";
- 	echo $row['date'];
- 	echo "</td>";
- 	echo "<td>";
- 		echo $row['username'];
- 	echo "</td>";
- 	echo "<td>";
- 		echo $row['odpowiedzi'];
- 	echo "</td>";
- 	
- 	echo "</tr>";
-}
-?>
-</tbody>
-</table>
+<?= GridView::widget([
+    'dataProvider' => $dataProvider,
+    'columns' => [
+         [ 'attribute' => 'subject','label' => 'Nazwa',
+            	'format' => 'raw',
+       			'value'=>function ($data) {
+            	return Html::a($data['subject'],['forum/replies', 'id' => $data['ID']]);
+        	},],
+        	'date',
+        'username',
+        'odpowiedzi'],
+]); ?>
+
 
 
  
 
 
 </div>
-<script src="../js/ckeditor/ckeditor.js"></script>
+<script src="../../js/ckeditor/ckeditor.js"></script>
 <script type="text/javascript">
     CKEDITOR.replace('temat') ;
 </script>
