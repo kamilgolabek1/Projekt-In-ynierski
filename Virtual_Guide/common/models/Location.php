@@ -16,12 +16,13 @@ use Yii;
  * @property string $address
  * @property integer $zoom
  * @property integer $categoryID
+ * @property integer $userID
+ * @property string $tag
  *
  * @property Comment[] $comments
  * @property Category $category
  * @property Countries $country
  * @property Photo[] $photos
- * @property Tag[] $tags
  */
 class Location extends \yii\db\ActiveRecord
 {
@@ -39,9 +40,10 @@ class Location extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['countryID', 'zoom', 'categoryID'], 'integer'],
+            [['countryID', 'zoom', 'categoryID', 'userID'], 'integer'],
+            [['userID'], 'required'],
             [['name', 'address'], 'string', 'max' => 100],
-            [['descr'], 'string', 'max' => 2000],
+            [['descr', 'tag'], 'string', 'max' => 2000],
             [['lon', 'lat'], 'string', 'max' => 50]
         ];
     }
@@ -61,6 +63,8 @@ class Location extends \yii\db\ActiveRecord
             'address' => 'Address',
             'zoom' => 'Zoom',
             'categoryID' => 'Category ID',
+            'userID' => 'User ID',
+            'tag' => 'Tag',
         ];
     }
 
@@ -77,7 +81,7 @@ class Location extends \yii\db\ActiveRecord
      */
     public function getCategory()
     {
-        return $this->hasOne(Category::className(), ['id' => 'categoryID']);
+        return $this->hasOne(Category::className(), ['ID' => 'categoryID']);
     }
 
     /**
@@ -85,7 +89,7 @@ class Location extends \yii\db\ActiveRecord
      */
     public function getCountry()
     {
-        return $this->hasOne(Countries::className(), ['id' => 'countryID']);
+        return $this->hasOne(Countries::className(), ['ID' => 'countryID']);
     }
 
     /**
@@ -94,13 +98,5 @@ class Location extends \yii\db\ActiveRecord
     public function getPhotos()
     {
         return $this->hasMany(Photo::className(), ['locationID' => 'ID']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getTags()
-    {
-        return $this->hasMany(Tag::className(), ['locationID' => 'ID']);
     }
 }

@@ -42,7 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
      ?>
     <form action=<?php echo $url; ?>  method="POST">
         <input type="hidden" name="id" value=<?php echo $model->ID; ?> >
-        <textarea name="komentarz" id="komentarz" rows="2" cols="10" ></textarea></br>
+        <div style="width:90%"><textarea name="komentarz" id="komentarz"  ></textarea></div></br>
         <input type="submit" value="Dodaj Komentarz" class="btn btn-primary">
 
         <input type="hidden" name="_csrf" value="<?=Yii::$app->request->getCsrfToken()?>" />
