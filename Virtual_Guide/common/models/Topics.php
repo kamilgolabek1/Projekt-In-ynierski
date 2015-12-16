@@ -35,7 +35,7 @@ class Topics extends \yii\db\ActiveRecord
             [['subject', 'date', 'categoryID', 'userID'], 'required'],
             [['date'], 'safe'],
             [['categoryID', 'userID'], 'integer'],
-            [['subject'], 'string', 'max' => 200]
+            [['subject'], 'string', 'max' => 2000]
         ];
     }
 

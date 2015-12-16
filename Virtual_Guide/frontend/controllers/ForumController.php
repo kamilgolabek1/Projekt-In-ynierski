@@ -3,7 +3,7 @@
 namespace frontend\controllers;
 use Yii;
 use common\models\Category;
-use common\models\CategorySearch;
+use yii\data\SqlDataProvider;
 use common\models\Replies;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -19,82 +19,100 @@ class ForumController extends \yii\web\Controller
 
     public function actionIndex()
     {
-        $searchModel = new CategorySearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+    	$sql = "select c.name ,c.id,(select count(*) from topics t where t.CategoryID = c.ID) as ilosc from category c";
+    	$count = Yii::$app->db->createCommand($sql)->queryAll();
+ 		$count = count($count);
+   		$dataProvider = new SqlDataProvider([
+	    'sql' =>$sql,
+	    'totalCount' => $count,
+	    		'pagination' => [
+	    				'pagesize' => 6,
+	    		],
+	    		'sort' => ['attributes' => ['name','ilosc']]
+	    ]);
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+        	'dataProvider' => $dataProvider,
         ]);
     }
-
+    
     public function actionNewreplie()
     {
-        $request = Yii::$app->request;
+    	$request = Yii::$app->request;
     	$id = $request->post('id');
     	$sub = $request->post('odpowiedz');
-    	
+    	 
     	$reply = new Replies();
     	$reply->content = $sub;
     	$reply->data = new \yii\db\Expression('NOW()');
     	$reply->userID =  $userId = \Yii::$app->user->identity->id;
     	$reply->topicID = $id;
     	$reply->save();
-    	
-    	$sql = "SELECT * FROM replies join topics on topics.id = replies.topicID join User on replies.userID = User.ID where topics.id = $id ";
-    	$topic =  Topics::findOne($id);
-    	$topic_subject = $topic->subject;
-    	$category = $topic->category->name;
-    	$catID = $topic->category->ID;
-    	$rows = Yii::$app->db->createCommand($sql)->queryAll();
-    	return $this->render('replies', [
-    			'model' => $rows, 'nazwa' => $topic_subject,'category' => $category,'topic' => $topic, 'id' => $id,'catid' => $catID
-    	]);
+    	 
+    	return $this->actionReplies($id);
     }
-
+    
     public function actionNewtopic()
     {
-        $request = Yii::$app->request;
+    	$request = Yii::$app->request;
     	$id = $request->post('id');
     	$sub = $request->post('temat');
-    	
+    	$tag = $request->post('tag');
     	$topic = new Topics();
     	$topic->subject = $sub;
     	$topic->date = new \yii\db\Expression('NOW()');
     	$topic->userID =  $userId = \Yii::$app->user->identity->id;
     	$topic->categoryID = $id;
+    	$topic->tag = $tag;
     	$topic->save();
-    	
-    	
-    	$sql = "Select t.*, u.username ,(select count(*) from replies where topicID = t.ID) as odpowiedzi from topics t join user u on t.userID = u.ID where categoryID = $id ";
-    	$subject = Category::findOne($id)->name;
-    	$rows = Yii::$app->db->createCommand($sql)->queryAll();
-    	return $this->render('topics', [
-    			'model' => $rows, 'nazwa' => $subject,'id' => $id
-    	]);
+    	 
+    	 
+    	return $this->actionTopics($id);
     }
-
+    
     public function actionReplies($id)
     {
-       $sql = "SELECT * FROM replies join topics on topics.id = replies.topicID join User on replies.userID = User.ID where topics.id = $id ";
+    	$sql = "SELECT * FROM replies join topics on topics.id = replies.topicID join User on replies.userID = User.ID where topics.id = $id ";
+    	$count = Yii::$app->db->createCommand($sql)->queryAll();
+    	$count = count($count);
+    	$dataProvider = new SqlDataProvider([
+    			'sql' =>$sql,
+    			'totalCount' => $count,
+    			'pagination' => [
+    					'pagesize' => 2,
+    			],
+    			'sort' => ['attributes' => ['username','content']]
+    	]);
     	$topic =  Topics::findOne($id);
     	$topic_subject = $topic->subject;
-		$category = $topic->category->name;
-		$catID = $topic->category->ID;
+    	$category = $topic->category->name;
+    	$catID = $topic->category->ID;
     	$rows = Yii::$app->db->createCommand($sql)->queryAll();
+    	 
+    	 
     	return $this->render('replies', [
-    			'model' => $rows, 'nazwa' => $topic_subject,'category' => $category,'topic' => $topic, 'id' => $id, 'catid' => $catID
+    			'dataProvider' => $dataProvider, 'nazwa' => $topic_subject,'category' => $category,'topic' => $topic, 'id' => $id, 'catid' => $catID
     	]);
     }
-
+    
     public function actionTopics($id)
     {
-        $sql = "Select t.*, u.username ,(select count(*) from replies where topicID = t.ID) as odpowiedzi from topics t join user u on t.userID = u.ID where CategoryID = $id ";
+    	$sql = "Select t.*, u.username ,(select count(*) from replies where topicID = t.ID) as odpowiedzi from topics t join user u on t.userID = u.ID where CategoryID = $id ";
+    	$count = Yii::$app->db->createCommand($sql)->queryAll();
+    	$count = count($count);
     	$subject = Category::findOne($id)->name;
-    	$rows = Yii::$app->db->createCommand($sql)->queryAll();
+    	$dataProvider = new SqlDataProvider([
+    			'sql' =>$sql,
+    			'totalCount' => $count,
+    			'pagination' => [
+    					'pagesize' => 6,
+    			],
+    			'sort' => ['attributes' => ['subject','username','date','odpowiedzi']]
+    	]);
     	return $this->render('topics', [
-    			'model' => $rows, 'nazwa' => $subject, 'id' => $id
+    			'dataProvider' => $dataProvider,'nazwa' => $subject, 'id' => $id
     	]);
     }
-
-}
+    
+    }
+    
+    

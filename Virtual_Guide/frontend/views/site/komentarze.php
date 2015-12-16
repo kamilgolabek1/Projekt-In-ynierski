@@ -31,6 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		<?= $model->descr ?>
 	</div>
 </div>
+<div>Tagi:<a> <?php echo $model->tag?></a></div>
 </br>
 <?php 
 
@@ -42,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
      ?>
     <form action=<?php echo $url; ?>  method="POST">
         <input type="hidden" name="id" value=<?php echo $model->ID; ?> >
-        <textarea name="komentarz" id="komentarz" rows="2" cols="10" ></textarea></br>
+        <div style="width:90%"><textarea name="komentarz" id="komentarz"  ></textarea></div></br>
         <input type="submit" value="Dodaj Komentarz" class="btn btn-primary">
 
         <input type="hidden" name="_csrf" value="<?=Yii::$app->request->getCsrfToken()?>" />
@@ -69,7 +70,7 @@ $this->params['breadcrumbs'][] = $this->title;
             .$row->date. "</td><td>".$row->comment."</td></tr>";
   }?>
 </table>
-  <script src="../js/ckeditor/ckeditor.js"></script>
+  <script src="../../js/ckeditor/ckeditor.js"></script>
 
 
 <script type="text/javascript">

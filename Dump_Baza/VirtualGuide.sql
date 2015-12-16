@@ -340,7 +340,7 @@ CREATE TABLE IF NOT EXISTS `photo` (
 DROP TABLE IF EXISTS `replies`;
 CREATE TABLE IF NOT EXISTS `replies` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `content` varchar(1000) COLLATE utf8_unicode_ci NOT NULL,
+  `content` varchar(2000) COLLATE utf8_unicode_ci NOT NULL,
   `data` datetime NOT NULL,
   `topicID` int(11) NOT NULL,
   `userID` int(11) NOT NULL,
@@ -360,7 +360,7 @@ CREATE TABLE IF NOT EXISTS `replies` (
 DROP TABLE IF EXISTS `topics`;
 CREATE TABLE IF NOT EXISTS `topics` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `subject` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `subject` varchar(2000) COLLATE utf8_unicode_ci NOT NULL,
   `date` datetime NOT NULL,
   `categoryID` int(11) NOT NULL,
   `userID` int(11) NOT NULL,

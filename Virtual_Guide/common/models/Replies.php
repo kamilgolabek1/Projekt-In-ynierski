@@ -35,7 +35,7 @@ class Replies extends \yii\db\ActiveRecord
             [['content', 'data', 'topicID', 'userID'], 'required'],
             [['data'], 'safe'],
             [['topicID', 'userID'], 'integer'],
-            [['content'], 'string', 'max' => 1000]
+            [['content'], 'string', 'max' => 2000]
         ];
     }
 
