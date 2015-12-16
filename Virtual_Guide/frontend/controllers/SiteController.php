@@ -14,6 +14,7 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\Location;
 use common\models\Comment;
+use yii\data\SqlDataProvider;
 
 /**
  * Site controller
@@ -226,9 +227,20 @@ class SiteController extends Controller
     
      public function actionKomentarze($id)
     {
-       return $this->render('komentarze', [
-                'model' => $this->findLocation($id),
-            ]);
+    	$sql = "Select * from Comment c  join User u on c.userID = u.ID where c.locationID = $id ";
+    	$count = Yii::$app->db->createCommand($sql)->queryAll();
+    	$count = count($count);
+    	$dataProvider = new SqlDataProvider([
+    			'sql' =>$sql,
+    			'totalCount' => $count,
+    			'pagination' => [
+    					'pagesize' => 6,
+    			],
+    			'sort' => ['attributes' => ['comment','username']]
+    	]);
+    	return $this->render('komentarze', [
+    			'dataProvider' => $dataProvider, 'model' => $this->findLocation($id)
+    	]);
     }
     
     public function actionAdd(){
@@ -243,9 +255,8 @@ class SiteController extends Controller
         $comment->locationID = $id;
         $comment->userID = $userId = \Yii::$app->user->identity->id;
         $comment->save();
-       return $this->render('komentarze', [
-                'model' => $this->findLocation($id),
-            ]);
+        return $this->redirect(['komentarze','id' => $id]);
+       // return $this->actionKomentarze($id);
     }
 
 

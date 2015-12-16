@@ -48,7 +48,7 @@ class ForumController extends \yii\web\Controller
     	$reply->topicID = $id;
     	$reply->save();
     	 
-    	return $this->actionReplies($id);
+    	return $this->redirect(['replies','id' => $id]);
     }
     
     public function actionNewtopic()
@@ -65,8 +65,8 @@ class ForumController extends \yii\web\Controller
     	$topic->tag = $tag;
     	$topic->save();
     	 
-    	 
-    	return $this->actionTopics($id);
+    	return $this->redirect(['topics','id' => $id]);
+    	//return $this->actionTopics($id);
     }
     
     public function actionReplies($id)
@@ -78,7 +78,7 @@ class ForumController extends \yii\web\Controller
     			'sql' =>$sql,
     			'totalCount' => $count,
     			'pagination' => [
-    					'pagesize' => 2,
+    					'pagesize' => 6,
     			],
     			'sort' => ['attributes' => ['username','content']]
     	]);

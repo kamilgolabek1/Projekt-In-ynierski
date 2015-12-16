@@ -3,6 +3,7 @@ use yii\helpers\Html;
 use common\models\User;
  Html::csrfMetaTags();
  use frontend\assets\AppAsset;
+ use yii\grid\GridView;
 
  AppAsset::register($this);
  //LocateAsset::register($this)
@@ -52,24 +53,18 @@ $this->params['breadcrumbs'][] = $this->title;
  }
 ?>
 </br></br>
-<table class="table table-striped table-bordered detail-view">
-<tr>
-    <th>Uzytkownik</th>
-    <th>Komentarz</th> 
-</tr>
- <?php
 
-    foreach($model->comments as $row)
-  { 
-      $User = User::find()
-    ->where(['id' => $row->userID])
-    ->one();
+<?= GridView::widget([
+    'dataProvider' => $dataProvider,
+    'columns' => [
+        ['attribute' => 'username', 'label' => 'Użytownik'],
+        [ 'attribute' => 'comment','label' => 'Komentarz',
+            	'format' => 'raw',
+       			'value'=>function ($data) {
+            	return $data['comment'];},
+            	],],
+]); ?>
 
-    echo "<tr><td width='20%'>".$User->username.""
-            . "</br>"
-            .$row->date. "</td><td>".$row->comment."</td></tr>";
-  }?>
-</table>
   <script src="../../js/ckeditor/ckeditor.js"></script>
 
 
