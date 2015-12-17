@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel backend\models\PhotoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Photos';
+$this->title = 'Zdjęcia';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="photo-index">
@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Photo', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Utwórz Zdjęcie', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'locationID',
             'filename',
             'comment',
-            'userID',
+            'user.username',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

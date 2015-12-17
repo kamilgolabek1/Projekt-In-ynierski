@@ -6,8 +6,8 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model common\models\Topics */
 
-$this->title = $model->ID;
-$this->params['breadcrumbs'][] = ['label' => 'Topics', 'url' => ['index']];
+$this->title = $model->subject;
+$this->params['breadcrumbs'][] = ['label' => 'Wątki', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="topics-view">
@@ -15,8 +15,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->ID], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->ID], [
+        <?= Html::a('Aktualizuj', ['update', 'id' => $model->ID], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Usuń', ['delete', 'id' => $model->ID], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
@@ -33,6 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'date',
             'category.name',
             'user.username',
+        		'tag'
         ],
     ]) ?>
 

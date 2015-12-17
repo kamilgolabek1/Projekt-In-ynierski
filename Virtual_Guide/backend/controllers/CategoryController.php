@@ -8,6 +8,7 @@ use common\models\CategorySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use common\models\User;
 
 /**
  * CategoryController implements the CRUD actions for Category model.
@@ -26,10 +27,19 @@ class CategoryController extends Controller
         ];
     }
 
-    /**
-     * Lists all Category models.
-     * @return mixed
-     */
+    public function beforeAction()
+    {
+    	if (Yii::$app->user->isGuest){
+    		return $this->redirect(Yii::$app->urlManager->createUrl('site/login'));
+    	}else { //|| Yii::$app->user->getId() != "admin"){
+    		$username=User::findOne(Yii::$app->user->getId())->username;
+    		if($username != "admin"){
+    			Yii::$app->user->logout();
+    			return $this->redirect(Yii::$app->urlManager->createUrl(['site/login']));
+    		}
+    	}
+    	return true;
+    }
     public function actionIndex()
     {
         $searchModel = new CategorySearch();

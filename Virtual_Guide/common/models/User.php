@@ -123,6 +123,7 @@ class User extends ActiveRecord implements IdentityInterface
     public function getId()
     {
         return $this->getPrimaryKey();
+       // return $this->username;
     }
 
     /**

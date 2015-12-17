@@ -46,10 +46,10 @@ class Replies extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'content' => 'Content',
+            'content' => 'Treść',
             'data' => 'Data',
-            'topicID' => 'Topic ID',
-            'userID' => 'User ID',
+            'topicID' => 'Wątek',
+            'userID' => 'Użytkownik',
         ];
     }
 

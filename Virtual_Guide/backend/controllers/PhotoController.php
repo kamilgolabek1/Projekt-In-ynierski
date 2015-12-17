@@ -8,6 +8,7 @@ use common\models\PhotoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use common\models\User;
 
 /**
  * PhotoController implements the CRUD actions for Photo model.
@@ -26,10 +27,19 @@ class PhotoController extends Controller
         ];
     }
 
-    /**
-     * Lists all Photo models.
-     * @return mixed
-     */
+    public function beforeAction()
+    {
+    	if (Yii::$app->user->isGuest){
+    		return $this->redirect(Yii::$app->urlManager->createUrl('site/login'));
+    	}else { //|| Yii::$app->user->getId() != "admin"){
+    		$username=User::findOne(Yii::$app->user->getId())->username;
+    		if($username != "admin"){
+    			Yii::$app->user->logout();
+    			return $this->redirect(Yii::$app->urlManager->createUrl(['site/login']));
+    		}
+    	}
+    	return true;
+    }
     public function actionIndex()
     {
         $searchModel = new PhotoSearch();

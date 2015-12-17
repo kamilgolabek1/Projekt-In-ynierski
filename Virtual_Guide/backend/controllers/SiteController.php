@@ -41,9 +41,7 @@ class SiteController extends Controller
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
+  
     public function actions()
     {
         return [
@@ -55,21 +53,21 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('index');
+         return $this->redirect(['location/index']);
     }
 
     public function actionLogin()
     {
         if (!\Yii::$app->user->isGuest) {
-            return $this->goHome();
+          //  return $this->goHome();
         }
 
         $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+        if ($model->load(Yii::$app->request->post()) && $model->loginAdmin()) {
             return $this->goBack();
         } else {
             return $this->render('login', [
-                'model' => $model,
+                'model' => $model
             ]);
         }
     }

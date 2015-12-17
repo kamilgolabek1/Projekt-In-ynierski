@@ -27,9 +27,9 @@ use yii\helpers\ArrayHelper;
     
     <?php $users=User::find()->all(); $listData=ArrayHelper::map($users,'ID','username');?>
     <?=  $form->field($model, 'userID')->dropDownList( $listData,['prompt'=>'Uzytkownik']); ?>
-
+	 <?= $form->field($model, 'tag')->textInput(['maxlength' => true]) ?>
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Utwórz' : 'Aktualizuj', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

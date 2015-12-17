@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel common\models\RepliesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Replies';
+$this->title = 'Odpowiedzi';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="replies-index">
@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Replies', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Utwórz Odpowiedź', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([

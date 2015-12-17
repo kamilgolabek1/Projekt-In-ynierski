@@ -5,10 +5,10 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Photo */
 
-$this->title = 'Update Photo: ' . ' ' . $model->ID;
-$this->params['breadcrumbs'][] = ['label' => 'Photos', 'url' => ['index']];
+$this->title = 'Aktualizuj Zdjęcie: ' . ' ' . $model->ID;
+$this->params['breadcrumbs'][] = ['label' => 'Zdjęcia', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->ID, 'url' => ['view', 'id' => $model->ID]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = 'Aktualizuj';
 ?>
 <div class="photo-update">
 

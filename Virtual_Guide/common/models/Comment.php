@@ -45,10 +45,10 @@ class Comment extends \yii\db\ActiveRecord
     {
         return [
             'ID' => 'ID',
-            'locationID' => 'Location ID',
-            'comment' => 'Comment',
-            'userID' => 'User ID',
-            'date' => 'Date',
+            'locationID' => 'Id Lokalizacji',
+            'comment' => 'Komentarz',
+            'userID' => 'Użytkownik',
+            'date' => 'Data',
         ];
     }
 

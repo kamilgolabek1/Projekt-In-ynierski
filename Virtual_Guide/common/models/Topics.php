@@ -7,11 +7,12 @@ use Yii;
 /**
  * This is the model class for table "topics".
  *
- * @property integer $id
+ * @property integer $ID
  * @property string $subject
  * @property string $date
  * @property integer $categoryID
  * @property integer $userID
+ * @property string $tag
  *
  * @property Category $category
  * @property User $user
@@ -35,7 +36,7 @@ class Topics extends \yii\db\ActiveRecord
             [['subject', 'date', 'categoryID', 'userID'], 'required'],
             [['date'], 'safe'],
             [['categoryID', 'userID'], 'integer'],
-            [['subject'], 'string', 'max' => 2000]
+            [['subject', 'tag'], 'string', 'max' => 2000]
         ];
     }
 
@@ -46,10 +47,11 @@ class Topics extends \yii\db\ActiveRecord
     {
         return [
             'ID' => 'ID',
-            'subject' => 'Subject',
-            'date' => 'Date',
-            'categoryID' => 'category ID',
-            'userID' => 'User ID',
+            'subject' => 'Temat',
+            'date' => 'Data',
+            'categoryID' => 'Kategoria',
+            'userID' => 'Użytkownik',
+            'tag' => 'Tagi',
         ];
     }
 
@@ -58,7 +60,7 @@ class Topics extends \yii\db\ActiveRecord
      */
     public function getCategory()
     {
-        return $this->hasOne(Category::className(), ['id' => 'categoryID']);
+        return $this->hasOne(Category::className(), ['ID' => 'categoryID']);
     }
 
     /**

@@ -8,7 +8,7 @@ use yii\base\Application;
 /* @var $searchModel common\models\CategorySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 $url  = Yii::$app->urlManager->createUrl(['forum/topics', 'id' => $catid]);
-$this->title = 'Categories';
+$this->title = 'Odpowiedzi';
 $this->params['breadcrumbs'][] = ['label' => 'Forum', 'url' => ['forum/index']];
 $this->params['breadcrumbs'][] = ['label' => $category, 'url' => $url];
 

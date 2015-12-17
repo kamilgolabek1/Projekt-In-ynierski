@@ -4,10 +4,10 @@ use yii\helpers\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model backend\models\Location */
+/* @var $model common\models\Location */
 
-$this->title = 'Create Location';
-$this->params['breadcrumbs'][] = ['label' => 'Locations', 'url' => ['index']];
+$this->title = 'Utwórz Lokalizacje';
+$this->params['breadcrumbs'][] = ['label' => 'Lokalizacje', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="location-create">

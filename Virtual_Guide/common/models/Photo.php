@@ -32,7 +32,7 @@ class Photo extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['locationID', 'userId'], 'integer'],
+            [['locationID', 'userID'], 'integer'],
             [['filename'], 'string', 'max' => 100],
             [['comment'], 'string', 'max' => 500]
         ];
@@ -45,10 +45,10 @@ class Photo extends \yii\db\ActiveRecord
     {
         return [
             'ID' => 'ID',
-            'locationID' => 'Location ID',
-            'filename' => 'Filename',
-            'comment' => 'Comment',
-            'userId' => 'User ID',
+            'locationID' => 'Id Lokalizacji',
+            'filename' => 'Nazwa Pliku',
+            'comment' => 'Komentarz',
+            'userID' => 'Użytkownik',
         ];
     }
 
@@ -65,6 +65,6 @@ class Photo extends \yii\db\ActiveRecord
      */
     public function getUser()
     {
-        return $this->hasOne(User::className(), ['ID' => 'userId']);
+        return $this->hasOne(User::className(), ['ID' => 'userID']);
     }
 }

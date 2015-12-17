@@ -5,7 +5,7 @@
 use app\assets\IndexAssetBundle;
 IndexAssetBundle::register($this);
 
-$this->title = 'Virtual Guide';
+$this->title = 'Wirtualny Przewodnik';
 ?>
 <div class="site-index">
 

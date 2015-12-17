@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Photo */
 
-$this->title = 'Create Photo';
-$this->params['breadcrumbs'][] = ['label' => 'Photos', 'url' => ['index']];
+$this->title = 'Utwórz Zdjęcie';
+$this->params['breadcrumbs'][] = ['label' => 'Zdjęcia', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="photo-create">

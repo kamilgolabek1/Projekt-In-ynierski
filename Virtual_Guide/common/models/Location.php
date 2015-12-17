@@ -55,16 +55,16 @@ class Location extends \yii\db\ActiveRecord
     {
         return [
             'ID' => 'ID',
-            'name' => 'Name',
-            'descr' => 'Descr',
-            'lon' => 'Lon',
-            'lat' => 'Lat',
-            'countryID' => 'Country ID',
-            'address' => 'Address',
+            'name' => 'Nazwa',
+            'descr' => 'Opis',
+            'lon' => 'Długość geograficzna',
+            'lat' => 'Szerokość geograficzna',
+            'countryID' => 'Kraj',
+            'address' => 'Adres',
             'zoom' => 'Zoom',
-            'categoryID' => 'Category ID',
-            'userID' => 'User ID',
-            'tag' => 'Tag',
+            'categoryID' => 'Kategoria',
+            'userID' => 'Użytkownik',
+            'tag' => 'Tagi',
         ];
     }
 
@@ -98,5 +98,9 @@ class Location extends \yii\db\ActiveRecord
     public function getPhotos()
     {
         return $this->hasMany(Photo::className(), ['locationID' => 'ID']);
+    }
+ public function getUser()
+    {
+        return $this->hasOne(User::className(), ['ID' => 'userID']);
     }
 }

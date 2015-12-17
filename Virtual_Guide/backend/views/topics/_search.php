@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\TopicsSearch */
+/* @var $model common\models\TopicsSearech */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -24,6 +24,8 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'categoryID') ?>
 
     <?= $form->field($model, 'userID') ?>
+
+    <?php // echo $form->field($model, 'tag') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

@@ -4,13 +4,13 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 
-$this->title = 'Categories';
+$this->title = 'Forum';
 $this->params['breadcrumbs'][] = ['label' => 'Forum', 'url' => ['forum/index']];
 $this->params['breadcrumbs'][] = $nazwa
 ?>
 <div class="category-index">
 
-<h3><?php echo $nazwa;?></h3>
+<h3><?php echo "Kategoria: ";echo $nazwa;?></h3>
  <div align="right">
  <?php 
 
@@ -52,8 +52,8 @@ $this->params['breadcrumbs'][] = $nazwa
        			'value'=>function ($data) {
             	return Html::a($data['subject'],['forum/replies', 'id' => $data['ID']]);
         	},],
-        	'date',
-        'username',
+        	['attribute' =>'date','label'=>'Data'],
+        ['attribute' =>'username','label'=>'Użytkownik'],
         'odpowiedzi'],
 ]); ?>
 
