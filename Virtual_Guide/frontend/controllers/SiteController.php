@@ -88,9 +88,9 @@ class SiteController extends Controller
 		return $locations;
 	}
 	
-	public function actionComments(){
-		$request = Yii::$app->request;
-        $id = $request->post('id');   
+	public function actionComments($id){
+		//$request = Yii::$app->request;
+       // $id = $request->post('id');   
 		//if(!$id){return ;}
 		///$sql = "Select * from Comment where location ";
 		$comments = Location::findOne($id)->comments;
