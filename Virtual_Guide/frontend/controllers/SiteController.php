@@ -79,7 +79,15 @@ class SiteController extends Controller
     	$locations = Yii::$app->db->createCommand($sql)->queryAll();
         return $this->render('index',['locations' => $locations]);
     }
-
+	
+	
+	public function actionPoints(){
+		$sql = "Select * from Location ";
+		$locations = Location::findBySql($sql)->asArray()->all();
+		$locations = json_encode($locations);
+		return $locations;
+	}
+	
     /**
      * Logs in a user.
      *
