@@ -75,7 +75,9 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+		$sql = "Select * from Location ";
+    	$locations = Yii::$app->db->createCommand($sql)->queryAll();
+        return $this->render('index',['locations' => $locations]);
     }
 
     /**
