@@ -3,7 +3,7 @@ namespace frontend\controllers;
 
 use Yii;
 use common\models\LoginForm;
-use common\models\PasswordResetRequestForm;
+use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
@@ -88,20 +88,23 @@ class SiteController extends Controller
 		return $locations;
 	}
 	
-	public function actionComments($id){
+	public function actionComments2($id){
 		$sql = "Select c.id, c.comment, c.date, u.username  from Comment c  
 		join User u on u.ID = c.userID where locationID = $id order by c.date desc";
 		$comments = Location::findBySql($sql)->asArray()->all();
-		//$request = Yii::$app->request;
-       // $id = $request->post('id');   
-		//if(!$id){return ;}
-		///$sql = "Select * from Comment where location ";
-		//$comments = Location::findOne($id)->comments;
-		//$locations = Location::findBySql($sql)->asArray()->all();
 		$comments = json_encode($comments);
 		return $comments;
 	}
-	
+	public function actionComments(){
+		$request = Yii::$app->request;
+        $id = $request->post('id');   
+		if(!$id){return;}
+		$sql = "Select c.id, c.comment, c.date, u.username  from Comment c  
+		join User u on u.ID = c.userID where locationID = $id order by c.date desc";
+		$comments = Location::findBySql($sql)->asArray()->all();
+		$comments = json_encode($comments);
+		return $comments;
+	}
 	
     /**
      * Logs in a user.
