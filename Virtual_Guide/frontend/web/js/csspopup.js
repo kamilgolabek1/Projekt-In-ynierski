@@ -172,9 +172,9 @@ function addingPoint() {
 	old_element.parentNode.replaceChild(new_element, old_element);
 	var overlay = document.getElementById('popupMask');
 	
-	//overlay.addEventListener('click', function() {
-		//toggle_visibility('popupMask');
-		//toggle_visibility('addPoint');
-	//	}, false);
+	overlay.addEventListener('click', function() {
+		toggle_visibility('popupMask');
+		toggle_visibility('addPoint');
+	}, false);
 	
 	}

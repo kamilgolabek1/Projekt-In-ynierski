@@ -1,7 +1,7 @@
 <?php
 require_once('confi.php');
 // if data are received via POST, with index of 'test'
-if (isset($_POST['name']) && isset($_POST['addr']) && isset($_POST['descr']) && isset($_POST['lon']) && isset($_POST['lat']) && isset($_POST['cat']) && isset($_POST['zoom'])) {
+if (isset($_POST['name']) && isset($_POST['addr']) && isset($_POST['descr']) && isset($_POST['lon']) && isset($_POST['lat']) && isset($_POST['cat']) && isset($_POST['zoom']) && isset($_POST['userID'])) {
     $name = $_POST['name'];
     $addr = $_POST['addr'];
     $descr = $_POST['descr'];
@@ -9,9 +9,10 @@ if (isset($_POST['name']) && isset($_POST['addr']) && isset($_POST['descr']) && 
     $lat = $_POST['lat'];
     $cat = $_POST['cat'];
     $zoom = $_POST['zoom'];
+    $userID = $_POST['userID'];
 	// get data
 	
-	$sql = "INSERT INTO location (name, descr, lon, lat, address, category, zoom) VALUES ( '".$name."', '".$descr."','".$lon."', '".$lat."', '".$addr."', '".$cat."', '".$zoom."' )";
+	$sql = "INSERT INTO location (name, descr, lon, lat, address, categoryID, zoom, userID) VALUES ( '".$name."', '".$descr."','".$lon."', '".$lat."', '".$addr."', '".$cat."', '".$zoom."', '".$userID."' )";
 	$result = mysqli_query($con, $sql);
 	if ($result) {
 		$id = mysqli_insert_id($con);
