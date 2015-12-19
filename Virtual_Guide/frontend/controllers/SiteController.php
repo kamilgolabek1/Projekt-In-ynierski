@@ -80,13 +80,25 @@ class SiteController extends Controller
         return $this->render('index',['locations' => $locations]);
     }
 	
-	
+	// obsluga mapy 
 	public function actionPoints(){
 		$sql = "Select * from Location ";
 		$locations = Location::findBySql($sql)->asArray()->all();
 		$locations = json_encode($locations);
 		return $locations;
 	}
+	
+	public function actionComments(){
+		$request = Yii::$app->request;
+        $id = $request->post('id');   
+		
+		///$sql = "Select * from Comment where location ";
+		$comments = Location::findOne($id)->comments;
+		//$locations = Location::findBySql($sql)->asArray()->all();
+		$comments = json_encode($comments);
+		return $comments;
+	}
+	
 	
     /**
      * Logs in a user.
