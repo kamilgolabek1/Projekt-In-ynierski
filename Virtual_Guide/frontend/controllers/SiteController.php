@@ -89,11 +89,13 @@ class SiteController extends Controller
 	}
 	
 	public function actionComments($id){
+		$sql = "Select c.id, c.comment, c.date  from Comment c where locationID = $id";
+		$comments = Location::findBySql($sql)->asArray()->all();
 		//$request = Yii::$app->request;
        // $id = $request->post('id');   
 		//if(!$id){return ;}
 		///$sql = "Select * from Comment where location ";
-		$comments = Location::findOne($id)->comments;
+		//$comments = Location::findOne($id)->comments;
 		//$locations = Location::findBySql($sql)->asArray()->all();
 		$comments = json_encode($comments);
 		return $comments;
