@@ -3,6 +3,7 @@ namespace frontend\controllers;
 
 use Yii;
 use common\models\LoginForm;
+use common\models\UploadForm;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
@@ -75,9 +76,15 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+		
+
+       // return $this->render('upload', ['model' => $model]);
+		
+		
+		
 		$sql = "Select * from Location ";
     	$locations = Yii::$app->db->createCommand($sql)->queryAll();
-        return $this->render('index',['locations' => $locations]);
+        return $this->render('index',['locations' => $locations] );
     }
 	
 	// obsluga mapy 
@@ -88,13 +95,6 @@ class SiteController extends Controller
 		return $locations;
 	}
 	
-	public function actionComments2($id){
-		$sql = "Select c.id, c.comment, c.date, u.username  from Comment c  
-		join User u on u.ID = c.userID where locationID = $id order by c.date desc";
-		$comments = Location::findBySql($sql)->asArray()->all();
-		$comments = json_encode($comments);
-		return $comments;
-	}
 	public function actionComments(){
 		$request = Yii::$app->request;
         $id = $request->post('id');   

@@ -3,12 +3,14 @@
 namespace frontend\controllers;
 use Yii;
 use common\models\Category;
+use common\models\UploadForm;
 use yii\data\SqlDataProvider;
 use common\models\Replies;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use common\models\Topics;
+use yii\web\UploadedFile;
 
 class ForumController extends \yii\web\Controller
 {
@@ -30,8 +32,19 @@ class ForumController extends \yii\web\Controller
 	    		],
 	    		'sort' => ['attributes' => ['name','ilosc']]
 	    ]);
+		
+		$modelup = new UploadForm();
+
+        if (Yii::$app->request->isPost) {
+            $model->imageFile = UploadedFile::getInstance($modelup, 'imageFile');
+            if ($model->upload()) {
+                // file is uploaded successfully
+                return;
+            }
+        }
+		
         return $this->render('index', [
-        	'dataProvider' => $dataProvider,
+        	'dataProvider' => $dataProvider, 'modelup' => $modelup,
         ]);
     }
     
