@@ -87,7 +87,7 @@ $this->title = 'Wirtualny Przewodnik';
 <?php ActiveForm::end() ?>
 </br></br>
 Pojedyńczy Plik:
-<?php $form2 = ActiveForm::begin(['action' => 'upload','options' => ['enctype' => 'multipart/form-data']]) ?>
+<?php $form2 = ActiveForm::begin(['action' =>  Yii::$app->urlManager->createUrl('site/upload'),'options' => ['enctype' => 'multipart/form-data']]) ?>
 	location id should be hidden , and filled automaticly :<input type="text" name="id" />
     <?= $form2->field($modelup2, 'imageFile')->fileInput([ 'id'=>'file2']) ?>
 
