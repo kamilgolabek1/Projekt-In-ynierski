@@ -67,12 +67,21 @@ $this->title = 'Wirtualny Przewodnik';
 	adress:<input type="text" name="adress" />
 	descr:<input type="text" name="descr" />
 	zoom:<input type="text" name="zoom" />
-	category:<input type="text" name="category" />
+	category:
+	<select>
+	<?php foreach($categories as $cat){ ?>
+	<option name="<?php echo $cat->name?>" value="<?php echo $cat->ID?>"><?php  echo $cat->name?></option>
+	<?php }?>
+	</select>
 	lon:<input type="text" name="lon" />
 	lat:<input type="text" name="lat" />
 	tag:<input type="text" name="tag" />
-	country:<input type="text" name="country" />
-	
+	country:
+	<select>
+	<?php foreach($countries as $country){ ?>
+	<option name="<?php echo $country->country_name?>" value="<?php echo $country->ID?>"><?php  echo $country->country_name?></option>
+	<?php }?>
+	</select>
     <button>Submit</button>
 
 <?php ActiveForm::end() ?>

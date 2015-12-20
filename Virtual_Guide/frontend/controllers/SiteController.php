@@ -17,6 +17,8 @@ use common\models\Location;
 use common\models\Comment;
 use yii\data\SqlDataProvider;
 use yii\web\UploadedFile;
+use common\models\Category;
+use common\models\Countries;
 
 /**
  * Site controller
@@ -114,10 +116,11 @@ class SiteController extends Controller
         	}
         }
 		
-		
+        $categories = Category::find()->all();
+		$countries = Countries::find()->all();
 		$sql = "Select * from Location ";
     	$locations = Yii::$app->db->createCommand($sql)->queryAll();
-        return $this->render('index',['locations' => $locations,'modelup' => $modelup] );
+        return $this->render('index',['locations' => $locations,'modelup' => $modelup,'categories' => $categories,'countries' => $countries] );
     }
 	
 	// obsluga mapy 
