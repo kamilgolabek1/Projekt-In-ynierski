@@ -377,7 +377,10 @@ class SiteController extends Controller
         $comment->locationID = $id;
         $comment->userID = $userId = \Yii::$app->user->identity->id;
         $comment->save();
-        return serialize($comment);
+        
+        $com = Comment::findOne($comment->ID);
+        ///return serialize($comment);
+        return  json_encode($com);
        // return $this->actionKomentarze($id);
     }
 	
