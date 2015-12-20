@@ -52,10 +52,10 @@ class ContactForm extends Model
      */
     public function sendEmail($email)
     {
-        return Yii::$app->mail->compose()
-            ->setTo($email)
+        return Yii::$app->mailer->compose()
+            ->setTo(Yii::$app->params['adminEmail'])
             ->setFrom([$this->email => $this->email])
-            ->setSubject($this->subject )
+            ->setSubject("zapytanie ze strony Wirtualny przewodnik: ".$this->subject )
             ->setTextBody($this->body)
             ->send();
     }

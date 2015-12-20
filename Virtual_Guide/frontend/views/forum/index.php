@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\CategorySearch */
@@ -32,5 +33,14 @@ $this->params['breadcrumbs'][] = $this->title;
         		],
       ],
 ]); ?>
+
+<?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
+
+    <?= $form->field($modelup, 'imageFile')->fileInput() ?>
+
+    <button>Submit</button>
+
+<?php ActiveForm::end() ?>
+
 
 </div>
