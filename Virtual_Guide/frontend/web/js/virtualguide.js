@@ -70,7 +70,7 @@ OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {
 						//click.deactivate();
 						vectorlayer.setVisibility(true);
 						var overlay = document.getElementById('popupMask');
-						overlay.style.zIndex = 1010;
+						overlay.style.zIndex = 1040;
 						console.log(map);
 						map.removeControl(this);
 						console.log(map);
@@ -90,8 +90,9 @@ var infoBoxId = "";
 var infoBoxStatus = 0;
 var lastRetrComm = 0;
 var lastRetrPic = 0;
-var lastRetrPoint = "-1"
+var activePointId = "-1"
 var json = [];
+
 
 
 
@@ -756,12 +757,12 @@ function validateAddForm() {
 	var lat = document.forms['addForm']['lat'].value;
 	var zoom = document.forms['addForm']['zoom'].value;
 	var cat = document.forms['addForm']['cat'].value;
-/*
-	if (name === '' || lon === '' || lat === '' || desc === '') {
-		addFormMsg.innerHTML = "Fill all input fields";
+
+	/*if (name === '' || lon === '' || lat === '' || desc === '') {
+		addFormMsg.innerHTML = "Wypełnij wszystkie pola";
 		return false;
 	} else {
-		addFormMsg.innerHTML = "Waiting for response";
+		addFormMsg.innerHTML = "Dodawanie...";
 
 		var data = 'lon=' + lon + '&lat=' + lat + '&name=' + name + '&addr=' + addr + '&desc=' + desc + '&zoom=' + zoom + '&cat=' + cat;
 		makeRequest('POST', 'addPoint.php', data, afterAdd);
@@ -791,6 +792,8 @@ function afterAdd() {
 		}
 	}
 }
+
+
 
 function addFeaturesToVector(layer, json) {
 	layer.destroyFeatures();
@@ -976,7 +979,7 @@ function getCoordinates() {
 	var data = e.feature.cluster[0].attributes;
 	var infoBox = document.getElementById('infoBox');
 	var thisBoxId = data.id;
-	lastRetrPoint = thisBoxId;
+	activePointId = thisBoxId;
 	if (thisBoxId !== infoBoxId) {
 		while (infoBox.firstChild) {
 			infoBox.removeChild(infoBox.firstChild);
@@ -1104,8 +1107,15 @@ function afterGetComments(responseText) {
 			var addCommForm = document.createElement('form');
 			addCommForm.id = 'addCommentForm';
 			addCommForm.name = 'addCommentForm';
+			addCommForm.action = '#';
+			addCommForm.addEventListener('submit', function(e) {
+				e.preventDefault(); 
+				validateAddCommForm();
+			});
+			addCommForm.method = 'post';
 			var inputComm = document.createElement('textarea');
 			inputComm.placeholder = 'Dodaj komentarz';
+			inputComm.name = 'comment';
 			addCommForm.appendChild(inputComm);
 			var inputCommSubmitBtn = document.createElement('input');
 			inputCommSubmitBtn.type = 'submit';
@@ -1140,7 +1150,7 @@ function afterGetComments(responseText) {
 			getCommLink.href = "#";
 			
 			
-			var dataString3 = 'pointId=' + lastRetrPoint + '&commId=' + lastRetrComm;
+			var dataString3 = 'pointId=' + activePointId + '&commId=' + lastRetrComm;
 			
 			
 			getCommLink.onclick = function() {
@@ -1158,7 +1168,29 @@ function afterGetComments(responseText) {
 	
 }
 
+function validateAddCommForm() {
+	
+	var comment = document.forms['addCommentForm']['comment'].value;
+	
 
+	/*if (comment === '') {
+		addFormMsg.innerHTML = "Komentarz nie może być pusty";
+		return false;
+	} else {
+		addFormMsg.innerHTML = "Dodawanie...";
+
+		var data = 'lon=' + lon + '&lat=' + lat + '&name=' + name + '&addr=' + addr + '&desc=' + desc + '&zoom=' + zoom + '&cat=' + cat;
+		makeRequest('POST', 'addPoint.php', data, afterAdd);
+	}*/
+	var data = 'komentarz=' + comment + '&id=' + activePointId;
+	makeRequest('POST', 'site/add-comment', data, afterAddComment);
+	//return false;
+}
+
+
+function afterAddComment(responseText) {
+	console.log(responseText);
+}
 
 function afterGetPics(responseText) {
 	
@@ -1207,7 +1239,7 @@ function afterGetPics(responseText) {
 			 getPicsLink.href = "#";
 			
 			
-			var dataString4 = 'pointId=' + lastRetrPoint + '&picId=' + lastRetrPic;
+			var dataString4 = 'pointId=' + activePointId + '&picId=' + lastRetrPic;
 			
 			
 			 getPicsLink.onclick = function() {

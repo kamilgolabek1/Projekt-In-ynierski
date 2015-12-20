@@ -132,6 +132,7 @@ class SiteController extends Controller
         return $this->render('index',['locations' => $locations,'modelup' => $modelup,'categories' => $categories,'countries' => $countries] );
     }
 	
+	
 	// obsluga mapy 
 	public function actionPoints(){
 		$sql = "Select * from Location ";
@@ -140,7 +141,7 @@ class SiteController extends Controller
 		return $locations;
 	}
 	
-	public function actionComments(){
+	public function actionGetComments(){
 		$request = Yii::$app->request;
         $id = $request->post('id');   
 		if(!$id){return;}
@@ -151,6 +152,15 @@ class SiteController extends Controller
 		return $comments;
 	}
 	
+	public function actionGetPictures(){
+		$request = Yii::$app->request;
+        $id = $request->post('id');   
+		if(!$id){return;}
+		$sql = "Select p.id, p.filename, p.comment, u.username  from Photo p join User u on u.ID = p.userID where locationID = $id order by p.ID desc";
+		$pictures = Location::findBySql($sql)->asArray()->all();
+		$pictures = json_encode($pictures);
+		return $pictures;
+	}
     /**
      * Logs in a user.
      *
@@ -332,7 +342,22 @@ class SiteController extends Controller
        // return $this->actionKomentarze($id);
     }
 
-
+		public function actionAddComment(){
+        
+        $request = Yii::$app->request;
+        $id = $request->post('id');   
+        $kom = $request->post('komentarz');   
+        
+        $comment = new Comment();
+        $comment->comment = $kom;
+        $comment->date = new \yii\db\Expression('NOW()');
+        $comment->locationID = $id;
+        $comment->userID = $userId = \Yii::$app->user->identity->id;
+        $comment->save();
+        return serialize($comment);
+       // return $this->actionKomentarze($id);
+    }
+	
     protected function findLocation($id)
     {
         if (($model = Location::findOne($id)) !== null) {
