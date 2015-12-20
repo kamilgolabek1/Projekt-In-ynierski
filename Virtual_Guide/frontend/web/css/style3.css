@@ -244,8 +244,13 @@ color: #eee;
 	padding: 0;
 	box-shadow: 0 2px 6px rgba(0,0,0,0.3);
 	box-radius: 2px;
-	margin: 5px 0px 5px 0px;
+	margin: 5px 0px 2px 0px;
 	cursor: pointer;
+}
+
+.infoBoxLabel:hover {
+	color: #3A5795;
+	background-color: #fff;
 }
 
 .infoBoxCloseBtn {
@@ -303,7 +308,7 @@ float: right;
 display:inline-block;
 float: none;
 clear:both;
-content: "."; 
+
 
 }
 

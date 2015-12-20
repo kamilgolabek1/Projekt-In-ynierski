@@ -56,4 +56,12 @@ class SignupForm extends Model
 
         return null;
     }
+	
+	  public function attributeLabels()
+    {
+        return [
+            'username' => 'Nazwa użytkownika',
+            'password' => 'Hasło',
+        ];
+    }
 }

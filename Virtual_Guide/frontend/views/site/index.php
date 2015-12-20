@@ -1,7 +1,7 @@
 <?php
 
 /* @var $this yii\web\View */
-
+use yii\widgets\ActiveForm;
 use app\assets\IndexAssetBundle;
 IndexAssetBundle::register($this);
 
@@ -13,7 +13,7 @@ $this->title = 'Wirtualny Przewodnik';
         <!-- <h1>Miejsce na mapę</h1> -->
 				<ul>
 							<li>
-								<button class="button nav" onclick="createPopup('addPoint', addingPoint, true);">Add point</button>
+								<button class="button nav" onclick="createPopup('addPoint', addingPoint, true);">Dodaj miejsce</button>
 							</li>
 							<li class="current">
 								<div id="search">
@@ -60,4 +60,38 @@ $this->title = 'Wirtualny Przewodnik';
         <div id="infoBox" class="infoBox"></div>
 
     </div>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
+
+    <?= $form->field($modelup, 'imageFile')->fileInput() ?>
+	name:<input type="text" name="name" />
+	adress:<input type="text" name="adress" />
+	descr:<input type="text" name="descr" />
+	zoom:<input type="text" name="zoom" />
+	category:
+	<select>
+	<?php foreach($categories as $cat){ ?>
+	<option name="<?php echo $cat->name?>" value="<?php echo $cat->ID?>"><?php  echo $cat->name?></option>
+	<?php }?>
+	</select>
+	lon:<input type="text" name="lon" />
+	lat:<input type="text" name="lat" />
+	tag:<input type="text" name="tag" />
+	country:
+	<select>
+	<?php foreach($countries as $country){ ?>
+	<option name="<?php echo $country->country_name?>" value="<?php echo $country->ID?>"><?php  echo $country->country_name?></option>
+	<?php }?>
+	</select>
+    <button>Submit</button>
+
+<?php ActiveForm::end() ?>
+</br></br>
+Pojedyńczy Plik:
+<?php $form2 = ActiveForm::begin(['action' =>  Yii::$app->urlManager->createUrl('site/upload'),'options' => ['enctype' => 'multipart/form-data']]) ?>
+	location id should be hidden , and filled automaticly :<input type="text" name="id" />
+    <?= $form2->field($modelup2, 'imageFile')->fileInput([ 'id'=>'file2']) ?>
+
+    <button>Submit</button>
+
+<?php ActiveForm::end() ?>
 </div>

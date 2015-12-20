@@ -47,7 +47,7 @@ $this->params['breadcrumbs'][] = $nazwa
 <?= GridView::widget([
     'dataProvider' => $dataProvider,
     'columns' => [
-         [ 'attribute' => 'subject','label' => 'Nazwa',
+         [ 'attribute' => 'subject','label' => 'Temat',
             	'format' => 'raw',
        			'value'=>function ($data) {
             	return Html::a($data['subject'],['forum/replies', 'id' => $data['ID']]);

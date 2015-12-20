@@ -52,6 +52,13 @@ class PasswordResetRequestForm extends Model
                     ->setTo($this->email)
                     ->setSubject('Password reset for ' . \Yii::$app->name)
                     ->send();
+					
+					return Yii::$app->mailer->compose()
+					->setTo($this->email)
+					->setFrom([\Yii::$app->params['adminEmail'] => \Yii::$app->name . ' robot')
+					->setSubject("zapytanie ze strony Wirtualny przewodnik: ".$this->subject )
+					->setTextBody($this->body)
+					->send();
                 
             
             }

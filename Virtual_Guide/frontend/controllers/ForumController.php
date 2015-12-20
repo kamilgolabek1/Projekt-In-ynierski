@@ -3,12 +3,15 @@
 namespace frontend\controllers;
 use Yii;
 use common\models\Category;
+use common\models\UploadForm;
 use yii\data\SqlDataProvider;
 use common\models\Replies;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use common\models\Topics;
+use yii\web\UploadedFile;
+use common\models\Location;
 
 class ForumController extends \yii\web\Controller
 {
@@ -30,6 +33,9 @@ class ForumController extends \yii\web\Controller
 	    		],
 	    		'sort' => ['attributes' => ['name','ilosc']]
 	    ]);
+		
+   		
+		
         return $this->render('index', [
         	'dataProvider' => $dataProvider,
         ]);
