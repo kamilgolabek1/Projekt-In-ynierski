@@ -83,6 +83,7 @@ class SiteController extends Controller
 		
 
     $modelup = new UploadForm();
+    $modelup2 = new UploadForm();
 
         if (Yii::$app->request->isPost) {
         	
@@ -129,7 +130,29 @@ class SiteController extends Controller
 		$countries = Countries::find()->all();
 		$sql = "Select * from Location ";
     	$locations = Yii::$app->db->createCommand($sql)->queryAll();
-        return $this->render('index',['locations' => $locations,'modelup' => $modelup,'categories' => $categories,'countries' => $countries] );
+        return $this->render('index',['locations' => $locations,'modelup' => $modelup,'modelup2' => $modelup2,'categories' => $categories,'countries' => $countries] );
+    }
+    
+    public function actionUpload()
+    {
+    	$modelup = new UploadForm();
+    
+    	if (Yii::$app->request->isPost) {
+    		$modelup->imageFile = UploadedFile::getInstance($modelup, 'imageFile');
+    		$now =  date('Y_m_d_H_i_s');
+    		$request = Yii::$app->request;
+    		$id = $request->post('id');
+    		$name = $id."_".$now;
+        	if ($modelup->upload($name)) {
+        		$photo =  new Photo();
+        		$photo->locationID = $id;
+        		$photo->filename = $name.".".$modelup->imageFile->extension;
+        		$photo->comment = "";
+        		$photo->userID =  \Yii::$app->user->identity->id;
+        		$photo->save();
+        	}
+    	}
+    	return $this->redirect('index');
     }
 	
 	// obsluga mapy 
