@@ -58,8 +58,8 @@ $this->params['breadcrumbs'][] = ['label' => $category, 'url' => $url];
 <?= GridView::widget([
     'dataProvider' => $dataProvider,
     'columns' => [
-        'username',
-         [ 'attribute' => 'content','label' => 'Nazwa',
+        ['attribute' => 'username','label' => 'Nazwa użytkownika', 'contentOptions' =>['style' => 'width:30px']],
+         [ 'attribute' => 'content','label' => 'Komentarz',
          		'format' => 'raw',
        			'value'=>function ($data) {
             	return $data['content'];

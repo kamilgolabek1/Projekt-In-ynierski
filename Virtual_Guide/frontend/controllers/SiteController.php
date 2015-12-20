@@ -344,8 +344,9 @@ class SiteController extends Controller
     			],
     			'sort' => ['attributes' => ['comment','username']]
     	]);
+    	$Photos = Location::findOne($id)->photos;
     	return $this->render('komentarze', [
-    			'dataProvider' => $dataProvider, 'model' => $this->findLocation($id)
+    			'dataProvider' => $dataProvider, 'model' => $this->findLocation($id),'photos' => $Photos
     	]);
     }
     
