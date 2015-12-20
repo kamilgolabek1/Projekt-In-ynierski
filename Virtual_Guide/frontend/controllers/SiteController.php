@@ -19,6 +19,7 @@ use yii\data\SqlDataProvider;
 use yii\web\UploadedFile;
 use common\models\Category;
 use common\models\Countries;
+use common\models\Photo;
 
 /**
  * Site controller
@@ -110,8 +111,16 @@ class SiteController extends Controller
         	
         	if($location->save()){
         		$modelup->imageFile = UploadedFile::getInstance($modelup, 'imageFile');
-        		if ($modelup->upload()) {
-        			// file is uploaded successfully
+			    $now =  date('Y_m_d_H_i_s');
+        		$name = (string)$location->userID."_".$now;
+        		$name = str_replace(" ", "_", $name);
+        		if ($modelup->upload($name)) {
+        			$photo =  new Photo();
+        			$photo->locationID = $location->ID;
+        			$photo->filename = $name.".".$modelup->imageFile->extension;
+        			$photo->comment = "";
+        			$photo->userID = $location->userID;
+        			$photo->save();
         		}
         	}
         }
