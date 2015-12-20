@@ -194,7 +194,7 @@ class SiteController extends Controller
 	{
 		$searchModel = new LocationSearch();
 		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-		$dataProvider->pagination->pageSize=4;
+		$dataProvider->pagination->pageSize=10;
 		return $this->render('location', [
 				'searchModel' => $searchModel,
 				'dataProvider' => $dataProvider,
@@ -352,7 +352,7 @@ class SiteController extends Controller
     			'sql' =>$sql,
     			'totalCount' => $count,
     			'pagination' => [
-    					'pagesize' => 6,
+    					'pagesize' => 10,
     			],
     			'sort' => ['attributes' => ['comment','username']]
     	]);

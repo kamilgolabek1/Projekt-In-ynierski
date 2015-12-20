@@ -12,6 +12,7 @@ class LoginForm extends Model
     public $username;
     public $password;
     public $rememberMe = true;
+    public $verifyCode;
 
     private $_user;
 
@@ -28,6 +29,7 @@ class LoginForm extends Model
             ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
             ['password', 'validatePassword'],
+        		['verifyCode', 'captcha'],
         ];
     }
 
@@ -38,6 +40,7 @@ class LoginForm extends Model
             'username' => 'Login',
             'password' => 'Hasło',
             'rememberMe' => 'Zapamiętaj mnie',
+        		'verifyCode' => 'Kod weryfikacyjny',
         ];
     }    
     

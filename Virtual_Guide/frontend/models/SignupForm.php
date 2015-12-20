@@ -13,6 +13,7 @@ class SignupForm extends Model
     public $username;
     public $email;
     public $password;
+    public $verifyCode;
 
     /**
      * @inheritdoc
@@ -33,6 +34,7 @@ class SignupForm extends Model
 
             ['password', 'required'],
             ['password', 'string', 'min' => 6],
+        		['verifyCode', 'captcha'],
         ];
     }
 
@@ -62,6 +64,7 @@ class SignupForm extends Model
         return [
             'username' => 'Nazwa użytkownika',
             'password' => 'Hasło',
+        	'verifyCode' => 'Kod weryfikacyjny',
         ];
     }
 }

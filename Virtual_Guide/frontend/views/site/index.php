@@ -7,6 +7,7 @@ IndexAssetBundle::register($this);
 
 $this->title = 'Wirtualny Przewodnik';
 ?>
+
 <div class="site-index">
 
     <div class="jumbotron">
@@ -95,3 +96,7 @@ Pojedyńczy Plik:
 
 <?php ActiveForm::end() ?>
 </div>
+
+
+
+

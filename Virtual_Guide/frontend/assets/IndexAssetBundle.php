@@ -11,7 +11,6 @@ class IndexAssetBundle extends AssetBundle
 		public $css = [ 
 			
 			'css/style3.css',
-			'css/lightbox.css'
 		]; 
 		public $js=[
 				'js/jquery.js',
@@ -20,7 +19,7 @@ class IndexAssetBundle extends AssetBundle
 				'lib/FeaturePopups.js',
 				'js/virtualguide.js',
 				'js/csspopup.js',
-				'js/lightbox-plus-jquery.min.js'
+				'js/lightbox-plus-jquery.min.js',
 		];
 
 		//if this asset depends on other assets you may populate below array
