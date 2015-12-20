@@ -1,7 +1,7 @@
 <?php
 
 /* @var $this yii\web\View */
-
+use yii\widgets\ActiveForm;
 use app\assets\IndexAssetBundle;
 IndexAssetBundle::register($this);
 
@@ -60,4 +60,20 @@ $this->title = 'Wirtualny Przewodnik';
         <div id="infoBox" class="infoBox"></div>
 
     </div>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
+
+    <?= $form->field($modelup, 'imageFile')->fileInput() ?>
+	name:<input type="text" name="name" />
+	adress:<input type="text" name="adress" />
+	descr:<input type="text" name="descr" />
+	zoom:<input type="text" name="zoom" />
+	category:<input type="text" name="category" />
+	lon:<input type="text" name="lon" />
+	lat:<input type="text" name="lat" />
+	tag:<input type="text" name="tag" />
+	country:<input type="text" name="country" />
+	
+    <button>Submit</button>
+
+<?php ActiveForm::end() ?>
 </div>

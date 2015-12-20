@@ -16,6 +16,7 @@ use yii\filters\AccessControl;
 use common\models\Location;
 use common\models\Comment;
 use yii\data\SqlDataProvider;
+use yii\web\UploadedFile;
 
 /**
  * Site controller
@@ -78,13 +79,45 @@ class SiteController extends Controller
     {
 		
 
-       // return $this->render('upload', ['model' => $model]);
-		
+    $modelup = new UploadForm();
+
+        if (Yii::$app->request->isPost) {
+        	
+        	$request = Yii::$app->request;
+        	$name = $request->post('name');
+        	$adres= $request->post('adress');
+        	$opis = $request->post('descr');
+        	$zoom= $request->post('zoom');
+        	$kategoria = $request->post('category');
+        	$dlugosc= $request->post('lon');
+        	$szerokosc = $request->post('lat');
+        	$tag = $request->post('tag');
+        	$kraj = $request->post('country');
+        	
+        	$location = new Location();
+        	$location->name = $name;
+        	$location->descr = $opis;
+        	$location->lon = $dlugosc;
+        	$location->lat = $szerokosc;
+        	$location->countryID = $kraj;
+        	$location->address = $adres;
+        	$location->zoom = $zoom;
+        	$location->categoryID = $kategoria;
+        	$location->userID = $userId = \Yii::$app->user->identity->id;
+        	$location->tag = $tag;
+        	
+        	if($location->save()){
+        		$modelup->imageFile = UploadedFile::getInstance($modelup, 'imageFile');
+        		if ($modelup->upload()) {
+        			// file is uploaded successfully
+        		}
+        	}
+        }
 		
 		
 		$sql = "Select * from Location ";
     	$locations = Yii::$app->db->createCommand($sql)->queryAll();
-        return $this->render('index',['locations' => $locations] );
+        return $this->render('index',['locations' => $locations,'modelup' => $modelup] );
     }
 	
 	// obsluga mapy 
