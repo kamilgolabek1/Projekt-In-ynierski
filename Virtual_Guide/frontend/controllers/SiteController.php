@@ -377,11 +377,20 @@ class SiteController extends Controller
         $comment->date = new \yii\db\Expression('NOW()');
         $comment->locationID = $id;
         $comment->userID = $userId = \Yii::$app->user->identity->id;
-        $comment->save();
+       
+        if($comment->save()){
+        	$comid = $comment->ID;
+        	$sql = "Select * from Comment where ID = $comid ";
+        	$comm = Comment::findBySql($sql)->asArray()->all();
+        	$comm = json_encode($comm);
+        	return $comm;
+        }else {
+        	return -1;
+        }
         
-        $com = Comment::findOne($comment->ID);
+        //$com = Comment::findOne($comment->ID);
         ///return serialize($comment);
-        return  json_encode($com);
+        //return  json_encode($com);
        // return $this->actionKomentarze($id);
     }
 	
