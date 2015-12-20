@@ -38,8 +38,8 @@ AppAsset::register($this);
     ]);
     $menuItems = [
         ['label' => 'Strona Główna', 'url' => ['/site/index']],
-    	['label' => 'Lokalizacje', 'url' => ['/location/index']],
-    	['label' => 'Forum', 'url' => ['/forum/index']],
+    	['label' => 'Lokalizacje', 'url' => ['/site/location']],
+    	['label' => 'Forum', 'url' => ['/forum/forum']],
         ['label' => 'Kontakt', 'url' => ['/site/contact']],
     ];
     if (Yii::$app->user->isGuest) {

@@ -14,6 +14,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\Location;
+use common\models\LocationSearch;
 use common\models\Comment;
 use yii\data\SqlDataProvider;
 use yii\web\UploadedFile;
@@ -189,6 +190,17 @@ class SiteController extends Controller
      *
      * @return mixed
      */
+	public function actionLocation()
+	{
+		$searchModel = new LocationSearch();
+		$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+		$dataProvider->pagination->pageSize=4;
+		return $this->render('location', [
+				'searchModel' => $searchModel,
+				'dataProvider' => $dataProvider,
+		]);
+	}
+	
     public function actionLogin()
     {
         if (!\Yii::$app->user->isGuest) {

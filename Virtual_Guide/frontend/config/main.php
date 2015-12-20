@@ -31,7 +31,12 @@ return [
     		'urlManager' => [
 					'class' => 'yii\web\UrlManager',
 					'enablePrettyUrl' => true,
-					'showScriptName' => true
+					'showScriptName' => false,
+    				//'enableStrictParsing' => false,
+    				'rules' => [
+    						'<alias:index|contact|komentarze|location|login|signup>' => 'site/<alias>',
+    						'<alias:forum|topics|replies>' => 'forum/<alias>',
+    				],
 			],
     ],
     'params' => $params,

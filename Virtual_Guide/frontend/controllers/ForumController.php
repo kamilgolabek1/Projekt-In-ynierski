@@ -20,7 +20,7 @@ class ForumController extends \yii\web\Controller
         return $this->render('conversation');
     }
 
-    public function actionIndex()
+    public function actionForum()
     {
     	$sql = "select c.name ,c.id,(select count(*) from topics t where t.CategoryID = c.ID) as ilosc from category c";
     	$count = Yii::$app->db->createCommand($sql)->queryAll();
@@ -36,7 +36,7 @@ class ForumController extends \yii\web\Controller
 		
    		
 		
-        return $this->render('index', [
+        return $this->render('forum', [
         	'dataProvider' => $dataProvider,
         ]);
     }

@@ -74,7 +74,7 @@ $this->params['breadcrumbs'][] = $this->title;
             	],],
 ]); ?>
 
-  <script src="../../js/ckeditor/ckeditor.js"></script>
+  <script src="<?php echo  Yii::$app->urlManager->createUrl('js/ckeditor/ckeditor.js') ?>"></script>
 
 
 <script type="text/javascript">

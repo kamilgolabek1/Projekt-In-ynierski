@@ -5,7 +5,7 @@ use yii\grid\GridView;
 
 
 $this->title = 'Forum';
-$this->params['breadcrumbs'][] = ['label' => 'Forum', 'url' => ['forum/index']];
+$this->params['breadcrumbs'][] = ['label' => 'Forum', 'url' => ['forum/forum']];
 $this->params['breadcrumbs'][] = $nazwa
 ?>
 <div class="category-index">
@@ -63,7 +63,7 @@ $this->params['breadcrumbs'][] = $nazwa
 
 
 </div>
-<script src="../../js/ckeditor/ckeditor.js"></script>
+ <script src="<?php echo  Yii::$app->urlManager->createUrl('js/ckeditor/ckeditor.js') ?>"></script>
 <script type="text/javascript">
     CKEDITOR.replace('temat') ;
 </script>

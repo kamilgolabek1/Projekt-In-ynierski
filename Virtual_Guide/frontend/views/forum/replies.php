@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = ['label' => $category, 'url' => $url];
 <table class="table  ">
 <tr>
 	<th width='20%'>
-		<div align="center"><img src="../../img/user.png" width="80"/></div>
+		<div align="center"><img src="<?php echo  Yii::$app->urlManager->createUrl('img/user.png') ?>" width="80"/></div>
 		<div align="center"><a href="#"><h3><?php echo $topic->user->username; ?></h3></a></div></br>
 		<div align="center"><?php echo $topic->date?></div>
 	</th>
@@ -70,7 +70,7 @@ $this->params['breadcrumbs'][] = ['label' => $category, 'url' => $url];
 
 
 </div>
-<script src="../../js/ckeditor/ckeditor.js"></script>
+ <script src="<?php echo  Yii::$app->urlManager->createUrl('js/ckeditor/ckeditor.js') ?>"></script>
 
 
 <script type="text/javascript">
