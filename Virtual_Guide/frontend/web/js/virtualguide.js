@@ -21,66 +21,66 @@ OpenLayers.Strategy.AttributeCluster = OpenLayers.Class(OpenLayers.Strategy.Clus
      * Returns:
      * {Boolean} The feature should be included in the cluster.
      */
-    shouldCluster: function(cluster, feature) {
+    shouldCluster: function (cluster, feature) {
         var cc_attrval = cluster.cluster[0].attributes[this.attribute];
         var fc_attrval = feature.attributes[this.attribute];
         var superProto = OpenLayers.Strategy.Cluster.prototype;
-        return cc_attrval === fc_attrval && 
-               superProto.shouldCluster.apply(this, arguments);
+        return cc_attrval === fc_attrval && superProto.shouldCluster.apply(this, arguments);
     },
     CLASS_NAME: "OpenLayers.Strategy.AttributeCluster"
 });
 
-OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {                
-                defaultHandlerOptions: {
-                    'single': true,
-                    'double': false,
-                    'pixelTolerance': 0,
-                    'stopSingle': false,
-                    'stopDouble': false
-                },
+OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {
+	defaultHandlerOptions: {
+		'single': true,
+		'double': false,
+		'pixelTolerance': 0,
+		'stopSingle': false,
+		'stopDouble': false
+	},
 
-                initialize: function(options) {
-                    this.handlerOptions = OpenLayers.Util.extend(
-                        {}, this.defaultHandlerOptions
-                    );
-                    OpenLayers.Control.prototype.initialize.apply(
-                        this, arguments
-                    ); 
-                    this.handler = new OpenLayers.Handler.Click(
-                        this, {
-                            'click': this.trigger
-												
-                        }, this.handlerOptions
-                    );
-                }, 
+	initialize: function (options) {
+		this.handlerOptions = OpenLayers.Util.extend(
+			{}, this.defaultHandlerOptions
+		);
+		OpenLayers.Control.prototype.initialize.apply(
+			this, arguments
+		);
+		this.handler = new OpenLayers.Handler.Click(
+			this, {
+				'click': this.trigger
 
-                trigger: function(e) {
-								  var lonlat = (map.getLonLatFromPixel(e.xy)).transform(new OpenLayers.Projection('EPSG:900913'), new OpenLayers.Projection('EPSG:4326'));
-									var lon = document.forms['addForm']['lon'];
-									var lat = document.forms['addForm']['lat'];
-									var zoom = document.forms['addForm']['zoom'];
-									// transformacja wspolrzednych
-	
-									lon.value = lonlat.lon;
-									lat.value = lonlat.lat;
-									zoom.value = map.getZoom();
-									
-									//var click = new OpenLayers.Control.Click();
-									//map.addControl(click);
-									//click.deactivate();
-									vectorlayer.setVisibility(true);
-									var overlay = document.getElementById('popupMask');
-									overlay.style.zIndex = 1010;
-									console.log(this);
-									map.removeControl(this);
-									toggle_visibility('addPoint');
-									var mapDiv = document.getElementById('mapOL');
-									mapDiv.style.cursor = 'default';
-                    //alert(lonlat.transform(new OpenLayers.Projection('EPSG:900913'), new OpenLayers.Projection('EPSG:4326')));
-                }
+			}, this.handlerOptions
+		);
+	}, 
 
-            });
+	trigger: function(e) {
+					  var lonlat = (map.getLonLatFromPixel(e.xy)).transform(new OpenLayers.Projection('EPSG:900913'), new OpenLayers.Projection('EPSG:4326'));
+						var lon = document.forms['addForm']['lon'];
+						var lat = document.forms['addForm']['lat'];
+						var zoom = document.forms['addForm']['zoom'];
+						// transformacja wspolrzednych
+
+						lon.value = lonlat.lon;
+						lat.value = lonlat.lat;
+						zoom.value = map.getZoom();
+
+						//var click = new OpenLayers.Control.Click();
+						//map.addControl(click);
+						//click.deactivate();
+						vectorlayer.setVisibility(true);
+						var overlay = document.getElementById('popupMask');
+						overlay.style.zIndex = 1040;
+						console.log(map);
+						map.removeControl(this);
+						console.log(map);
+						toggle_visibility('addPoint');
+						var mapDiv = document.getElementById('mapOL');
+						mapDiv.style.cursor = 'default';
+		//alert(lonlat.transform(new OpenLayers.Projection('EPSG:900913'), new OpenLayers.Projection('EPSG:4326')));
+	}
+
+});
 
 
 // global variables
@@ -90,12 +90,13 @@ var infoBoxId = "";
 var infoBoxStatus = 0;
 var lastRetrComm = 0;
 var lastRetrPic = 0;
-var lastRetrPoint = "-1"
+var activePointId = "-1"
 var json = [];
 
 
 
-makeRequest('GET','getAllPoints.php', '', alertContents);
+
+makeRequest('GET','site/points', '', alertContents);
 
 
 
@@ -103,7 +104,7 @@ makeRequest('GET','getAllPoints.php', '', alertContents);
 
 // wrap the instanciation code in an anonymous function that gets executed
 // immeadeately
-function main(){
+function main (){
 
     // The function that gets called on feature selection: shows information 
     // about the feature/cluser in a div on the page 
@@ -181,6 +182,8 @@ function main(){
     var ol_wms = new OpenLayers.Layer.OSM({
         layers: "basic"
     });
+	
+
     
     // context to style the vectorlayer
     var context = {
@@ -453,7 +456,9 @@ function main(){
 //(main());
 //var httpRequest=false;
 
-function makeRequest(type, url, data, func, async) {
+
+
+/*function makeRequest(type, url, data, func, async) {
 	//console.log(type+' '+url+' '+data);
 	if (window.XMLHttpRequest) { // Mozilla, Safari, ...
 		httpRequest = new XMLHttpRequest();
@@ -481,11 +486,27 @@ function makeRequest(type, url, data, func, async) {
 	if (data==="") {
 		httpRequest.send();
 	} else {
-		httpRequest.send(data);
+		console.log(httpRequest);
+		httpRequest.send("id=1");
+		console.log(httpRequest);
 	}
+}*/
+
+function makeRequest(type, url, data, func, isAsync) {
+	$.ajax({
+		url: url,
+		type: type,
+		async: (isAsync) ? isAsync : true,
+		data: data,
+		success: function(responseData) {
+			func(responseData);
+		}
+	});
 }
 
-function alertContents() {
+			
+
+/*function alertContents(responseText) {
 	//console.log(httpRequest);
 	if (httpRequest.readyState === 4) {
 		//console.log(httpRequest.readyState);
@@ -503,7 +524,19 @@ function alertContents() {
 			alert('There was a problem with the request.');
 		}
 	}
-}
+}*/
+function alertContents(responseText) {
+	
+			var jsonObj = JSON.parse(responseText);
+			//alert(jsonObj);
+			json = jsonObj;
+			//console.log(jsonObj);
+			//console.log(json);
+			main();
+			//addFeaturesToVector(layer1, json);
+		
+	}
+
 
   
 
@@ -589,7 +622,7 @@ function appendMarkersLayer(layer) {
 
 	// wyswielenie popupu na mapie
 	function createPopup(feature) {
-		//if (feature.attributes.count === 1) {
+		if (feature.attributes.count === 1) {
 			feature.popup = new OpenLayers.Popup.Anchored(feature.attributes.id,
 					feature.geometry.getBounds().getCenterLonLat(),
 					null,
@@ -619,7 +652,7 @@ function appendMarkersLayer(layer) {
 			//console.log(feature.popup.getSafeContentSize());
 			map.addPopup(feature.popup);
 			
-		} /*else {
+		} else {
 			var clusterLen = feature.cluster.length;
 			var minZoom = 100;
 			for (var i = 0; i < clusterLen; i++) {
@@ -669,7 +702,7 @@ function appendMarkersLayer(layer) {
 			feature.popup.updateSize();
 			map.addPopup(feature.popup);
 		}
-	}*/
+	}
 
 	function destroyPopup(feature) {
 		if (feature.attributes.count === 1) {
@@ -724,17 +757,17 @@ function validateAddForm() {
 	var lat = document.forms['addForm']['lat'].value;
 	var zoom = document.forms['addForm']['zoom'].value;
 	var cat = document.forms['addForm']['cat'].value;
-/*
-	if (name === '' || lon === '' || lat === '' || desc === '') {
-		addFormMsg.innerHTML = "Fill all input fields";
+
+	/*if (name === '' || lon === '' || lat === '' || desc === '') {
+		addFormMsg.innerHTML = "Wypełnij wszystkie pola";
 		return false;
 	} else {
-		addFormMsg.innerHTML = "Waiting for response";
+		addFormMsg.innerHTML = "Dodawanie...";
 
 		var data = 'lon=' + lon + '&lat=' + lat + '&name=' + name + '&addr=' + addr + '&desc=' + desc + '&zoom=' + zoom + '&cat=' + cat;
 		makeRequest('POST', 'addPoint.php', data, afterAdd);
 	}*/
-	var data = 'lon=' + lon + '&lat=' + lat + '&name=' + name + '&addr=' + addr + '&descr=' + descr + '&zoom=' + zoom + '&cat=' + cat;
+	var data = 'lon=' + lon + '&lat=' + lat + '&name=' + name + '&addr=' + addr + '&descr=' + descr + '&zoom=' + zoom + '&cat=' + cat + '&userID=1';// + userID;
 	makeRequest('POST', 'addPoint.php', data, afterAdd);
 	return false;
 }
@@ -759,6 +792,8 @@ function afterAdd() {
 		}
 	}
 }
+
+
 
 function addFeaturesToVector(layer, json) {
 	layer.destroyFeatures();
@@ -930,7 +965,9 @@ function getCoordinates() {
 			toggle_visibility('addPoint');
 			var overlay = document.getElementById('popupMask');
 			overlay.style.zIndex = 90;
+	
 			
+	
 			var mapDiv = document.getElementById('mapOL');
 			mapDiv.style.cursor = 'crosshair';
 			return false;
@@ -942,7 +979,7 @@ function getCoordinates() {
 	var data = e.feature.cluster[0].attributes;
 	var infoBox = document.getElementById('infoBox');
 	var thisBoxId = data.id;
-	lastRetrPoint = thisBoxId;
+	activePointId = thisBoxId;
 	if (thisBoxId !== infoBoxId) {
 		while (infoBox.firstChild) {
 			infoBox.removeChild(infoBox.firstChild);
@@ -950,7 +987,7 @@ function getCoordinates() {
 		
 		
 		var infoBoxCloseBtn = document.createElement('h1');
-		infoBoxCloseBtn.innerHTML = '<span>X Close</span>';
+		infoBoxCloseBtn.innerHTML = '<span>X</span>';
 		infoBoxCloseBtn.className = 'infoBoxLabel infoBoxCloseBtn';
 		//infoBoxLabel.nextSibling.style.display = 'block';
 		infoBoxCloseBtn.addEventListener('click', function(){
@@ -994,7 +1031,7 @@ function getCoordinates() {
 		
 		var infoCommLabel = document.createElement('h1');
 		infoCommLabel.className = 'infoBoxLabel';
-		infoCommLabel.innerHTML= '<span>Comments</span>';
+		infoCommLabel.innerHTML= '<span>Komentarze</span>';
 		//infoCommLabel.nextSibling.style.display = 'none';
 		infoCommLabel.addEventListener('click', toggle_element, false);
 		infoBox.appendChild(infoCommLabel);
@@ -1002,14 +1039,19 @@ function getCoordinates() {
 		var infoCommBox = document.createElement('div');
 		infoCommBox.id = 'infoCommBox';
 		infoCommBox.className =  'infoBoxItem';
+		
+		
+		
 		infoBox.appendChild(infoCommBox);
 		
-		var dataString = 'pointId=' + data.id + '&commId=0';
-		makeRequest('POST', 'getComments.php', dataString, afterGetComments, false);
-
+		
+		var dataString = 'id=' + data.id;
+		//console.log(dataString);
+		makeRequest('POST', 'site/get-comments', dataString, afterGetComments);
+		//testRequest(dataString);
 		var infoPicsLabel = document.createElement('h1');
 		infoPicsLabel.className = 'infoBoxLabel';
-		infoPicsLabel.innerHTML = '<span>Images</span>';
+		infoPicsLabel.innerHTML = '<span>Zdjęcia</span>';
 		infoBox.appendChild(infoPicsLabel);
 		
 		var infoPicsBox = document.createElement('div');
@@ -1019,12 +1061,12 @@ function getCoordinates() {
 		infoPicsLabel.addEventListener('click', toggle_element, false);
 		infoBox.appendChild(infoPicsBox);
 		
-		var dataString2 = 'pointId=' + data.id + '&picId=0';
-		makeRequest('POST', 'getPictures.php', dataString2, afterGetPics, false);
+		var dataString2 = 'id=' + data.id;
+		makeRequest('POST', 'site/get-pictures', dataString2, afterGetPics);
 		
 		var infoForumLabel = document.createElement('h1');
 		infoForumLabel.className = 'infoBoxLabel';
-		infoForumLabel.innerHTML = '<span>Forum Link</span>';
+		infoForumLabel.innerHTML = '<span>Forum</span>';
 		infoForumLabel.addEventListener('click', toggle_element, false);
 		infoBox.appendChild(infoForumLabel);
 		
@@ -1049,11 +1091,9 @@ function getCoordinates() {
 	*/
 }
 
-function afterGetComments() {
-	if (httpRequest.readyState === 4) {
-		if (httpRequest.status === 200) {
-			console.log(httpRequest.responseText);
-			var commObj = JSON.parse(httpRequest.responseText);
+function afterGetComments(responseText) {
+	
+			var commObj = JSON.parse(responseText);
 			
 			var len = commObj.length;
 			var parent = document.getElementById('infoCommBox');
@@ -1062,9 +1102,27 @@ function afterGetComments() {
 			commList.className = 'commentList';
 			
 			while (parent.firstChild) {
-			parent.removeChild(parent.firstChild);
-		}
-			
+				parent.removeChild(parent.firstChild);
+			}
+			var addCommForm = document.createElement('form');
+			addCommForm.id = 'addCommentForm';
+			addCommForm.name = 'addCommentForm';
+			addCommForm.action = '#';
+			addCommForm.addEventListener('submit', function(e) {
+				e.preventDefault(); 
+				validateAddCommForm();
+			});
+			addCommForm.method = 'post';
+			var inputComm = document.createElement('textarea');
+			inputComm.placeholder = 'Dodaj komentarz';
+			inputComm.name = 'comment';
+			addCommForm.appendChild(inputComm);
+			var inputCommSubmitBtn = document.createElement('input');
+			inputCommSubmitBtn.type = 'submit';
+			inputCommSubmitBtn.value = 'Dodaj komentarz';
+			addCommForm.appendChild(inputCommSubmitBtn);
+			parent.appendChild(addCommForm);
+	
 			for ( var i=0; i< len; i++){
 				var commListItemContent = document.createElement('li');
 				commListItemContent.className = 'commListItem comment';
@@ -1092,7 +1150,7 @@ function afterGetComments() {
 			getCommLink.href = "#";
 			
 			
-			var dataString3 = 'pointId=' + lastRetrPoint + '&commId=' + lastRetrComm;
+			var dataString3 = 'pointId=' + activePointId + '&commId=' + lastRetrComm;
 			
 			
 			getCommLink.onclick = function() {
@@ -1106,19 +1164,37 @@ function afterGetComments() {
 		
 			parent.appendChild(moreCommLink);
 	
-		} else {
-			alert('There was a problem with the request.');
-		}
-	}
+		
+	
+}
+
+function validateAddCommForm() {
+	
+	var comment = document.forms['addCommentForm']['comment'].value;
+	
+
+	/*if (comment === '') {
+		addFormMsg.innerHTML = "Komentarz nie może być pusty";
+		return false;
+	} else {
+		addFormMsg.innerHTML = "Dodawanie...";
+
+		var data = 'lon=' + lon + '&lat=' + lat + '&name=' + name + '&addr=' + addr + '&desc=' + desc + '&zoom=' + zoom + '&cat=' + cat;
+		makeRequest('POST', 'addPoint.php', data, afterAdd);
+	}*/
+	var data = 'komentarz=' + comment + '&id=' + activePointId;
+	makeRequest('POST', 'site/add-comment', data, afterAddComment);
+	//return false;
 }
 
 
+function afterAddComment(responseText) {
+	console.log(responseText);
+}
 
-function afterGetPics() {
-	if (httpRequest.readyState === 4) {
-		if (httpRequest.status === 200) {
-			console.log(httpRequest.responseText);
-			var picsObj = JSON.parse(httpRequest.responseText);
+function afterGetPics(responseText) {
+	
+			var picsObj = JSON.parse(responseText);
 			
 			var len = picsObj.length;
 			var parent = document.getElementById('infoPicsBox');
@@ -1163,7 +1239,7 @@ function afterGetPics() {
 			 getPicsLink.href = "#";
 			
 			
-			var dataString4 = 'pointId=' + lastRetrPoint + '&picId=' + lastRetrPic;
+			var dataString4 = 'pointId=' + activePointId + '&picId=' + lastRetrPic;
 			
 			
 			 getPicsLink.onclick = function() {
@@ -1181,8 +1257,4 @@ function afterGetPics() {
 			
 			
 	
-		} else {
-			alert('There was a problem with the request.');
-		}
-	}
-}
+		} 

@@ -13,7 +13,7 @@ $this->title = 'Wirtualny Przewodnik';
         <!-- <h1>Miejsce na mapę</h1> -->
 				<ul>
 							<li>
-								<button class="button nav" onclick="createPopup('addPoint', addingPoint, true);">Add point</button>
+								<button class="button nav" onclick="createPopup('addPoint', addingPoint, true);">Dodaj miejsce</button>
 							</li>
 							<li class="current">
 								<div id="search">
