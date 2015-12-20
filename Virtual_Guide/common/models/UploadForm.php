@@ -20,11 +20,11 @@ class UploadForm extends Model
     
     public function upload()
     {
-        if ($this->validate()) {
+       // if ($this->validate()) {
             $this->imageFile->saveAs('uploads/' . $this->imageFile->baseName . '.' . $this->imageFile->extension);
             return true;
-        } else {
+       // } else {
             return false;
-        }
+        //}
     }
 }

@@ -11,6 +11,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use common\models\Topics;
 use yii\web\UploadedFile;
+use common\models\Location;
 
 class ForumController extends \yii\web\Controller
 {
@@ -33,15 +34,43 @@ class ForumController extends \yii\web\Controller
 	    		'sort' => ['attributes' => ['name','ilosc']]
 	    ]);
 		
-		$modelup = new UploadForm();
+   		$modelup = new UploadForm();
 
         if (Yii::$app->request->isPost) {
-            $model->imageFile = UploadedFile::getInstance($modelup, 'imageFile');
-            if ($model->upload()) {
-                // file is uploaded successfully
-                return;
-            }
+        	
+        	$request = Yii::$app->request;
+        	$name = $request->post('name');
+        	$adres= $request->post('adress');
+        	$opis = $request->post('descr');
+        	$zoom= $request->post('zoom');
+        	$kategoria = $request->post('category');
+        	$dlugosc= $request->post('lon');
+        	$szerokosc = $request->post('lat');
+        	$tag = $request->post('tag');
+        	$kraj = $request->post('country');
+        	
+        	$location = new Location();
+        	$location->name = $name;
+        	$location->descr = $opis;
+        	$location->lon = $dlugosc;
+        	$location->lat = $szerokosc;
+        	$location->countryID = $kraj;
+        	$location->address = $adres;
+        	$location->zoom = $zoom;
+        	$location->categoryID = $kategoria;
+        	$location->userID = $userId = \Yii::$app->user->identity->id;
+        	$location->tag = $tag;
+        	
+        	if($location->save()){
+        		$modelup->imageFile = UploadedFile::getInstance($modelup, 'imageFile');
+        		if ($modelup->upload()) {
+        			// file is uploaded successfully
+        		}
+        	}
+        	
+           
         }
+
 		
         return $this->render('index', [
         	'dataProvider' => $dataProvider, 'modelup' => $modelup,
