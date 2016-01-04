@@ -38,8 +38,8 @@ AppAsset::register($this);
     ]);
     $menuItems = [
         ['label' => 'Strona Główna', 'url' => ['/site/index']],
-    	['label' => 'Lokalizacje', 'url' => ['/site/location']],
-    	['label' => 'Forum', 'url' => ['/forum/forum']],
+		['label' => 'Lokalizacje', 'url' => ['/site/location']],
+		['label' => 'Forum', 'url' => ['/forum/forum']],
         ['label' => 'Kontakt', 'url' => ['/site/contact']],
     ];
     if (Yii::$app->user->isGuest) {
@@ -59,7 +59,7 @@ AppAsset::register($this);
     NavBar::end();
     ?>
 
-    <div class="container">
+    <div class="container<?= $this->params['fluid'] ? '-fluid' : '' ?>">
         <?= Breadcrumbs::widget([
         'homeLink' => ['label' => 'Strona Główna',
         'url' => Yii::$app->getHomeUrl()],
@@ -73,13 +73,13 @@ AppAsset::register($this);
     </div>
 </div>
 
-<footer class="footer">
+<?= $this->params['fullscreen'] ? '' : 
+'<footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; Wirtualny Przewodnik <?= date('Y') ?></p>
-
+        <p class="pull-left">&copy; Wirtualny Przewodnik ' .date('Y'). '</p>
     </div>
-</footer>
-
+</footer>'
+?>
 <?php $this->endBody() ?>
 </body>
 </html>

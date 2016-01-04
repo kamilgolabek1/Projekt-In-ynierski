@@ -1,4 +1,106 @@
+/*
 
+HTML5 CSS Reset
+Based on Eric Meyer's CSS Reset
+and html5doctor.com HTML5 Reset
+
+Copyright (c) 2011 736 Computing Services Limited
+Released under the MIT license. http://opensource.736cs.com/licenses/mit
+
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, i, center, dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, audio, canvas, details, figcaption,
+figure, footer, header, hgroup, mark, menu, meter, nav,
+output, progress, section, summary, time, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+
+body {
+	line-height: 1;
+}
+
+article, aside, dialog, figure, footer, header, 
+hgroup, nav, section, blockquote { 
+	display: block;
+}
+
+nav ul {
+	list-style: none;
+}
+
+ol {
+	list-style: decimal;
+}
+
+ul {
+	list-style: disc;
+}
+
+ul ul {
+	list-style: circle;
+}
+
+blockquote, q {
+	quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+
+ins {
+	text-decoration: underline;
+}
+
+del {
+	text-decoration: line-through;
+}
+
+mark {
+	background: none;
+}
+
+abbr[title], dfn[title] {
+	border-bottom:1px dotted #000;
+	cursor:help;
+}
+
+/* tables still need 'cellspacing="0"' in the markup */
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+hr {
+	display: block;
+	height: 1px;
+	border: 0;	
+	border-top: 1px solid #ccc;
+	margin: 1em 0;
+	padding: 0;
+}
+
+
+
+input, select, a img {
+	vertical-align: middle;
+}
 /**
  * Basic Typography
  */
@@ -10,10 +112,19 @@
 /**
  * mapOL Examples Specific
  */
-.smallmap {
-    width: 100%;
-    height: 512px;
+html, body, #map {
+	margin: 0;
+	width: 100%;
+	height: 100%;
+}
+
+
+.olMap {
+   position: absolute;
     border: 1px solid #ccc;
+	z-index: 0;
+	padding: 0 !important;
+	margin: 0 !important;
 }
 #tags {
     display: none;
@@ -103,10 +214,10 @@ body {
 	overflow: auto;
 }
 
-#popupMask {
-display: none;}
+#xpopupMask {
+xdisplay: none;}
 
-#popUpDiv {
+#xpopUpDiv {
 position:absolute;
 background:url(pop-back.jpg) no-repeat;
 width:400px;
@@ -115,15 +226,6 @@ border:5px solid #000;
 z-index: 9002;
 }
 
-#addPoint {
-	display: none;
-	width: 450px;
-	padding: 25px;
-	height: auto;
-	margin: 0 auto;
-	background-color: #fff;
-	
-}
 
 
 .form {
@@ -132,56 +234,42 @@ text-align: left;
 
 .form label {
 
-text-align: right;
-display: block;
-width: 100%;
+xtext-align: left;
+
+xwidth: 100%;
 
 }
 
-.form_field {
+.form-field {
    border: 1px solid #b3b3b3;
+   border-top: 0px;
+   border-left: 0px;
+   border-right: 0px;
    background: #ffffff;
    
    color: #3d3d3d;
   
-   padding:8px;
-   margin-bottom:20px;
-   margin-right: 40px;
-   width:240px;
+
+   xwidth:240px;
    }
-.form_field:focus {
+.form-field:focus {
    background: #fff8d9;
    color: #000000;
    
    }
 
-#addPoint {
-	 overflow: auto;
-	 }
 	 
-#addPoint  h2 {
-   text-shadow: #ffffff 0 1px 0;
-   font-size:18px;
-   margin: 0 0 10px 0;
-   font-weight:bold;
-   text-align:center;
-    }
 	
-.form_label {
-   margin-bottom:10px;
-   margin-right: 20px;
-   color: #362870;
-   text-shadow: #ffffff 0 1px 0;
+.form-label {
+  x margin-bottom:10px;
+  x margin-right: 20px;
+xdisplay: inline-block;
    
    
    
    }   
    
-   
-#addPoint label span {
-	
-
-}
+  
 
 .olHoverPopup {
 	background-color: #000;
@@ -218,34 +306,60 @@ color: #eee;
     		z-index: 99;
 		}
 		
-#infoBox {
-		display: none;
-		position: absolute;
-		width: 350px;
-		top: 50px;
-		left: 50px;
-		z-index: 1205;
-		background-color: transparent;
-		}
+
 		
-.infoBox {
+.panel-section-container {
 	padding: 0px;
 }		
 
 
-.infoBoxLabel {
+.panel-section-infobox-item-label, .panel-section-addform-label, .panel-section-searchform-label {
+	padding: 5px 10px;
+	font-size: 15px;
+	
+	line-height: 1.5;
+	border-bottom: 1px solid #ccc;
+	
+	
+	
+}
+.old {
 	background-color: #3A5795;
-	width: 100%;
+	
 	vertical-align:middle;
 	border: 0px;
 	color: #fff;
-	line-height: 1.6em;
-	font-size: 1.2em;
-	padding: 0;
+	line-height: 24px;
+	font-size: 15px;
+	padding: 0;`
 	box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-	box-radius: 2px;
-	margin: 5px 0px 2px 0px;
+	
+	margin:0;
 	cursor: pointer;
+}
+
+.panel-section-infobox-item-label span, .panel-section-addform-label span, .panel-section-searchform-label span{
+	font-size: 13px;
+}
+
+.panel-section-infobox-comments-list {
+	
+}
+
+.panel-section-infobox-comments-list-item-author {
+	font-size: 11px;
+	width: 50%;
+	position: relative;
+	
+}
+
+.panel-section-infobox-comments-list-item-date {
+	font-size: 11px;
+	width: 50%;
+	position: absolute;
+	right: 10px;
+	bottom: 10px;
+	
 }
 
 .infoBoxLabel:hover {
@@ -266,27 +380,37 @@ color: #eee;
 	
 }
 
-.infoBoxItem {
-background-color: #fff;
-box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-	box-radius: 2px;
-padding: 10px;
-font-family: Arial, Helvetica, sans-serif;
-font-weight: normal;
-font-size: 1.0em;
-line-height: 1.4em;
-overflow: auto;
-display:none;
+.panel-section-infobox-comments-list-item {
+	border-top: 0px solid #ccc;
+	margin-top: 20px;
 }
+
+.panel-section-infobox-item {
+
+
+
+
+
+
+
+}
+
+.panel-section-infobox, .panel-section-addform-container {
+background-color: #fff;
+
+
+font-weight: normal;
+font-size: 13px;
+line-height: 1.4em;
+overflow: visible;
+
+}
+
 
 .infoCords {
-font-size: 1.2em;
+
 }
 
-.commentList, .picsList {
-margin: 0;
-padding: 0;
-}
 
 .commListItem {
 	list-style: none;
@@ -321,7 +445,7 @@ float: none;
 clear: both;
 }
 
-.picsListItem{
+.panel-section-infobox-pictures-list-item {
 display: inline-block;
 width: 50px;
 height: 50px;
@@ -346,9 +470,162 @@ display: none;
 }
 
 .cordsBtn, .submitBtn {
-	width: 100%;
+	xwidth: 100%;
 }
 
 .cordsBtn.btn, {
 	margin-bottom: 12px;
+}
+
+ul {
+	list-style: none;
+}
+#divList, #gneralinfo, #info {
+	visibility: hidden;
+}
+
+
+.panel-toggle-button-container {
+	
+	position: absolute;
+	left: 100%;
+	top: 80px;
+	z-index: 1;
+}
+
+.panel-toggle-button {
+	width: 23px;
+	height: 48px;
+	cursor: pointer;
+	background: rgba(255,255,255,0.9) url() 7px center/7px 10px no-repeat;
+	box-shadow: 0px 1px 4px rgba(0,0,0,0.3);
+	border: 0;
+	padding: 0;
+}
+
+.panel-toggle-button:focus {
+	outline: 0;
+}
+
+.panel-visible {
+	width: 400px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 3;
+	opacity: 1;
+	height: 100%;
+	box-shadow: 0 0 20px rgba(0,0,0,0.3);
+}
+
+.panel-content-holder {
+	display: flex;
+	flex-direction: column;
+	text-align: left;
+	overflow-y:auto;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background-color: #fff;
+		z-index: 0;
+	padding: 70px 10px 10px 10px;
+}
+
+#addCommentSubmitBtn {
+	display: none;
+}
+
+.bubble 
+{
+position: relative;
+width: 80%;
+padding: 10px;
+background: #FFFFFF;
+border-radius: 16px;
+border: #ccc solid 1px;
+}
+
+.bubble-right {
+	left: 20%;
+	background: #f5f5f5;
+}
+.bubble:after 
+{
+content: '';
+position: absolute;
+border-style: solid;
+border-width: 10px 10px 0;
+border-color: #FFFFFF transparent;
+display: block;
+width: 0;
+z-index: 1;
+margin-left: -10px;
+bottom: -10px;
+left: 75%;
+}
+.bubble-right:after {
+	left: 25%;
+	border-color: #f5f5f5 transparent;
+}
+.bubble:before 
+{
+content: '';
+position: absolute;
+border-style: solid;
+border-width: 10px 10px 0;
+border-color: #ccc transparent;
+display: block;
+width: 0;
+z-index: 0;
+margin-left: -10px;
+bottom: -11px;
+left: 75%;
+}
+
+.bubble-right:before {
+	left: 25%;
+}
+
+.bubble:hover {
+	background: #337AB7;
+	color: #fff;
+}
+
+.bubble:hover:after {
+	border-color: #337AB7 transparent;
+}
+
+.pagination-links {
+	width: 100%;
+	position: relative;
+	padding: 10px 0px 10px 0px;
+}
+
+.pagination-links:after 
+{
+	display: block;
+content: '';
+}
+
+.bubble:before 
+{
+	display: block;
+content: '';
+}
+.pagination-links-left {
+	font-size: 11px;
+	width: 50%;
+	position: relative;
+	
+}
+
+.pagination-links-right {
+	font-size: 11px;
+	width: 50%;
+	position: absolute;
+	right: 10px;
+	bottom: 10px;
+	
 }

@@ -1,3 +1,92 @@
+
+//#### HTML elements event listeners
+var addForm = document.getElementById('addCommentForm');
+
+document.getElementById('addPointForm').addEventListener('submit', function(e) {
+	e.preventDefault();
+	validateAddPointForm('addPoint', addingPoint, true);
+});
+
+console.log(document.getElementById('navTabs').getElementsByTagName('li')[0]);
+document.getElementById('navTabs').getElementsByTagName('li')[0].addEventListener('click', function(e) {
+	console.log(e);
+	var hasClass =this.classList.contains('disabled');
+	if (hasClass) {
+		e.preventDefault();
+		return false;
+	}
+});
+
+// document.getElementById('addPointBtn').addEventListener('click', function(e) {
+	// e.preventDefault();
+	// createPopup('addPoint', addingPoint, true);
+// });
+
+document.getElementsByClassName('panel-toggle-button')[0].addEventListener('click', function(e) {
+	
+	var target = $('.panel-visible');
+	var button = $('.panel-toggle-button span');
+	
+	var value = (target.position().left == 0) ? -400 : 0;
+	target.animate({left: value}, 400);
+	
+	button.hasClass('glyphicon-chevron-left') ? button.removeClass('glyphicon-chevron-left').addClass('glyphicon-chevron-right') : button.removeClass('glyphicon-chevron-right').addClass('glyphicon-chevron-left');
+});
+
+if(addForm) {
+	document.getElementById('addCommentInput').addEventListener('focus', function(e) {
+		e.target.placeholder = "";
+		e.target.rows = "1";
+		document.getElementById('addCommentSubmitBtn').style.display = 'block';
+		
+	});
+
+	document.getElementById('addCommentInput').addEventListener('blur', function(e) {
+		e.target.placeholder = "Dodaj komentarz";
+		e.target.rows = "1";
+		var nextElement = document.getElementById('addCommentSubmitBtn');
+		if ( document.activeElement != nextElement ) {
+			//nextElement.style.display = 'none';
+		}
+	});
+
+
+	document.getElementById('addCommentSubmitBtn').addEventListener('click', function(e) {
+		e.preventDefault();
+		validateAddCommentForm(e);
+	});
+}
+
+$('#navTabs a').click(function(e) {
+	e.preventDefault();
+	if ( $(this).parent().hasClass('disabled')) {
+		return false;
+	} else {
+		$(this).tab('show');
+		console.log($(this));
+	}
+});
+
+document.getElementById('commentsMore').addEventListener('click', function(e) {
+	e.preventDefault();
+	generateCommList(lastRetrComm-1);
+});
+
+document.getElementById('commentsLess').addEventListener('click', function(e) {
+	e.preventDefault();
+	generateCommList(lastRetrComm+1);
+});
+
+document.getElementById('picsMore').addEventListener('click', function(e) {
+	e.preventDefault();
+	generatePicsList(lastRetrPic-1);
+});
+
+document.getElementById('picsLess').addEventListener('click', function(e) {
+	e.preventDefault();
+	generatePicsList(lastRetrPic+1);
+});
+
 /**
  * Class: OpenLayers.Strategy.AttributeCluster
  * Strategy for vector feature clustering based on feature attributes.
@@ -54,30 +143,26 @@ OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {
 		);
 	}, 
 
-	trigger: function(e) {
-					  var lonlat = (map.getLonLatFromPixel(e.xy)).transform(new OpenLayers.Projection('EPSG:900913'), new OpenLayers.Projection('EPSG:4326'));
-						var lon = document.forms['addForm']['lon'];
-						var lat = document.forms['addForm']['lat'];
-						var zoom = document.forms['addForm']['zoom'];
-						// transformacja wspolrzednych
+	trigger : function (e) {
+		var lonlat = (map.getLonLatFromPixel(e.xy)).transform(new OpenLayers.Projection('EPSG:900913'), new OpenLayers.Projection('EPSG:4326'));
+		var lon = document.forms['addPointForm']['lon'];
+		var lat = document.forms['addPointForm']['lat'];
+		var zoom = document.forms['addPointForm']['zoom'];
+		// transformacja wspolrzednych
 
-						lon.value = lonlat.lon;
-						lat.value = lonlat.lat;
-						zoom.value = map.getZoom();
+		lon.value = lonlat.lon;
+		lat.value = lonlat.lat;
+		zoom.value = map.getZoom();
 
-						//var click = new OpenLayers.Control.Click();
-						//map.addControl(click);
-						//click.deactivate();
-						vectorlayer.setVisibility(true);
-						var overlay = document.getElementById('popupMask');
-						overlay.style.zIndex = 1040;
-						console.log(map);
-						map.removeControl(this);
-						console.log(map);
-						toggle_visibility('addPoint');
-						var mapDiv = document.getElementById('mapOL');
-						mapDiv.style.cursor = 'default';
-		//alert(lonlat.transform(new OpenLayers.Projection('EPSG:900913'), new OpenLayers.Projection('EPSG:4326')));
+		var control = map.getControlsBy("id", "clickControl")[0];
+		if (control.active) {
+			console.log('contolol activ');
+			control.deactivate();
+		}
+		vectorlayer.setVisibility(true);
+
+		var mapDiv = document.getElementById('map');
+		mapDiv.style.cursor = 'default';
 	}
 
 });
@@ -92,11 +177,14 @@ var lastRetrComm = 0;
 var lastRetrPic = 0;
 var activePointId = "-1"
 var json = [];
+var activePointCommArr = [];
+var activePointPicsArr = [];
 
 
 
 
 makeRequest('GET','site/points', '', alertContents);
+
 
 
 
@@ -152,7 +240,7 @@ function main (){
     };
     
     // instanciate the map
-    map = new OpenLayers.Map("mapOL", {
+    map = new OpenLayers.Map("map", {
     		eventListeners : {
     			featureover : function (e) {
     				e.feature.renderIntent = "select";
@@ -167,8 +255,9 @@ function main (){
     			},
     			featureclick : function (e) {
     				console.log("Map says: " + e.feature.id + " clicked on " + e.feature.layer.name);
+				console.log("Poprawne wykrycie kliknięcia w punkt");
 					//controlFeatureClick(e);
-					loadInfo(e);
+				loadPointInfo(e);
     				//var feature = e.feature;
 					//popup('popUpDiv');
     				
@@ -179,9 +268,7 @@ function main (){
     // background WMS
 	
 	
-    var ol_wms = new OpenLayers.Layer.OSM({
-        layers: "basic"
-    });
+   
 	
 
     
@@ -314,7 +401,7 @@ function main (){
     });
     
     // the vectorlayer
-    vectorlayer = new OpenLayers.Layer.Vector('Vectorlayer', {styleMap: stylemap, strategies: [new OpenLayers.Strategy.Cluster({distance: 30})]});
+    vectorlayer = new OpenLayers.Layer.Vector('Punkty', {styleMap: stylemap, strategies: [new OpenLayers.Strategy.Cluster({distance: 30})]});
     
     // the select control
    /* select = new OpenLayers.Control.SelectFeature(
@@ -358,54 +445,99 @@ function main (){
     vectorlayer.events.on({"featureselected": showInformation});
 		//map.addControl(fpControl);
     
-    map.addLayers([ol_wms, vectorlayer]);
-    map.addControl(new OpenLayers.Control.LayerSwitcher());
+    map.addLayer(vectorlayer);
+	
+	// ######### podklady mapowe
+	map.addLayer(new OpenLayers.Layer.OSM("Mapnik"));
+	 map.addLayer(new OpenLayers.Layer.OSM("MapQuest Open",                                                   
+                                           ["http://otile1.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png",
+                                            "http://otile2.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png",
+                                            "http://otile3.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png",
+                                            "http://otile4.mqcdn.com/tiles/1.0.0/osm/${z}/${x}/${y}.png"],
+                                            {attribution: "&copy; <a href='http://www.openstreetmap.org/'>OpenStreetMap</a> and contributors, under an <a href='http://www.openstreetmap.org/copyright' title='ODbL'>open license</a>. Tiles Courtesy of <a href='http://www.mapquest.com/'>MapQuest</a> <img src='http://developer.mapquest.com/content/osm/mq_logo.png'>" }));
+       
+                                            
+                                            
+       map.addLayer(new OpenLayers.Layer.OSM("Humanitarian Style",                                                   
+                                           ["http://a.tile.openstreetmap.fr/hot/${z}/${x}/${y}.png",
+                                            "http://b.tile.openstreetmap.fr/hot/${z}/${x}/${y}.png",
+                                            "http://c.tile.openstreetmap.fr/hot/${z}/${x}/${y}.png"],
+                                            {attribution: "&copy; <a href='http://www.openstreetmap.org/'>OpenStreetMap</a> and contributors, under an <a href='http://www.openstreetmap.org/copyright' title='ODbL'>open license</a>. Humanitarian style by <a href='http://hot.openstreetmap.org'>H.O.T.</a>",
+                                            "tileOptions": { "crossOriginKeyword": null }}));
+       
+       
+       map.addLayer(new OpenLayers.Layer.OSM("Stamen watercolour",                                                   
+                                           ["http://tile.stamen.com/watercolor/${z}/${x}/${y}.png"],
+                                            {attribution: "&copy; <a href='http://www.openstreetmap.org/'>OpenStreetMap</a> and contributors, under an <a href='http://www.openstreetmap.org/copyright' title='ODbL'>open license</a>. Watercolour style by <a href='http://stamen.com'>Stamen Design</a>",
+                                            "tileOptions": { "crossOriginKeyword": null }}));
+      
+       map.addLayer(new OpenLayers.Layer.OSM("Stamen toner",                                                   
+                                           ["http://tile.stamen.com/toner/${z}/${x}/${y}.png"],
+                                            {attribution: "&copy; <a href='http://www.openstreetmap.org/'>OpenStreetMap</a> and contributors, under an <a href='http://www.openstreetmap.org/copyright' title='ODbL'>open license</a>. Toner style by <a href='http://stamen.com'>Stamen Design</a>",
+                                            "tileOptions": { "crossOriginKeyword": null }}));
+                                            
+                                            
+       map.addLayer(new OpenLayers.Layer.OSM("CartoDB positron",                                                   
+                                           ["http://a.basemaps.cartocdn.com/light_all/${z}/${x}/${y}.png",
+                                            "http://b.basemaps.cartocdn.com/light_all/${z}/${x}/${y}.png",
+                                            "http://c.basemaps.cartocdn.com/light_all/${z}/${x}/${y}.png",
+                                            "http://d.basemaps.cartocdn.com/light_all/${z}/${x}/${y}.png"],
+                                            {attribution: "&copy; <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors, &copy; <a href='http://cartodb.com/attributions'>CartoDB</a>" }));
+       map.addLayer(new OpenLayers.Layer.OSM("CartoDB dark matter",                                                   
+                                           ["http://a.basemaps.cartocdn.com/dark_all/${z}/${x}/${y}.png",
+                                            "http://b.basemaps.cartocdn.com/dark_all/${z}/${x}/${y}.png",
+                                            "http://c.basemaps.cartocdn.com/dark_all/${z}/${x}/${y}.png",
+                                            "http://d.basemaps.cartocdn.com/dark_all/${z}/${x}/${y}.png"],
+                                            {attribution: "&copy; <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors, &copy; <a href='http://cartodb.com/attributions'>CartoDB</a>" }));
+       map.addLayer(new OpenLayers.Layer.OSM("CartoDB positron (no labels)",                                                   
+                                           ["http://a.basemaps.cartocdn.com/light_nolabels/${z}/${x}/${y}.png",
+                                            "http://b.basemaps.cartocdn.com/light_nolabels/${z}/${x}/${y}.png",
+                                            "http://c.basemaps.cartocdn.com/light_nolabels/${z}/${x}/${y}.png",
+                                            "http://d.basemaps.cartocdn.com/light_nolabels/${z}/${x}/${y}.png"],
+                                            {attribution: "&copy; <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors, &copy; <a href='http://cartodb.com/attributions'>CartoDB</a>" }));
+
+       map.addLayer(new OpenLayers.Layer.OSM("CartoDB dark matter (no labels)",
+                                           ["http://a.basemaps.cartocdn.com/dark_nolabels/${z}/${x}/${y}.png",
+                                            "http://b.basemaps.cartocdn.com/dark_nolabels/${z}/${x}/${y}.png",
+                                            "http://c.basemaps.cartocdn.com/dark_nolabels/${z}/${x}/${y}.png",
+                                            "http://d.basemaps.cartocdn.com/dark_nolabels/${z}/${x}/${y}.png"],
+                                            {attribution: "&copy; <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors, &copy; <a href='http://cartodb.com/attributions'>CartoDB</a>" }));
+
+       map.addLayer(new OpenLayers.Layer.OSM("Wikimedia",
+                                           ["https://maps.wikimedia.org/osm-intl/${z}/${x}/${y}.png"],
+                                            {attribution: "&copy; <a href='http://www.openstreetmap.org/'>OpenStreetMap</a> and contributors, under an <a href='http://www.openstreetmap.org/copyright' title='ODbL'>open license</a>. <a href='https://www.mediawiki.org/wiki/Maps'>Wikimedia's new style (beta)</a>",
+                                            "tileOptions": { "crossOriginKeyword": null }}));
+        //######### koniec map
+    
     map.zoomToMaxExtent();
 	
+	//var click = new OpenLayers.Control.Click();
+	//map.addControl(click);
 	
-	
-	map.addControl(new OpenLayers.Control.ScaleLine());
-	map.addControl(new OpenLayers.Control.Permalink('permalink'));
-	map.addControl(new OpenLayers.Control.MousePosition());
+map.addControls([new OpenLayers.Control.LayerSwitcher(),
+		new OpenLayers.Control.ScaleLine(),
+		new OpenLayers.Control.Permalink('permalink'),
+		new OpenLayers.Control.MousePosition(),
+		new OpenLayers.Control.Click({id : 'clickControl'})]
+);
     
    addFeaturesToVector(vectorlayer, json);
     updateGeneralInformation();
 
-    // the behaviour and methods for the radioboxes    
+    // the behaviour and methods for clustering strategies
     var changeStrategy = function() {
-        var strategies = [];
+        var strategies = new OpenLayers.Strategy.Cluster({
+        		distance : 30
+        	});
+	
         // this is the checkbox
-        switch(this.value) {
-            case 'cluster':
-                // standard clustering
-                strategies.push(new OpenLayers.Strategy.Cluster({distance: 30}));
-                break;
-            case 'attribute-cluster':
-                // use the custom class: only cluster features of the same clazz
-                strategies.push(new OpenLayers.Strategy.AttributeCluster({
-                    attribute:'clazz'
-                }));
-                break;
-            case 'rule-cluster':
-                // use the custom class: only cluster features that have a 
-                // clazz smaller than 4
-                strategies.push(new OpenLayers.Strategy.RuleCluster({
-                    rule: new OpenLayers.Rule({
-                        filter: new OpenLayers.Filter.Comparison({
-                            type: OpenLayers.Filter.Comparison.LESS_THAN,
-                            property: "clazz",
-                            value: 4
-                        })
-                    })
-                }));
-                break;
-        }
+        
         // remove layer and control
 			
         map.removeLayer(vectorlayer);
         map.removeControl(select);
         // rebuild layer
-        vectorlayer = new OpenLayers.Layer.Vector('Vectorlayer', {styleMap: stylemap, strategies: strategies});
+        vectorlayer = new OpenLayers.Layer.Vector('Vectorlayer', {styleMap: stylemap, strategies: strategies, renderers: ['Canvas']});
         map.addLayer( vectorlayer );
         vectorlayer.addFeatures(features);
 		
@@ -453,78 +585,25 @@ function main (){
       }
     }
 };
-//(main());
-//var httpRequest=false;
+(main());
 
 
 
-/*function makeRequest(type, url, data, func, async) {
-	//console.log(type+' '+url+' '+data);
-	if (window.XMLHttpRequest) { // Mozilla, Safari, ...
-		httpRequest = new XMLHttpRequest();
-	} else if (window.ActiveXObject) { // IE
-		try {
-			httpRequest = new ActiveXObject("Msxml2.XMLHTTP");
-		} catch (e) {
-			try {
-				httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
-			} catch (e) {}
-		}
-	}
-
-	if (!httpRequest) {
-		alert('Giving up :( Cannot create an XMLHTTP instance');
-		return false;
-	}
-	
-	var a = ( async === false ) ? false : true;
-	
-	httpRequest.onreadystatechange = func;
-	httpRequest.open(type, url, a);
-	httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	
-	if (data==="") {
-		httpRequest.send();
-	} else {
-		console.log(httpRequest);
-		httpRequest.send("id=1");
-		console.log(httpRequest);
-	}
-}*/
-
-function makeRequest(type, url, data, func, isAsync) {
+// universal jQ ajax request
+function makeRequest(type, url, data, func, isAsync, contentType) {
 	$.ajax({
-		url: url,
-		type: type,
-		async: (isAsync) ? isAsync : true,
-		data: data,
-		success: function(responseData) {
+		url : url,
+		type : type,
+		async : (isAsync) ? isAsync : true,
+		data : data,
+		contentType : contentType,
+		success : function (responseData) {
 			func(responseData);
 		}
 	});
 }
-
 			
 
-/*function alertContents(responseText) {
-	//console.log(httpRequest);
-	if (httpRequest.readyState === 4) {
-		//console.log(httpRequest.readyState);
-		if (httpRequest.status === 200) {
-			//alert(httpRequest.status);
-			//  alert(httpRequest.responseText);
-			var jsonObj = JSON.parse(httpRequest.responseText);
-			//alert(jsonObj);
-			json = jsonObj;
-			//console.log(jsonObj);
-			//console.log(json);
-			main();
-			//addFeaturesToVector(layer1, json);
-		} else {
-			alert('There was a problem with the request.');
-		}
-	}
-}*/
 function alertContents(responseText) {
 	
 			var jsonObj = JSON.parse(responseText);
@@ -532,231 +611,29 @@ function alertContents(responseText) {
 			json = jsonObj;
 			//console.log(jsonObj);
 			//console.log(json);
-			main();
-			//addFeaturesToVector(layer1, json);
+			//main();
+			addFeaturesToVector(vectorlayer, json);
 		
 	}
 
 
   
-
-  
-function tableCreate(jsonObj) {
-
-	var parent = document.getElementById('listContent');
-	tbl = document.createElement('table');
-	tbl.className = "stationsList";
-	tbl.id = "stationsTable";
-		
-	
-	var thead = document.createElement('thead');
-	var trhead = thead.insertRow();
-	var tbody = document.createElement('tbody');
-	
-	var len = jsonObj.length;
-	for (var i = 0; i < len; i++) {
-		var tr = tbody.insertRow();
-		var arr = [ 'id', 'title', 'street', 'city'];
-		var arrlen = arr.length;
-
-		for (var j = 0; j < arrlen; j++) {
-			var prop = arr[j];
-			if (i===0) {
-				var th = document.createElement('th');
-				if (j===0) {
-					th.appendChild(document.createTextNode(i));
-				} else {
-					th.appendChild(document.createTextNode(prop.toUpperCase()));
-				}
-				trhead.appendChild(th);
-				if ( j===arrlen ) {
-					tbl.appendChild(thead);
-				}
-			}
-			var td = tr.insertCell();
-			
-			td.appendChild(document.createTextNode(jsonObj[i][prop]));
-		}
-		
-			
-		var btnTd1 = tr.insertCell();
-		/*
-		btn1 = document.createElement('button');
-		btn1.setAttribute("type", "button");
-		btn1.setAttribute("onclick", "showPoint(" + jsonObj[i].id +	")");
-		btn1.appendChild(document.createTextNode("Show on map"));
-		btnTd1.appendChild(btn1);*/
-		/*
-		a1 = document.createElement('a');
-		a1.setAttribute("href", "#");
-		a1.id = "showPopup-OpenLayers_Layer_Vector_26-OpenLayers_Feature_Vector_157-1";
-		a1.className='button';
-		a1.appendChild(document.createTextNode("Show on map"));
-		btnTd1.appendChild(a1);
-		*/
-		
-		var btnTd2 = tr.insertCell();
-		btn2 = document.createElement('button');
-		btn2.setAttribute("type", "button");
-		btn2.setAttribute("onclick", "makeRequest('POST', 'removePoint.php', 'id=" + jsonObj[i].id + "' , afterDelete )");
-		btn2.appendChild(document.createTextNode("Delete point"));
-		btnTd2.appendChild(btn2);
-		
-		tbl.appendChild(thead);
-		tbl.appendChild(tbody);
-		
-	}
-	parent.appendChild(tbl);
-}
-//tableCreate();
-  
+// dołączenie warstwy z markerami do mapy
 function appendMarkersLayer(layer) {
 
-	var controls = {
-		selector : new OpenLayers.Control.SelectFeature(layer, {
-			onSelect : createPopup,
-			onUnselect : destroyPopup,
-			hover: true
-		}),
-	};
 
-	// wyswielenie popupu na mapie
-	function createPopup(feature) {
-		if (feature.attributes.count === 1) {
-			feature.popup = new OpenLayers.Popup.Anchored(feature.attributes.id,
-					feature.geometry.getBounds().getCenterLonLat(),
-					null,
-					'<div class="popupContent">'+ feature.cluster[0].attributes.name + '</div>',
-					null, 
-					false,
-					function () {
-					controls['selector'].unselectAll();
-				});
-				
-			var offset = {'size':new OpenLayers.Size(0,0),'offset':new OpenLayers.Pixel(-50,-20)};
-       feature.popup.anchor = offset;
-			//feature.popup.offset = {'size':new OpenLayers.Size(100,100),'offset':new OpenLayers.Pixel(100,100)};
-			feature.popup.closeOnMove = true;
-			
-			
-			
-			feature.popup.panMapIfOutOfView = true;
-			feature.popup.opacity = 0.75;
-			feature.popup.backgroundColor = 'black';
-			feature.popup.autoSize = true;
-			feature.popup.minSize = new OpenLayers.Size( 10,10);
-			//feature.popup.relativePosition = "br";
-            feature.popup.calculateRelativePosition = function () {
-                 return 'tr';
-            }
-			//console.log(feature.popup.getSafeContentSize());
-			map.addPopup(feature.popup);
-			
-		} else {
-			var clusterLen = feature.cluster.length;
-			var minZoom = 100;
-			for (var i = 0; i < clusterLen; i++) {
-				var zoom = feature.cluster[i].attributes.zoom;
-				if (zoom < minZoom) {
-					minZoom = zoom;
-				}
-			}
-			
-			var minZoomFeatures = [];
-			for ( var i=0; i<clusterLen; i++) {
-			
-			 if (feature.cluster[i].attributes.zoom == minZoom) {
-				minZoomFeatures.push(feature.cluster[i]);
-			 }
-			}
-			
-			function placeNames() {
-				var names = '';
-				var len = minZoomFeatures.length;
-				for ( var i=0; i<len; i++) {
-					names += minZoomFeatures[i].attributes.name + '<br/>'
-				}
-				return names;
-			}
-			
-			feature.popup = new OpenLayers.Popup(null,
-					feature.geometry.getBounds().getCenterLonLat(),
-					null,
-					'<div class="popupContent">' + placeNames() + '</div>',
 
-					false,
-					function () {
-					controls['selector'].unselectAll();
-				});
-				
-				var offset = {'size':new OpenLayers.Size(10,12),'offset':new OpenLayers.Pixel(0,-12)};
-					
-			feature.popup.closeOnMove = true;
-			feature.popup.updateSize();
-			feature.popup.panMapIfOutOfView = true;
-			feature.popup.opacity = 0.65;
-			feature.popup.backgroundColor = 'black';
-			feature.popup.autoSize = true;
-			feature.popup.padding = 20;
-			feature.popup.minSize = new OpenLayers.Size( 100, 20);
-			feature.popup.updateSize();
-			map.addPopup(feature.popup);
-		}
-	}
-
-	function destroyPopup(feature) {
-		if (feature.attributes.count === 1) {
-			feature.popup.destroy();
-			feature.popup = null;
-		} else {
-			feature.popup.destroy();
-			feature.popup = null;
-		}
-	}
-	//wyswietlenie x do zamkniecia popupu
-	map.addControl(controls['selector']);
-	controls['selector'].activate();
-	//layer.events.on({"featureselected": showInformation});
-	//wyswietlenie listy stacji
-	//appendList(json);
 }
 
-function toggle_visibility(id) {
-	var e = document.getElementById(id);
-	if (e.style.display == 'block') {
-		e.style.display = 'none';
-		
-			
-	 
-		}
-	else {
-		e.style.display = 'block';
-		console.log(id);
-		
-		}
-}
-
-function toggle_element(e) {
-	var element = e.target.nextSibling;
-	
-	if (element.style.display !== 'block') {
-		element.style.display = 'block';
-		}
-	else {
-		element.style.display = 'none';
-	
-		}
-	console.log(element);
-}
 // funkcja sprawdzajaca, czy wszystkie pola formularza zostaly wypelnione
-function validateAddForm() {
-	var name = document.forms['addForm']['name'].value;
-	var addr = document.forms['addForm']['addr'].value;
-	var descr = document.forms['addForm']['descr'].value;
-	var lon = document.forms['addForm']['lon'].value;
-	var lat = document.forms['addForm']['lat'].value;
-	var zoom = document.forms['addForm']['zoom'].value;
-	var cat = document.forms['addForm']['cat'].value;
+function validateAddPointForm() {
+	var name = document.forms['addPointForm']['name'].value;
+	var addr = document.forms['addPointForm']['addr'].value;
+	var descr = document.forms['addPointForm']['descr'].value;
+	var lon = document.forms['addPointForm']['lon'].value;
+	var lat = document.forms['addPointForm']['lat'].value;
+	var zoom = document.forms['addPointForm']['zoom'].value;
+	var cat = document.forms['addPointForm']['cat'].value;
 
 	/*if (name === '' || lon === '' || lat === '' || desc === '') {
 		addFormMsg.innerHTML = "Wypełnij wszystkie pola";
@@ -808,29 +685,8 @@ function addFeaturesToVector(layer, json) {
 	for (var i = 0; i < json.length; i++) {
 		var brand = json[i].title;
 		var clazz;
-
-		switch (brand) {
-		case "BP":
-			clazz = 1;
-			break;
-
-		case "Orlen":
-			clazz = 4;
-			break;
-
-		case "Shell":
-			clazz = 3;
-			break;
-
-		case "Lotos":
-			clazz = 3;
-			break;
-
-		default:
-			clazz = 5;
-			break;
-
-		}
+		console.log(i)
+		
 		//var rand = Math.floor(Math.random() * (14 - 7) + 7);
 		//var p = new OpenLayers.Geometry.Point(json[i].lat, json[i].lon).transform(epsg4326, epsg900913);
 		var p = new OpenLayers.Geometry.Point(json[i].lon, json[i].lat).transform(epsg4326, epsg900913);
@@ -844,7 +700,7 @@ function addFeaturesToVector(layer, json) {
 				id : parseInt(json[i].ID),
 				lon : json[i].lon,
 				lat : json[i].lat,
-				forumID : json[i].forumID
+				//forumID : json[i].forumID
 			});
 		features.push(f);
 		console.log(f.id);
@@ -861,96 +717,6 @@ function addFeaturesToVector(layer, json) {
 	});
 }
 
-function makeRequestPost(id) {
-    if (window.XMLHttpRequest) { // Mozilla, Safari, ...
-      httpRequest = new XMLHttpRequest();
-    } else if (window.ActiveXObject) { // IE
-      try {
-        httpRequest = new ActiveXObject("Msxml2.XMLHTTP");
-      } 
-      catch (e) {
-        try {
-          httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
-        } 
-        catch (e) {}
-      }
-    }
-
-    if (!httpRequest) {
-      alert('Giving up :( Cannot create an XMLHTTP instance');
-      return false;
-    }
-    httpRequest.onreadystatechange = alertContents2;
-    httpRequest.open('POST', "removePoint.php");
-	httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    httpRequest.send('id=' + id);
-  }  
-
-function afterDelete() {
-
-    if (httpRequest.readyState === 4) {
-      if (httpRequest.status === 200) {
-        //alert(httpRequest.responseText);
-		console.log(json.length);
-		
-		for (var i = 0; i < json.length; i++){
-			console.log(i+', '+json[i].id+', '+httpRequest.responseText);
-			//console.log(json[i].id == (httpRequest.responseText).toString());
-			//console.log(json[i].id === httpRequest.responseText);
-			//console.log(httpRequest.responseText.length);
-			//console.log(((parseInt(httpRequest.responseText)).toString()).length);
-			var val = parseInt(httpRequest.responseText);
-			if (json[i].id == val){
-			console.log("found "+i);
-			json.splice(i, 1);
-			console.log(json.length);
-			if ((map.popups[0]) && map.popups[0].id == val) {
-				map.removePopup(map.popups[0]);
-			}
-			break;
-			}
-		}
-		
-		addFeaturesToVector(vectorlayer, json);
-      } else {
-        alert('There was a problem with the request.');
-      }
-    }
-  }
-  
-function searchByTag() {
-
-	var tag = document.getElementById("search_tag").value;
-
-	if (tag == "") {
-		addFormMsg.innerHTML = "Fill any input field";
-		return false;
-	} else {
-		searchFormMsg.innerHTML = "Waiting for response";
-		makeRequest('POST', 'searchByTag.php', 'tag=' + tag, afterSearch);
-	}
-	return false;
-}
-  
-function afterSearch() {
-	if (httpRequest.readyState === 4) {
-		if (httpRequest.status === 200) {
-			//alert(httpRequest.responseText);
-			var jsonObj = JSON.parse(httpRequest.responseText);
-			searchFormMsg.innerHTML = "";
-			
-			json = jsonObj;
-			
-			if (map.popups[0]) {
-				map.removePopup(map.popups[0]);
-			}
-			
-			addFeaturesToVector(vectorlayer, json);
-		} else {
-			alert('There was a problem with the request.');
-		}
-	}
-}
 
 
 function controlFeatureClick(e) {
@@ -958,218 +724,191 @@ function controlFeatureClick(e) {
 }
 
 function getCoordinates() {
-			var click = new OpenLayers.Control.Click();
-			map.addControl(click);
-			click.activate();
-			vectorlayer.setVisibility(false);
-			toggle_visibility('addPoint');
-			var overlay = document.getElementById('popupMask');
-			overlay.style.zIndex = 90;
+	var control = map.getControlsBy("id", "clickControl")[0];
+	console.log(control);
+   
+   if (!control.active) {
+		console.log('contolol not activ');
+		control.activate();
+    }
+    
+	vectorlayer.setVisibility(false);
 	
-			
+	var mapDiv = document.getElementById('map');
+	mapDiv.style.cursor = 'crosshair';
+	return false;
+}
 	
-			var mapDiv = document.getElementById('mapOL');
-			mapDiv.style.cursor = 'crosshair';
-			return false;
-	}
-	
-	function loadInfo(e) {
-	//console.log(e);	
-	
+function loadPointInfo(e) {
+	console.log("Wywołanie funkcji wczytującej dane do infoboxa");
+
 	var data = e.feature.cluster[0].attributes;
-	var infoBox = document.getElementById('infoBox');
-	var thisBoxId = data.id;
-	activePointId = thisBoxId;
-	if (thisBoxId !== infoBoxId) {
-		while (infoBox.firstChild) {
-			infoBox.removeChild(infoBox.firstChild);
-		}
-		
-		
-		var infoBoxCloseBtn = document.createElement('h1');
-		infoBoxCloseBtn.innerHTML = '<span>X</span>';
-		infoBoxCloseBtn.className = 'infoBoxLabel infoBoxCloseBtn';
-		//infoBoxLabel.nextSibling.style.display = 'block';
-		infoBoxCloseBtn.addEventListener('click', function(){
-			toggle_visibility('infoBox');
-			infoBoxStatus ^= 1;
-			}, false);
-		infoBox.appendChild(infoBoxCloseBtn);
-		
-		
-		var infoBoxLabel = document.createElement('h1');
-		infoBoxLabel.innerHTML = '<span>' + data.name + '</span>';
-		infoBoxLabel.className = 'infoBoxLabel';
-		//infoBoxLabel.nextSibling.style.display = 'block';
-		infoBoxLabel.addEventListener('click', toggle_element, false);
-		infoBox.appendChild(infoBoxLabel);
-		if (infoBoxStatus === 0) {
-			toggle_visibility('infoBox');
-			infoBoxStatus ^= 1;
-		}
-		
-		
-		
-		var infoDescrBox = document.createElement('div');
-		infoDescrBox.id = 'infoDescrBox';
-		infoDescrBox.className = 'infoBoxItem';
-		infoDescrBox.style.display = 'block';
-		
-		
-		var infoCords = document.createElement('p');
-		var infoDescr = document.createElement('p');
-		infoDescr.id = 'infoDescr';
-		infoDescr.className = 'infoDescr'
-		infoDescr.innerHTML = data.description;
-		
-		infoCords.id = 'infoCords';
-		infoCords.innerHTML = data.lon + ' ' + data.lat;
-		infoDescrBox.appendChild(infoCords);
-		infoDescrBox.appendChild(infoDescr);
-		
-		infoBox.appendChild(infoDescrBox);
-		
-		var infoCommLabel = document.createElement('h1');
-		infoCommLabel.className = 'infoBoxLabel';
-		infoCommLabel.innerHTML= '<span>Komentarze</span>';
-		//infoCommLabel.nextSibling.style.display = 'none';
-		infoCommLabel.addEventListener('click', toggle_element, false);
-		infoBox.appendChild(infoCommLabel);
-		
-		var infoCommBox = document.createElement('div');
-		infoCommBox.id = 'infoCommBox';
-		infoCommBox.className =  'infoBoxItem';
-		
-		
-		
-		infoBox.appendChild(infoCommBox);
-		
-		
-		var dataString = 'id=' + data.id;
-		//console.log(dataString);
-		makeRequest('POST', 'site/get-comments', dataString, afterGetComments);
-		//testRequest(dataString);
-		var infoPicsLabel = document.createElement('h1');
-		infoPicsLabel.className = 'infoBoxLabel';
-		infoPicsLabel.innerHTML = '<span>Zdjęcia</span>';
-		infoBox.appendChild(infoPicsLabel);
-		
-		var infoPicsBox = document.createElement('div');
-		infoPicsBox.id = 'infoPicsBox';
-		infoPicsBox.className =  'infoBoxItem';
-		//infoPicsLabel.nextSibling.style.display = 'none';
-		infoPicsLabel.addEventListener('click', toggle_element, false);
-		infoBox.appendChild(infoPicsBox);
-		
-		var dataString2 = 'id=' + data.id;
-		makeRequest('POST', 'site/get-pictures', dataString2, afterGetPics);
-		
-		var infoForumLabel = document.createElement('h1');
-		infoForumLabel.className = 'infoBoxLabel';
-		infoForumLabel.innerHTML = '<span>Forum</span>';
-		infoForumLabel.addEventListener('click', toggle_element, false);
-		infoBox.appendChild(infoForumLabel);
-		
-		var infoForumBox = document.createElement('div');
-		infoForumBox.id = 'infoForumBox';
-		infoForumBox.className =  'infoBoxItem';
-		
-		
-		infoForumBox.innerHTML = '<p>' + (data.forumID == null) ? "<a href='#'>Create new post</a>" : data.forumID + '</p>';
-		infoBox.appendChild(infoForumBox);
-		
-		console.log('first');
-		
-		infoBoxId = thisBoxId;
-		
-	} else {
-		
-		toggle_visibility('infoBox');
-		console.log('second');
-	}
-/*
-	*/
+	var dataString = 'id=' + data.id;
+	document.getElementById('navTabs').getElementsByTagName('li')[0].classList.remove('disabled');
+	
+	var infoBoxLabel = document.getElementById('infoDescrBox').getElementsByClassName('panel-section-infobox-item-label')[0];
+	var infoCords = document.getElementById('infoCords');
+	var infoDescr = document.getElementById('infoDescr');
+	
+	infoBoxLabel.innerHTML = '<span class="glyphicon glyphicon-chevron-right"></span> ' + data.name;
+	infoCords.innerHTML = data.lat.match(/^\d{1,3}\.\d{6}/) + ( data.lat > 0 ? ' N ' : ' S ' ) + ' ' + data.lon.match(/^\d{1,3}\.\d{6}/) + ( data.lon > 0 ? ' E ' : ' W ' );;
+	infoDescr.innerHTML = data.description;
+	
+	makeRequest('POST', 'site/get-comments', dataString, afterGetComments);
+	makeRequest('POST', 'site/get-pictures', dataString, afterGetPics);
+	
+	activePointId = data.id;
+	document.getElementsByClassName('panel-content-holder')[0].scrollTop = 0;
+	//document.getElementById('locationId').value = data.id;
+	console.log(activePointId);
 }
 
 function afterGetComments(responseText) {
-	
-			var commObj = JSON.parse(responseText);
-			
-			var len = commObj.length;
-			var parent = document.getElementById('infoCommBox');
-			var commList = document.createElement('ul');
-			commList.id = 'commentList';
-			commList.className = 'commentList';
-			
-			while (parent.firstChild) {
-				parent.removeChild(parent.firstChild);
-			}
-			var addCommForm = document.createElement('form');
-			addCommForm.id = 'addCommentForm';
-			addCommForm.name = 'addCommentForm';
-			addCommForm.action = '#';
-			addCommForm.addEventListener('submit', function(e) {
-				e.preventDefault(); 
-				validateAddCommForm();
-			});
-			addCommForm.method = 'post';
-			var inputComm = document.createElement('textarea');
-			inputComm.placeholder = 'Dodaj komentarz';
-			inputComm.name = 'comment';
-			addCommForm.appendChild(inputComm);
-			var inputCommSubmitBtn = document.createElement('input');
-			inputCommSubmitBtn.type = 'submit';
-			inputCommSubmitBtn.value = 'Dodaj komentarz';
-			addCommForm.appendChild(inputCommSubmitBtn);
-			parent.appendChild(addCommForm);
-	
-			for ( var i=0; i< len; i++){
-				var commListItemContent = document.createElement('li');
-				commListItemContent.className = 'commListItem comment';
-				commListItemContent.innerHTML = commObj[i].comment;
-				commList.appendChild(commListItemContent);
-				
-				var commListItemAuthor =  document.createElement('li');
-				commListItemAuthor.className = 'commListItem author';
-				commListItemAuthor.innerHTML = commObj[i].username;
-				commList.appendChild(commListItemAuthor);
-				
-				var commListItemDate =  document.createElement('li');
-				commListItemDate.className = 'commListItem date';
-				commListItemDate.innerHTML = commObj[i].date;
-				commList.appendChild(commListItemDate);
-				
-				if ( i == len-1) {
-				lastRetrComm = commObj[i].id;
-				}
-			}
-			parent.appendChild(commList);
-			//console.log(commObj);
-			var moreCommLink = document.createElement('div');
-			var getCommLink = document.createElement('a');
-			getCommLink.href = "#";
-			
-			
-			var dataString3 = 'pointId=' + activePointId + '&commId=' + lastRetrComm;
-			
-			
-			getCommLink.onclick = function() {
-				makeRequest('POST', 'getComments.php', dataString3, afterGetComments, false);
-			};
-			
-			var getCommLinkTN = document.createTextNode("More comments");
-			getCommLink.appendChild(getCommLinkTN);
-			moreCommLink.appendChild(getCommLink);
-			
-		
-			parent.appendChild(moreCommLink);
-	
-		
-	
+	activePointCommArr = JSON.parse(responseText);
+	generateCommList();
 }
 
-function validateAddCommForm() {
+function generateCommList(page) {
 	
+	var parent = document.getElementById('commentsList');
+	var docFrag = document.createDocumentFragment();
+	
+	if (!page) {
+		while (parent.firstChild) {
+		parent.removeChild(parent.firstChild);
+		var page = 1;
+		}
+	} else if (page < 1) {
+		var page = 1;
+	}
+	
+	var submitBtn = document.getElementById('addCommentSubmitBtn');
+	if (submitBtn) {
+		submitBtn.style.display = 'none';
+	}
+	
+	var perpage = 2;
+	var commObjArr = renderPagination(page, perpage, activePointCommArr);
+	if (commObjArr === false) {
+		return false;
+	}
+	
+	while (parent.firstChild) {
+		parent.removeChild(parent.firstChild);
+	}
+	
+	var len = commObjArr.length;
+	for ( var i = 0; i < len; i++ ) {
+		var commentListItem = document.createElement('li');
+		if (i%2) {
+			commentListItem.className = 'panel-section-infobox-comments-list-item bubble bubble-right';
+		} else {
+			commentListItem.className = 'panel-section-infobox-comments-list-item bubble bubble-left';
+		}
+		docFrag.appendChild(commentListItem);
+		
+		var commentListItemText = document.createElement('p');
+		commentListItemText.innerHTML = commObjArr[i].comment;
+		commentListItem.appendChild(commentListItemText);
+		
+		var commentListItemAuthor =  document.createElement('span');
+		commentListItemAuthor.className = 'panel-section-infobox-comments-list-item-author';
+		commentListItemAuthor.innerHTML = commObjArr[i].username;
+		commentListItem.appendChild(commentListItemAuthor);
+		
+		var commentListItemDate =  document.createElement('span');
+		commentListItemDate.className = 'panel-section-infobox-comments-list-item-date text-right';
+		commentListItemDate.innerHTML = commObjArr[i].date;
+		commentListItem.appendChild(commentListItemDate);		
+	}
+	parent.appendChild(docFrag);
+	lastRetrComm = page;
+}
+
+function validateAddCommentForm(e) {
+	
+	var comment = document.forms['addCommentForm']['comment'].value;
+	console.log('validateAddCommentForm');
+
+	if (comment === '') {
+		//addFormMsg.innerHTML = "Komentarz nie może być pusty";
+		
+	} else {
+		//addFormMsg.innerHTML = "Dodawanie...";
+
+		var data = 'komentarz=' + comment + '&id=' + activePointId;
+	makeRequest('POST', 'site/add-comment', data, afterAddComment);
+	}
+	
+	return false;
+}
+
+function afterAddComment(responseText) {
+	activePointCommArr.unshift(JSON.parse(responseText)[0]);
+	
+	var oldComment = document.forms['addCommentForm'];
+	oldComment.reset();
+	generateCommList();
+}
+
+function afterGetPics(responseText) {
+	activePointPicsArr = JSON.parse(responseText);
+	generatePicsList();	
+} 
+
+function generatePicsList(page) {
+	
+	var parent = document.getElementById('picsList');
+	var docFrag = document.createDocumentFragment();
+	
+	if (!page) {
+		while (parent.firstChild) {
+		parent.removeChild(parent.firstChild);
+		var page = 1;
+		}
+	} else if (page < 1) {
+		var page = 1;
+	}
+		
+	
+	var perpage = 3;
+	var picsObjArr = renderPagination(page, perpage, activePointPicsArr);
+	if (picsObjArr === false) {
+		return false;
+	}
+	
+	while (parent.firstChild) {
+		parent.removeChild(parent.firstChild);
+	}
+	
+	var len = picsObjArr.length;
+	for ( var i = 0; i < len; i++ ){
+		var picsListItem = document.createElement('li');
+		picsListItem.className = 'panel-section-infobox-pictures-list-item';
+		
+		var link = document.createElement('a');
+		link.href = 'uploads/' + picsObjArr[i].filename;
+		link.title = picsObjArr[i].username + ' ' + picsObjArr[i].comment;
+		link.dataset.lightbox = "set";
+		
+		
+		var thumb = document.createElement('img');
+		thumb.className = 'img-resposive img-thumbnail';
+		thumb.src = 'uploads/thumbs/' + picsObjArr[i].filename;
+		thumb.style.width = 50 + 'px';
+		thumb.style.height = 50 + 'px';
+		thumb.alt = 'Miniaturka zdjęcia';
+		
+		link.appendChild(thumb);
+		
+		picsListItem.appendChild(link);
+		docFrag.appendChild(picsListItem);
+	}
+	parent.appendChild(docFrag);
+	lastRetrPic = page;
+}
+
+function validateAddPicsForm() {
 	var comment = document.forms['addCommentForm']['comment'].value;
 	
 
@@ -1187,74 +926,21 @@ function validateAddCommForm() {
 	//return false;
 }
 
+function renderPagination(page, perpage, array) {
+	var len = array.length;
+	if ( len === 0 || page <= 0 || perpage <= 0) {
+		return false;
+	}
 
-function afterAddComment(responseText) {
-	console.log(responseText);
+	var pagesNum = Math.ceil(len / perpage);
+	var pageIndex = page-1;
+	if ( page <= pagesNum ) {
+		var start = pageIndex*perpage;
+		var end = page*perpage < len ? page*perpage : len;
+		return array.slice(start, end);
+	} else {
+		return false;
+	}
 }
-
-function afterGetPics(responseText) {
 	
-			var picsObj = JSON.parse(responseText);
-			
-			var len = picsObj.length;
-			var parent = document.getElementById('infoPicsBox');
-			var picsList = document.createElement('ul');
-			picsList.id = 'picsList';
-			picsList.className = 'picsList';
-			
-				while (parent.firstChild) {
-			parent.removeChild(parent.firstChild);
-		}
-			
-			for ( var i=0; i< len; i++){
-				var picsListItemContent = document.createElement('li');
-				picsListItemContent.className = 'picsListItem pic';
-				
-				var link = document.createElement('a');
-				link.href = 'http://127.0.0.1/dyplom/examples/gallery/' + picsObj[i].filename + '_z.jpg';
-				link.title = picsObj[i].login + ' ' + picsObj[i].date;
-				link.dataset.lightbox = "set";
-				
-				
-				var thumb = document.createElement('img');
-				thumb.src = 'http://127.0.0.1/dyplom/examples/gallery/' + picsObj[i].filename + '_m.jpg';
-				thumb.style.width = 50 + 'px';
-				thumb.style.height = 50 + 'px';
-				
-				link.appendChild(thumb);
-				picsListItemContent.appendChild(link);
-				picsList.appendChild(picsListItemContent);
-				
-				if ( i == len-1) {
-				lastRetrPic = picsObj[i].id;
-				}
-				
-			}
-			parent.appendChild(picsList);
-			
-		
-			var morePicsLink = document.createElement('div');
-			
-			var getPicsLink = document.createElement('a');
-			 getPicsLink.href = "#";
-			
-			
-			var dataString4 = 'pointId=' + activePointId + '&picId=' + lastRetrPic;
-			
-			
-			 getPicsLink.onclick = function() {
-				makeRequest('POST', 'getPictures.php', dataString4, afterGetPics, false);
-			};
-			
-			var getPicsLinkTN = document.createTextNode("More pictures");
-			getPicsLink.appendChild(getPicsLinkTN);
-			morePicsLink.appendChild(getPicsLink);
-			
-
-			parent.appendChild(morePicsLink);
-			
-			//console.log(picsObj);
-			
-			
 	
-		} 
