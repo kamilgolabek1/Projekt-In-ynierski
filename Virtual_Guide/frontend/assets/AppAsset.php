@@ -18,10 +18,11 @@ class AppAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/site.css'
+        'css/site.css',
+		'css/lightbox.css'
     ];
     public $js = [
-				
+			'js/lightbox-plus-jquery.min.js',
     			'js/ckeditor/ckeditor.js'
 				
     ];

@@ -11,10 +11,10 @@ class IndexAssetBundle extends AssetBundle
 		public $css = [ 
 			
 			'css/style3.css',
+			'css/lightbox.css'
 		]; 
 		public $js=[
 				'js/jquery.js',
-				'http://maps.google.com/maps/api/js?v=3&sensor=false',
 				'lib/OpenLayers.js',
 				'lib/FeaturePopups.js',
 				'js/virtualguide.js',
