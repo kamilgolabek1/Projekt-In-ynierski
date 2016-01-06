@@ -63,11 +63,11 @@ $this->registerCss(".container-fluid {padding: 0;}");
 								</form>';
 								}?>
 								<ul id="commentsList" class="panel-section-infobox-comments-list">Tu są komentarze</ul>
-								<div class="pagination-links pagination-links-left">
-									<div class="col-sm-6">
+								<div id="commPaginationContainer"  class="pagination-links">
+									<div class="pagination-links-left">
 										<span class="glyphicon glyphicon-menu-left"></span><a href="#" id="commentsMore"> Poprzednie</a>
 									</div>
-									<div class="col-sm-6 pagination-links-right">
+									<div class="pagination-links-right">
 										<a href="#" id="commentsLess">Następne </a><span class="glyphicon glyphicon-menu-right"></span>
 									</div>
 								</div>
@@ -90,11 +90,11 @@ $this->registerCss(".container-fluid {padding: 0;}");
 								</div>
 								
 								<ul id="picsList" class="panel-section-infobox-pictures-list">Tu są zdjęcia</ul>
-								<div class="pagination-links">
-									<div class="col-sm-6 pagination-links-left">
+								<div id="picsPaginationContainer" class="pagination-links">
+									<div class="pagination-links-left">
 										<span class="glyphicon glyphicon-menu-left"></span><a href="#" id="picsMore"> Poprzednie</a>
 									</div>
-									<div class="col-sm-6 pagination-links-right">
+									<div class="pagination-links-right">
 										<a href="#" id="picsLess">Następne </a><span class="glyphicon glyphicon-menu-right"></span>
 									</div>
 								</div>

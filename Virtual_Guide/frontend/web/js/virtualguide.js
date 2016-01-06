@@ -761,6 +761,8 @@ function loadPointInfo(e) {
 	document.getElementsByClassName('panel-content-holder')[0].scrollTop = 0;
 	//document.getElementById('locationId').value = data.id;
 	console.log(activePointId);
+	
+	$('#navTabs a[href="#infoBox"]').tab('show');
 }
 
 function afterGetComments(responseText) {
@@ -772,12 +774,13 @@ function generateCommList(page) {
 	
 	var parent = document.getElementById('commentsList');
 	var docFrag = document.createDocumentFragment();
+	var pagControls = document.getElementById('commPaginationContainer');
 	
 	if (!page) {
 		while (parent.firstChild) {
 		parent.removeChild(parent.firstChild);
-		var page = 1;
 		}
+		var page = 1;
 	} else if (page < 1) {
 		var page = 1;
 	}
@@ -790,7 +793,14 @@ function generateCommList(page) {
 	var perpage = 2;
 	var commObjArr = renderPagination(page, perpage, activePointCommArr);
 	if (commObjArr === false) {
+		if (arguments.length === 0) {
+			pagControls.style.display = 'none';
+		}
 		return false;
+	}
+	
+	if (pagControls.style.display === 'none') {
+		pagControls.style.display = 'block';
 	}
 	
 	while (parent.firstChild) {
@@ -860,12 +870,13 @@ function generatePicsList(page) {
 	
 	var parent = document.getElementById('picsList');
 	var docFrag = document.createDocumentFragment();
+	var pagControls = document.getElementById('picsPaginationContainer');
 	
 	if (!page) {
 		while (parent.firstChild) {
 		parent.removeChild(parent.firstChild);
-		var page = 1;
 		}
+		var page = 1;
 	} else if (page < 1) {
 		var page = 1;
 	}
@@ -874,7 +885,13 @@ function generatePicsList(page) {
 	var perpage = 3;
 	var picsObjArr = renderPagination(page, perpage, activePointPicsArr);
 	if (picsObjArr === false) {
+		if (arguments.length === 0) {
+			pagControls.style.display = 'none';
+		}
 		return false;
+	}
+	if (pagControls.style.display === 'none') {
+		pagControls.style.display = 'block';
 	}
 	
 	while (parent.firstChild) {
