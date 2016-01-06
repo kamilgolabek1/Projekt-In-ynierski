@@ -17,10 +17,37 @@ document.getElementById('navTabs').getElementsByTagName('li')[0].addEventListene
 	}
 });
 
-// document.getElementById('addPointBtn').addEventListener('click', function(e) {
-	// e.preventDefault();
-	// createPopup('addPoint', addingPoint, true);
-// });
+
+document.addEventListener('click', function (e) {
+    
+    // If the clicked element is not the menu
+   // if (!$(e.target).parents(".custom-menu").length > 0) {
+        console.log('mamaaaaaaaaaaaaa');
+        console.log(e);
+        // Hide it
+      hideCustomMenu(); 
+}); 
+
+document.getElementById('custom-menu-container').addEventListener('click', function(e) {
+	
+	if (e.target.id === 'firstCustomMenuOption') {
+		console.log('pierwsza opcja');
+		document.forms["addPointForm"].reset();
+		$('#navTabs a[href="#addPoint"]').tab('show');
+		
+	} else if (e.target.id === 'secondCustomMenuOption') {
+		console.log('druga opcja');
+		document.forms["addPointForm"].reset();
+		$('#navTabs a[href="#addPoint"]').tab('show');
+		var dataHolder = document.getElementById('secondCustomMenuOption');
+		document.forms['addPointForm']['lon'].value = dataHolder.dataset.lon;
+		document.forms['addPointForm']['lat'].value = dataHolder.dataset.lat;
+		document.forms['addPointForm']['zoom'].value = map.getZoom();
+	} else if (e.target.id === 'thirdCustomMenuOption') {
+		$('#navTabs a[href="#searchPoint"]').tab('show');
+	}
+	
+});
 
 document.getElementsByClassName('panel-toggle-button')[0].addEventListener('click', function(e) {
 	
@@ -127,7 +154,7 @@ OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {
 		'stopSingle': false,
 		'stopDouble': false
 	},
-
+	handleRightClicks:true,
 	initialize: function (options) {
 		this.handlerOptions = OpenLayers.Util.extend(
 			{}, this.defaultHandlerOptions
@@ -137,33 +164,47 @@ OpenLayers.Control.Click = OpenLayers.Class(OpenLayers.Control, {
 		);
 		this.handler = new OpenLayers.Handler.Click(
 			this, {
-				'click': this.trigger
+				'click': this.trigger,
+				'rightclick' : this.trigger2
+				
 
 			}, this.handlerOptions
 		);
 	}, 
 
 	trigger : function (e) {
-		var lonlat = (map.getLonLatFromPixel(e.xy)).transform(new OpenLayers.Projection('EPSG:900913'), new OpenLayers.Projection('EPSG:4326'));
+		
+		if (getCordsFlag) {
+		var lonlat = map.getLonLatFromPixel(e.xy).transform(new OpenLayers.Projection('EPSG:900913'), new OpenLayers.Projection('EPSG:4326'));
 		var lon = document.forms['addPointForm']['lon'];
 		var lat = document.forms['addPointForm']['lat'];
 		var zoom = document.forms['addPointForm']['zoom'];
 		// transformacja wspolrzednych
-
+		console.log(e);
 		lon.value = lonlat.lon;
 		lat.value = lonlat.lat;
 		zoom.value = map.getZoom();
 
 		var control = map.getControlsBy("id", "clickControl")[0];
-		if (control.active) {
-			console.log('contolol activ');
-			control.deactivate();
+		// if (control.active) {
+			// console.log('contolol activ');
+			// control.deactivate();
+		// }
 		}
 		vectorlayer.setVisibility(true);
 
 		var mapDiv = document.getElementById('map');
 		mapDiv.style.cursor = 'default';
+	},
+	
+	trigger2 : function (e) {
+		//e.preventDefault();
+		showCustomMenu(e);
+		savePointCords(e);
+		console.log("trigger 2 right click");
+		
 	}
+	
 
 });
 
@@ -179,7 +220,7 @@ var activePointId = "-1"
 var json = [];
 var activePointCommArr = [];
 var activePointPicsArr = [];
-
+var getCordsFlag = false;
 
 
 
@@ -240,7 +281,7 @@ function main (){
     };
     
     // instanciate the map
-    map = new OpenLayers.Map("map", {
+    map = new OpenLayers.Map('map', {
     		eventListeners : {
     			featureover : function (e) {
     				e.feature.renderIntent = "select";
@@ -267,10 +308,30 @@ function main (){
     
     // background WMS
 	
-	
+	map.div.addEventListener('contextmenu', function noContextMenu(e) {
+		e.preventDefault();
+		//console.log(map);
+		//var lonlat = (map.getLonLatFromPixel(e.xy)).transform(new OpenLayers.Projection('EPSG:900913'), new OpenLayers.Projection('EPSG:4326'));
+           /*   if (OpenLayers.Event.isRightClick(e)){
+                console.log("Right button click"); // Add the right click menu here
+			//savePointCords(e);
+			//var lonlat = (map.getLonLatFromPixel(e.xy)).transform(new OpenLayers.Projection('EPSG:900913'), new OpenLayers.Projection('EPSG:4326'));
+			showCustomMenu(e); */
+    
+    // In the right position (the mouse)
+          
+      // }
+	 });       
+    
    
-	
-
+	 map.events.register('mousedown', map, function(e) {
+	    console.log('mousedown');
+	    if (checkCustomMenuVisibility() === true) {
+		    console.log(e);
+		    hideCustomMenu();
+	    }
+	    return true;
+	},true);
     
     // context to style the vectorlayer
     var context = {
@@ -520,7 +581,7 @@ map.addControls([new OpenLayers.Control.LayerSwitcher(),
 		new OpenLayers.Control.MousePosition(),
 		new OpenLayers.Control.Click({id : 'clickControl'})]
 );
-    
+    map.getControlsBy("id", "clickControl")[0].activate();
    addFeaturesToVector(vectorlayer, json);
     updateGeneralInformation();
 
@@ -659,7 +720,7 @@ function afterAdd() {
 			//console.log(jsonObj);
 			console.log(json);
 			addFormMsg.innerHTML = "";
-			document.forms["addForm"].reset();
+			document.forms["addPointForm"].reset();
 			if (map.popups[0]) {
 				map.removePopup(map.popups[0]);
 			}
@@ -726,6 +787,8 @@ function controlFeatureClick(e) {
 function getCoordinates() {
 	var control = map.getControlsBy("id", "clickControl")[0];
 	console.log(control);
+   
+   getCordsFlag = true;
    
    if (!control.active) {
 		console.log('contolol not activ');
@@ -959,5 +1022,34 @@ function renderPagination(page, perpage, array) {
 		return false;
 	}
 }
+
+function showCustomMenu(e) {
+	var menu = document.getElementById('custom-menu-container');
+		menu.style.display = 'block';
+		menu.style.top = e.pageY + 4 + "px";
+		menu.style.left= e.pageX + 4 + "px";
 	
+}
+
+function hideCustomMenu(e) {
+	var menu = document.getElementById('custom-menu-container');
+		menu.style.display = 'none';
+}
+
+function checkCustomMenuVisibility() {
+	var menu = document.getElementById('custom-menu-container');
+	if (menu.style.display === 'block') {
+		return true;
+	} else {
+		return false;
+	}
+}
+function savePointCords(e) {
+	var menuOption = document.getElementById('secondCustomMenuOption');
 	
+	var lonlat = (map.getLonLatFromPixel(e.xy)).transform(new OpenLayers.Projection('EPSG:900913'), new OpenLayers.Projection('EPSG:4326'));
+	var lon = lonlat.lon;
+	var lat = lonlat.lat;
+	menuOption.dataset.lon = lon;
+	menuOption.dataset.lat = lat;
+}

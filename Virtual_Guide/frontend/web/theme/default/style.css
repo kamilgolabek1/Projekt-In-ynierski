@@ -308,7 +308,7 @@ div.olControlSaveFeaturesItemInactive {
  */
 .olControlLayerSwitcher {
     position: absolute;
-    top: 25px;
+    top: 95px;
     right: 0;
     width: 20em;
     font-family: sans-serif;
@@ -346,7 +346,7 @@ div.olControlSaveFeaturesItemInactive {
     width: 18px;
     height: 18px;
     top: 5px;
-    right: 0;
+    right: 0px;
     cursor: pointer;
 }
 
@@ -436,8 +436,8 @@ span.olGoogleAttribution.hybrid a, span.olGoogleAttribution.satellite a {
 
 div.olControlZoom {
     position: absolute;
-    top: 8px;
-    left: 8px;
+    bottom: 100px;
+   right: 8px;
     background: rgba(255,255,255,0.4);
     border-radius: 4px;
     padding: 2px;

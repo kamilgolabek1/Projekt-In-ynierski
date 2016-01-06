@@ -15,7 +15,7 @@ $this->registerCss(".container-fluid {padding: 0;}");
 
     
         <!-- Miejsce na mapę -->
-		<div id='map' class='olMap'></div>
+		<div id="map" class="olMap"></div>
 						
 					
 		<div id="panel">
@@ -196,7 +196,15 @@ $this->registerCss(".container-fluid {padding: 0;}");
 	
 			
 		</div>
-
+		
+		<div id="custom-menu-container">
+			<ul class="custom-menu">
+			  <li id="firstCustomMenuOption">Dodaj lokalizację</li>
+			  <li id="secondCustomMenuOption">Dodaj lokalizację tutaj</li>
+			  <li id="thirdCustomMenuOption">Szukaj lokalizację</li>
+			</ul>
+		</div>
+		
 <div id="divList">Divlist</div>
 <div id="generalinfo"></div>
 <div id="info"></div>
