@@ -17,6 +17,12 @@ class UploadForm extends Model
             [['imageFile'], 'file', 'skipOnEmpty' => false, 'extensions' => 'png, jpg'],
         ];
     }
+    public function attributeLabels()
+    {
+    	return [
+    			'imageFile' => '',
+    	];
+    }
     
     public function upload($name)
     {

@@ -105,10 +105,12 @@ $this->registerCss(".container-fluid {padding: 0;}");
 						<div id="addPoint"  class="panel-section-addform-container tab-pane" role="tabpanel">
 							<h2 id="addPointTitle" class="panel-section-addform-label"><span class="glyphicon glyphicon-chevron-right"></span> Dane nowej lokalizacji</h2>
 							<!-- Formularz 'Dodaj punkt' -->
-							<?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data', 'id' => 'addPointForm', 'class' => 'form form-horizontal', 'name' => 'addPointForm']]) ?>   
-							
-							<?= $form->field($modelup, 'imageFile')->fileInput() ?>
-						    
+							<?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data', 'id' => 'addPointForm', 'class' => 'form form-horizontal form-group', 'name' => 'addPointForm']]) ?>   
+
+							<div class="form-group">
+							<label class="col-sm-3 control-label" for="addPointForm-image"><span class="form-label">Zdjęcie</span></label>
+								<?= $form->field($modelup, 'imageFile')->fileInput(['style' => 'float:right']) ?>
+						    </div>
 						    <div class="form-group">
 								<label class="col-sm-3 control-label" for="addPointForm-name"><span class="form-label">Nazwa</span></label>
 								<div class="col-sm-9">
