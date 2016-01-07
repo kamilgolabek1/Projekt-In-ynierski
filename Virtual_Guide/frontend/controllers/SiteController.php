@@ -87,9 +87,9 @@ class SiteController extends Controller
     $modelup2 = new UploadForm();
 
         if (Yii::$app->request->isPost) {
-        	
         	$request = Yii::$app->request;
         	$name = $request->post('name');
+        	if(!isset($_POST['name'])) return;
         	$adres= $request->post('adress');
         	$opis = $request->post('descr');
         	$zoom= $request->post('zoom');
@@ -113,19 +113,24 @@ class SiteController extends Controller
         	
         	if($location->save()){
         		$modelup->imageFile = UploadedFile::getInstance($modelup, 'imageFile');
-			    $now =  date('Y_m_d_H_i_s');
-        		$name = (string)$location->userID."_".$now;
-        		$name = str_replace(" ", "_", $name);
-        		if ($modelup->upload($name)) {
-        			$photo =  new Photo();
-        			$photo->locationID = $location->ID;
-        			$photo->filename = $name.".".$modelup->imageFile->extension;
-        			$photo->comment = "";
-        			$photo->userID = $location->userID;
-        			$photo->save();
+        		if($modelup->imageFile){
+        			$now =  date('Y_m_d_H_i_s');
+        			$name = (string)$location->userID."_".$now;
+        			$name = str_replace(" ", "_", $name);
+        			if ($modelup->upload($name)) {
+        				$photo =  new Photo();
+        				$photo->locationID = $location->ID;
+        				$photo->filename = $name.".".$modelup->imageFile->extension;
+        				$photo->comment = "";
+        				$photo->userID = $location->userID;
+        				$photo->save();
+        			}
         		}
+			    
         	}
+        	unset($_POST['name']);
         }
+        
 		
         $categories = Category::find()->all();
 		$countries = Countries::find()->all();
@@ -164,7 +169,37 @@ class SiteController extends Controller
 		$locations = json_encode($locations);
 		return $locations;
 	}
-	
+	public function actionPointsSearch(){
+		if (Yii::$app->request->isPost) {
+			$request = Yii::$app->request;
+			$krajID = $request->post('kraj');
+			$kategoria = $request->post('kategoria');
+			$slowo_kluczowe = $request->post('slowo');
+			$filter = "";
+			if($krajID > 0){
+				$filter = " and countryID = ".$krajID."";
+			}
+			if($kategoria > 0){
+				if($filter != ""){
+					$filter = $filter." and categoryID = $kategoria";
+				}else {
+					$filter = " and categoryID = $kategoria";
+				}
+			}
+			if($slowo_kluczowe != ""){
+				if($filter != ""){
+					$filter = $filter." and (name like '%$slowo_kluczowe%' or descr like '%$slowo_kluczowe%' or tag like '%$slowo_kluczowe%'  )";
+				}else {
+					$filter = " and name like '%$slowo_kluczowe%' or descr like '%$slowo_kluczowe%' or tag like '%$slowo_kluczowe%'";
+				}
+			}
+		
+			$sql = "Select * from Location where 1=1 ".$filter."";
+			$locations = Location::findBySql($sql)->asArray()->all();
+			$locations = json_encode($locations);
+			return $locations;
+		}
+	}
 	public function actionGetComments(){
 		$request = Yii::$app->request;
         $id = $request->post('id');   
