@@ -59,7 +59,7 @@ AppAsset::register($this);
     NavBar::end();
     ?>
 
-    <div class="container<?= $this->params['fluid'] ? '-fluid' : '' ?>">
+    <div class="container<?= array_key_exists('fluid',$this->params)  ? '-fluid' : '' ?>">
         <?= Breadcrumbs::widget([
         'homeLink' => ['label' => 'Strona Główna',
         'url' => Yii::$app->getHomeUrl()],
@@ -73,7 +73,7 @@ AppAsset::register($this);
     </div>
 </div>
 
-<?= $this->params['fullscreen'] ? '' : 
+<?= array_key_exists('fullscreen',$this->params)   ? '' : 
 '<footer class="footer">
     <div class="container">
         <p class="pull-left">&copy; Wirtualny Przewodnik ' .date('Y'). '</p>
