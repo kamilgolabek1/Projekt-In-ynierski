@@ -18,14 +18,18 @@ $this->params['breadcrumbs'][] = ['label' => 'Lokalizacje', 'url' => ['location/
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-<h3>tu powinna być galeria</h3>
+<h3>Galeria</h3>
 <!-- taka klasa nie istnieje -->
 <div class="galeria">
+	
+	
+	
+	
 <?php foreach($photos as $photo){ ?>
-	<p><?php echo $photo->filename ?></p>
+	<a href="uploads/<?php echo $photo->filename ?>" data-lightbox="set"><img src="uploads/thumbs/<?php echo $photo->filename ?>" style="width: 50px; height: 50px;"></a>
 	<?php }?>
 </div>
-<h3>Koniec Galerii</h3>
+
 
 
 <?php echo "<h2>".$model->name."</h2>";?>
