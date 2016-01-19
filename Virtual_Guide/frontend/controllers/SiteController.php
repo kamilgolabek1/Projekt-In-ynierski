@@ -164,7 +164,7 @@ class SiteController extends Controller
 	
 	// obsluga mapy 
 	public function actionPoints(){
-		$sql = "Select * from Location ";
+		$sql = "Select * from location ";
 		$locations = Location::findBySql($sql)->asArray()->all();
 		$locations = json_encode($locations);
 		return $locations;
@@ -194,7 +194,7 @@ class SiteController extends Controller
 				}
 			}
 		
-			$sql = "Select * from Location where 1=1 ".$filter."";
+			$sql = "Select * from location where 1=1 ".$filter."";
 			$locations = Location::findBySql($sql)->asArray()->all();
 			$locations = json_encode($locations);
 			return $locations;
@@ -204,8 +204,8 @@ class SiteController extends Controller
 		$request = Yii::$app->request;
         $id = $request->post('id');   
 		if(!$id){return;}
-		$sql = "Select c.id, c.comment, c.date, u.username  from Comment c  
-		join User u on u.ID = c.userID where locationID = $id order by c.date desc";
+		$sql = "Select c.id, c.comment, c.date, u.username  from comment c  
+		join user u on u.ID = c.userID where locationID = $id order by c.date desc";
 		$comments = Location::findBySql($sql)->asArray()->all();
 		$comments = json_encode($comments);
 		return $comments;
@@ -215,7 +215,7 @@ class SiteController extends Controller
 		$request = Yii::$app->request;
         $id = $request->post('id');   
 		if(!$id){return;}
-		$sql = "Select p.id, p.filename, p.comment, u.username  from Photo p join User u on u.ID = p.userID where locationID = $id order by p.ID desc";
+		$sql = "Select p.id, p.filename, p.comment, u.username  from photo p join user u on u.ID = p.userID where locationID = $id order by p.ID desc";
 		$pictures = Location::findBySql($sql)->asArray()->all();
 		$pictures = json_encode($pictures);
 		return $pictures;
@@ -380,7 +380,7 @@ class SiteController extends Controller
     
      public function actionKomentarze($id)
     {
-    	$sql = "Select * from Comment c  join User u on c.userID = u.ID where c.locationID = $id ";
+    	$sql = "Select * from comment c  join User u on c.userID = u.ID where c.locationID = $id ";
     	$count = Yii::$app->db->createCommand($sql)->queryAll();
     	$count = count($count);
     	$dataProvider = new SqlDataProvider([
@@ -427,7 +427,7 @@ class SiteController extends Controller
        
         if($comment->save()){
         	$comid = $comment->ID;
-        	$sql = "Select * from Comment where ID = $comid ";
+        	$sql = "Select * from comment where ID = $comid ";
         	$comm = Comment::findBySql($sql)->asArray()->all();
         	$comm = json_encode($comm);
         	return $comm;
