@@ -203,7 +203,7 @@ $this->registerCss(".container-fluid {padding: 0;}");
 			<ul class="custom-menu">
 			  <li id="firstCustomMenuOption">Dodaj lokalizację</li>
 			  <li id="secondCustomMenuOption">Dodaj lokalizację tutaj</li>
-			  <li id="thirdCustomMenuOption">Szukaj lokalizację</li>
+			  <li id="thirdCustomMenuOption">Szukaj lokalizacji</li>
 			</ul>
 		</div>
 		
