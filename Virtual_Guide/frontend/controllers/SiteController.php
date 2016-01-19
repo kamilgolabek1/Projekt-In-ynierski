@@ -380,7 +380,7 @@ class SiteController extends Controller
     
      public function actionKomentarze($id)
     {
-    	$sql = "Select * from comment c  join User u on c.userID = u.ID where c.locationID = $id ";
+    	$sql = "Select * from comment c  join user u on c.userID = u.ID where c.locationID = $id ";
     	$count = Yii::$app->db->createCommand($sql)->queryAll();
     	$count = count($count);
     	$dataProvider = new SqlDataProvider([
