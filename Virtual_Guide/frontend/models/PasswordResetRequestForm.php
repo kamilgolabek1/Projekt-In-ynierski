@@ -3,6 +3,7 @@ namespace frontend\models;
 
 use common\models\User;
 use yii\base\Model;
+use Yii;
 
 /**
  * Password reset request form
@@ -47,18 +48,13 @@ class PasswordResetRequestForm extends Model
             }
 
             if ($user->save()) {
-                return \Yii::$app->mailer->compose(['html' => 'passwordResetToken-html', 'text' => 'passwordResetToken-text'], ['user' => $user])
-                    ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name . ' robot'])
+                return Yii::$app->mailer->compose(['html' => 'passwordResetToken-html', 'text' => 'passwordResetToken-text'], ['user' => $user])
+                    ->setFrom([Yii::$app->params['adminEmail'] => Yii::$app->name . ' robot'])
                     ->setTo($this->email)
-                    ->setSubject('Password reset for ' . \Yii::$app->name)
+                    ->setSubject('Password reset for ' . Yii::$app->name)
                     ->send();
 					
-					return Yii::$app->mailer->compose()
-					->setTo($this->email)
-					->setFrom([\Yii::$app->params['adminEmail'] => \Yii::$app->name . ' robot')
-					->setSubject("zapytanie ze strony Wirtualny przewodnik: ".$this->subject )
-					->setTextBody($this->body)
-					->send();
+					
                 
             
             }

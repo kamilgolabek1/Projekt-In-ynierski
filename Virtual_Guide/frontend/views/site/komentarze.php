@@ -14,7 +14,7 @@ use common\models\User;
  */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Lokalizacje', 'url' => ['location/index']];
+$this->params['breadcrumbs'][] = ['label' => 'Lokalizacje', 'url' => ['location']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 

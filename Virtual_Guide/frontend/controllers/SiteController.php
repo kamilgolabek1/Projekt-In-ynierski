@@ -134,7 +134,7 @@ class SiteController extends Controller
 		
         $categories = Category::find()->all();
 		$countries = Countries::find()->all();
-		$sql = "Select * from Location ";
+		$sql = "Select * from location ";
     	$locations = Yii::$app->db->createCommand($sql)->queryAll();
         return $this->render('index',['locations' => $locations,'modelup' => $modelup,'modelup2' => $modelup2,'categories' => $categories,'countries' => $countries] );
     }
