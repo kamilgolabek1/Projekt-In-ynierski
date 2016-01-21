@@ -15,7 +15,7 @@ use common\models\Category;
 <div class="location-search">
  <?php  Pjax::begin();?>
     <?php $form = ActiveForm::begin([
-        'action' => ['index'],
+        'action' => ['location'],
         'method' => 'get',
     	'layout' => 'inline',	
     		//'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}",

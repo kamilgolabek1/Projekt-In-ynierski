@@ -27,7 +27,7 @@ class CommentController extends Controller
         ];
     }
 
-    public function beforeAction()
+    public function beforeAction($action)
     {
     	if (Yii::$app->user->isGuest){
     		return $this->redirect(Yii::$app->urlManager->createUrl('site/login'));
