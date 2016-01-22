@@ -7,6 +7,11 @@ document.getElementById('addPointForm').addEventListener('submit', function(e) {
 	validateAddPointForm('addPoint', addingPoint, true);
 });
 
+document.getElementById('searchPointForm').addEventListener('submit', function(e) {
+	e.preventDefault();
+	validateSearchPointForm();
+});
+
 console.log(document.getElementById('navTabs').getElementsByTagName('li')[0]);
 document.getElementById('navTabs').getElementsByTagName('li')[0].addEventListener('click', function(e) {
 	console.log(e);
@@ -113,6 +118,8 @@ document.getElementById('picsLess').addEventListener('click', function(e) {
 	e.preventDefault();
 	generatePicsList(lastRetrPic+1);
 });
+
+
 
 /**
  * Class: OpenLayers.Strategy.AttributeCluster
@@ -342,6 +349,7 @@ function main (){
 					}
 					else if (feature.cluster) {
 						var onlyFour = true;
+
 						for (var i = 0; i < feature.cluster.length; i++) {
 							if (onlyFour && feature.cluster[i].attributes.clazz !== 4) {
 								onlyFour = false;
@@ -731,7 +739,34 @@ function afterAdd() {
 	}
 }
 
+function validateSearchPointForm() {
+	
+	var selectList = document.getElementById('searchPointForm').getElementsByTagName('select');
+	var country = selectList[0].options[selectList[0].selectedIndex].value;
+	var tag = document.forms['searchPointForm']['tag'].value;
+	var cat = selectList[1].options[selectList[1].selectedIndex].value;
+	
+	if ( country == '-1' && cat == '-1' && tag.length > 0 && tag.length < 3 ) {
+		return false;
+	} else if ( tag.length > 0 && tag.length < 3 ) {
+		return false;
+	} else {
+		
+		var data = 'kraj=' + country + '&kategoria=' + cat + '&slowo=' + tag;
+		makeRequest('POST', 'site/points-search', data, alertContents);
+		return false;
+	}
 
+	/*if (comment === '') {
+		addFormMsg.innerHTML = "Komentarz nie może być pusty";
+		return false;
+	} else {
+		addFormMsg.innerHTML = "Dodawanie...";
+
+		var data = 'lon=' + lon + '&lat=' + lat + '&name=' + name + '&addr=' + addr + '&desc=' + desc + '&zoom=' + zoom + '&cat=' + cat;
+		makeRequest('POST', 'addPoint.php', data, afterAdd);
+	}*/
+}
 
 function addFeaturesToVector(layer, json) {
 	layer.destroyFeatures();
@@ -1053,3 +1088,14 @@ function savePointCords(e) {
 	menuOption.dataset.lon = lon;
 	menuOption.dataset.lat = lat;
 }
+
+(function fixSearchPointForm() {
+	var selectList = document.getElementById('searchPointForm').getElementsByTagName('select');
+	var option1 = document.createElement('option');
+	option1.value = '-1';
+	option1.setAttribute('selected', 'selected');
+	option1.setAttribute('name', 'none');
+	var option2 = option1.cloneNode(true);
+	selectList[0].insertBefore(option1, selectList[0].options[0]);
+	selectList[1].insertBefore(option2, selectList[1].options[0]);
+})();

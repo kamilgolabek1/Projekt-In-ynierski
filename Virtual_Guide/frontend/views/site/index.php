@@ -190,6 +190,40 @@ $this->registerCss(".container-fluid {padding: 0;}");
 						
 						<div id="searchPoint"  class="panel-section-searchform-container tab-pane active" role="tabpanel">
 							<h2 id="searchPointTitle" class="panel-section-searchform-label"><span class="glyphicon glyphicon-chevron-right"></span> Kryteria wyszukiwania lokalizacji</h2>						
+							<form id="searchPointForm" class="form-horizontal" name="searchPointForm" action="#" method="post">
+								<div class="form-group">
+									<label class="col-sm-3 control-label"><span class="form-label">Kraj</span></label>
+									<div class="col-sm-9">
+										<select class="form-control input-sm" name="country">
+										<?php foreach($countries as $country){ ?>
+											<option name="<?php echo $country->country_name?>" value="<?php echo $country->ID?>"><?php  echo $country->country_name?></option>
+										<?php }?>
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-3 control-label" for="searchPointForm-cat><span class="form-label">Kategoria</span></label>
+									<div class="col-sm-9">
+										<select class="form-control input-sm" id="searchPointForm-cat" name="category">
+										<?php foreach($categories as $cat){ ?>
+											<option name="<?php echo $cat->name?>" value="<?php echo $cat->ID?>"><?php  echo $cat->name?></option>
+										<?php }?>
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-3 control-label" for="searchPointForm-tag"><span class="form-label">Tag</span></label>
+									<div class="col-sm-9">
+										<input class="form-field form-control input-sm" type="text" name="tag" id="searchPointForm-tag">
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-sm-offset-3 col-sm-9">	
+										<button class="btn btn-primary btn-sm">Szukaj</button>
+									</div>
+								</div>
+							</form>
+						
 						</div>
 						
 					</div>
