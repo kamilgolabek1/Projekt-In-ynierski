@@ -2,14 +2,146 @@
 //#### HTML elements event listeners
 var addForm = document.getElementById('addCommentForm');
 
-document.getElementById('addPointForm').addEventListener('submit', function(e) {
+document.getElementById('addPointSubmitBtn').addEventListener('click', function(e) {
 	e.preventDefault();
-	validateAddPointForm('addPoint', addingPoint, true);
+	console.log("Dodawanie obrazka");
+	
+	var selectList = document.getElementById('addPointForm').getElementsByTagName('select');
+	
+	
+	
+	var name = document.forms['addPointForm']['name'].value;
+	var addr = document.forms['addPointForm']['addr'].value;
+	var descr = document.forms['addPointForm']['descr'].value;
+	var lon = document.forms['addPointForm']['lon'].value;
+	var lat = document.forms['addPointForm']['lat'].value;
+	var zoom = document.forms['addPointForm']['zoom'].value;
+	var cat = selectList[0].options[selectList[0].selectedIndex].value;
+	var tag = document.forms['searchPointForm']['tag'].value;
+	var country = selectList[1].options[selectList[1].selectedIndex].value;
+	
+	var formData = new FormData();
+	formData.append('_csrf', document.forms.addPointForm._csrf.value);
+	formData.append("UploadForm[imageFile]", document.getElementById('addPointForm-image').files[0]);
+	formData.append("name", name);
+	formData.append("adress", addr);
+	formData.append("descr", descr);
+	formData.append("tag", tag);
+	formData.append("lon", lon);
+	formData.append("lat", lat);
+	formData.append("zoom", zoom);
+	formData.append("category", cat);
+	formData.append("country", country);
+	
+	$.ajax({
+        url: 'site/index',  //Server script to process data
+        type: 'POST',
+        
+        //Ajax events
+       
+        success: function(data, textStatus, jqXHR)
+        {
+            if(typeof data.error === 'undefined')
+            {
+                // Success so call function to process the form
+                //submitForm(event, data);
+					document.forms["addPointForm"].reset();
+            }
+            else
+            {
+                // Handle errors here
+                console.log('ERRORS: ' + data.error);
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown)
+        {
+            // Handle errors here
+            console.log('ERRORS: ' + textStatus);
+            // STOP LOADING SPINNER
+        },
+        // Form data
+        data: formData,
+        //Options to tell jQuery not to process data or worry about content-type.
+        cache: false,
+        contentType: false,
+        processData: false
+	
+    });
+	
+	
+	
 });
 
-document.getElementById('searchPointForm').addEventListener('submit', function(e) {
+document.getElementById('addPointResetBtn').addEventListener('click', function(e) {
+	e.preventDefault();
+	document.forms['addPointForm'].reset();
+});
+
+document.getElementById('addPictureForm').addEventListener('submit', function(e) {
+	e.preventDefault();
+	console.log("Dodawanie obrazka");
+	
+	
+    //var formData = new FormData($('form')[2]);
+	var formData = new FormData();
+	
+	formData.append('_csrf', document.forms.addPictureForm._csrf.value);
+	formData.append('id', document.querySelector('#addPictureForm > [name=id]').value);
+	formData.append("UploadForm[imageFile]", document.getElementById('file2').files[0]);
+	//makeRequest('POST', 'site/upload', formData, log);
+	
+	$.ajax({
+        url: 'site/upload',  //Server script to process data
+        type: 'POST',
+        
+        //Ajax events
+       
+        success: function(data, textStatus, jqXHR)
+        {
+            if(typeof data.error === 'undefined')
+            {
+                // Success so call function to process the form
+               document.forms["addPictureForm"].reset();
+            }
+            else
+            {
+                // Handle errors here
+                console.log('ERRORS: ' + data.error);
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown)
+        {
+            // Handle errors here
+            console.log('ERRORS: ' + textStatus);
+            // STOP LOADING SPINNER
+        },
+        // Form data
+        data: formData,
+        //Options to tell jQuery not to process data or worry about content-type.
+        cache: false,
+        contentType: false,
+        processData: false
+	
+    });
+	
+	
+});
+	
+
+function log() {
+	console.log('zaldowano obrazek');
+}	
+	
+
+
+document.getElementById('searchSubmitBtn').addEventListener('click', function(e) {
 	e.preventDefault();
 	validateSearchPointForm();
+});
+
+document.getElementById('searchResetBtn').addEventListener('click', function(e) {
+	e.preventDefault();
+	document.forms['searchPointForm'].reset();
 });
 
 console.log(document.getElementById('navTabs').getElementsByTagName('li')[0]);
@@ -849,7 +981,7 @@ function loadPointInfo(e) {
 	var infoDescr = document.getElementById('infoDescr');
 	
 	infoBoxLabel.innerHTML = '<span class="glyphicon glyphicon-chevron-right"></span> ' + data.name;
-	infoCords.innerHTML = data.lat.match(/^\d{1,3}\.\d{6}/) + ( data.lat > 0 ? ' N ' : ' S ' ) + ' ' + data.lon.match(/^\d{1,3}\.\d{6}/) + ( data.lon > 0 ? ' E ' : ' W ' );;
+	infoCords.innerHTML = data.lat.match(/^-?\d{1,3}\.\d{6}/) + ( data.lat > 0 ? ' N ' : ' S ' ) + ' ' + data.lon.match(/^-?\d{1,3}\.\d{6}/) + ( data.lon > 0 ? ' E ' : ' W ' );;
 	infoDescr.innerHTML = data.description;
 	
 	makeRequest('POST', 'site/get-comments', dataString, afterGetComments);
@@ -857,10 +989,14 @@ function loadPointInfo(e) {
 	
 	activePointId = data.id;
 	document.getElementsByClassName('panel-content-holder')[0].scrollTop = 0;
-	//document.getElementById('locationId').value = data.id;
+	document.querySelector('#addPictureForm > [name=id]').value = data.id;
 	console.log(activePointId);
 	
 	$('#navTabs a[href="#infoBox"]').tab('show');
+	
+	document.forms["addPointForm"].reset();
+	document.forms["addPictureForm"].reset();
+	document.forms["addCommentForm"].reset();
 }
 
 function afterGetComments(responseText) {
@@ -1093,6 +1229,7 @@ function savePointCords(e) {
 	var selectList = document.getElementById('searchPointForm').getElementsByTagName('select');
 	var option1 = document.createElement('option');
 	option1.value = '-1';
+	option1.innerHTML = '-- opcjonalnie --';
 	option1.setAttribute('selected', 'selected');
 	option1.setAttribute('name', 'none');
 	var option2 = option1.cloneNode(true);

@@ -79,13 +79,20 @@ $this->registerCss(".container-fluid {padding: 0;}");
 								
 								<div id="addPicture">
 								<!-- Formularz 'Dodaj zdjęcie' -->
-									<?php $form2 = ActiveForm::begin(['action' => 'upload','options' => ['enctype' => 'multipart/form-data', 'id' => 'addPictureForm', 'class' => 'form', 'name' => 'addPictureForm']]) ?>
-									<input type="hidden" name="id" value="7" />
-									<?= $form2->field($modelup2, 'imageFile')->fileInput([ 'id'=>'file2']) ?>
-
-									<button class="btn btn-default btn-sm">Dodaj zdjęcie</button>
-
-									<?php ActiveForm::end() ?>
+									<form id="addPictureForm" class="form" name="addPictureForm action="#" method="post" enctype="multipart/form-data">
+										<input type="hidden" name="<?= Yii::$app->request->csrfParam; ?>" value="<?= Yii::$app->request->csrfToken; ?>">
+										<input type="hidden" name="id" value="0" />
+										<div class="form-group field-uploadform-imagefile">
+											<label class="control-label" for="file5"/>
+											<input type="hidden" name="UploadForm[imageFile]" value="">
+											<input type="file" id="file2" name="UploadForm[imageFile]">
+											<div class="help-block"></div>
+										</div>
+										<button class="btn btn-default btn-sm">Dodaj zdjęcie</button>
+									</form>	
+									
+									
+									
 									<h3 id="addPictureFormMsg"/>
 								</div>
 								
@@ -105,85 +112,92 @@ $this->registerCss(".container-fluid {padding: 0;}");
 						<div id="addPoint"  class="panel-section-addform-container tab-pane" role="tabpanel">
 							<h2 id="addPointTitle" class="panel-section-addform-label"><span class="glyphicon glyphicon-chevron-right"></span> Dane nowej lokalizacji</h2>
 							<!-- Formularz 'Dodaj punkt' -->
-							<?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data', 'id' => 'addPointForm', 'class' => 'form form-horizontal form-group', 'name' => 'addPointForm']]) ?>   
+							<form id="addPointForm" class="form form-horizontal form-group" name="addPointForm" action="#" method="post" enctype="multipart/form-data">
+								<input type="hidden" name="<?= Yii::$app->request->csrfParam; ?>" value="<?= Yii::$app->request->csrfToken; ?>">   
 
-							<div class="form-group">
-							<label class="col-sm-3 control-label" for="addPointForm-image"><span class="form-label">Zdjęcie</span></label>
-								<?= $form->field($modelup, 'imageFile')->fileInput(['style' => 'float:right']) ?>
-						    </div>
-						    <div class="form-group">
-								<label class="col-sm-3 control-label" for="addPointForm-name"><span class="form-label">Nazwa</span></label>
-								<div class="col-sm-9">
-									<input class="form-field form-control input-sm" type="text" name="name" id="addPointForm-name">
+								<div class="form-group">
+								<label class="col-sm-3 control-label" for="addPointForm-image"><span class="form-label">Zdjęcie</span></label>
+									<div class="col-sm-9 field-uploadform-imagefile">
+										<input type="hidden" name="UploadForm[imageFile]" value="">
+										<input type="file" id="addPointForm-image" name="UploadForm[imageFile]">
+										<div class="help-block"></div>
+									</div>						    
 								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-3 control-label" for="addPointForm-addr"><span class="form-label">Adres</span></label>
-								<div class="col-sm-9">
-									<input class="form-field form-control input-sm" type="text" name="addr" id="addPointForm-addr">
+
+							    <div class="form-group">
+									<label class="col-sm-3 control-label" for="addPointForm-name"><span class="form-label">Nazwa</span></label>
+									<div class="col-sm-9">
+										<input class="form-field form-control input-sm" type="text" name="name" id="addPointForm-name">
+									</div>
 								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-3 control-label" for="addPointForm-descr"><span class="form-label">Opis</span></label>
-								<div class="col-sm-9">
-									<input class="form-field form-control input-sm"  type="text" name="descr" id="addPointForm-descr"> 
+								<div class="form-group">
+									<label class="col-sm-3 control-label" for="addPointForm-addr"><span class="form-label">Adres</span></label>
+									<div class="col-sm-9">
+										<input class="form-field form-control input-sm" type="text" name="addr" id="addPointForm-addr">
+									</div>
 								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-3 control-label" for="addPointForm-tag"><span class="form-label">Tag</span></label>
-								<div class="col-sm-9">
-									<input class="form-field form-control input-sm" type="text" name="tag" id="addPointForm-tag">
+								<div class="form-group">
+									<label class="col-sm-3 control-label" for="addPointForm-descr"><span class="form-label">Opis</span></label>
+									<div class="col-sm-9">
+										<input class="form-field form-control input-sm"  type="text" name="descr" id="addPointForm-descr"> 
+									</div>
 								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-3 control-label" for="addPointForm-cat><span class="form-label">Kategoria</span></label>
-								<div class="col-sm-9">
-									<select class="form-control input-sm" id="addPointForm-cat">
-									<?php foreach($categories as $cat){ ?>
-										<option name="<?php echo $cat->name?>" value="<?php echo $cat->ID?>"><?php  echo $cat->name?></option>
-									<?php }?>
-									</select>
+								<div class="form-group">
+									<label class="col-sm-3 control-label" for="addPointForm-tag"><span class="form-label">Tag</span></label>
+									<div class="col-sm-9">
+										<input class="form-field form-control input-sm" type="text" name="tag" id="addPointForm-tag">
+									</div>
 								</div>
-							</div>
-							<div class="form-group">
-								<div class="col-sm-offset-3 col-sm-9">
-									<button class="cordsBtn btn btn-default btn-sm" onclick="return getCoordinates();">Pobierz współrzędne</button>
+								<div class="form-group">
+									<label class="col-sm-3 control-label" for="addPointForm-cat><span class="form-label">Kategoria</span></label>
+									<div class="col-sm-9">
+										<select class="form-control input-sm" id="addPointForm-cat">
+										<?php foreach($categories as $cat){ ?>
+											<option name="<?php echo $cat->name?>" value="<?php echo $cat->ID?>"><?php  echo $cat->name?></option>
+										<?php }?>
+										</select>
+									</div>
 								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-3 control-label"><span class="form-label">Długość</span></label>
-								<div class="col-sm-9">
-									<input class="form-field form-control input-sm" type="text" name="lon" readonly>
+								<div class="form-group">
+									<div class="col-sm-offset-3 col-sm-9">
+										<button class="cordsBtn btn btn-default btn-sm" onclick="return getCoordinates();">Pobierz współrzędne</button>
+									</div>
 								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-3 control-label"><span class="form-label">Szerokość</span></label>
-								<div class="col-sm-9">
-									<input class="form-field form-control input-sm" type="text" name="lat" readonly>
+								<div class="form-group">
+									<label class="col-sm-3 control-label"><span class="form-label">Długość</span></label>
+									<div class="col-sm-9">
+										<input class="form-field form-control input-sm" type="text" name="lon" readonly>
+									</div>
 								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-3 control-label"><span class="form-label">Zoom</span></label>
-								<div class="col-sm-9">
-									<input class="form-field form-control input-sm" type="text" name="zoom" readonly>
+								<div class="form-group">
+									<label class="col-sm-3 control-label"><span class="form-label">Szerokość</span></label>
+									<div class="col-sm-9">
+										<input class="form-field form-control input-sm" type="text" name="lat" readonly>
+									</div>
 								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-3 control-label"><span class="form-label">Kraj</span></label>
-								<div class="col-sm-9">
-									<select class="form-control input-sm">
-									<?php foreach($countries as $country){ ?>
-										<option name="<?php echo $country->country_name?>" value="<?php echo $country->ID?>"><?php  echo $country->country_name?></option>
-									<?php }?>
-									</select>
+								<div class="form-group">
+									<label class="col-sm-3 control-label"><span class="form-label">Zoom</span></label>
+									<div class="col-sm-9">
+										<input class="form-field form-control input-sm" type="text" name="zoom" readonly>
+									</div>
 								</div>
-							</div>
-							<div class="form-group">
-								<div class="col-sm-offset-3 col-sm-9">	
-									<button class="btn btn-primary btn-sm">Dodaj lokalizację</button>
+								<div class="form-group">
+									<label class="col-sm-3 control-label"><span class="form-label">Kraj</span></label>
+									<div class="col-sm-9">
+										<select class="form-control input-sm">
+										<?php foreach($countries as $country){ ?>
+											<option name="<?php echo $country->country_name?>" value="<?php echo $country->ID?>"><?php  echo $country->country_name?></option>
+										<?php }?>
+										</select>
+									</div>
 								</div>
-							</div>
-							<?php ActiveForm::end() ?>
+								<div class="form-group">
+									<div class="col-sm-offset-3 col-sm-9">	
+										<button id="addPointSubmitBtn" class="btn btn-primary btn-sm">Dodaj lokalizację</button>
+										<button id="addPointResetBtn" class="btn btn-sm">Wyczyść</button>
+									</div>
+								</div>
+							</form>		
 							
 							<h3 id="addPointFormMsg"></h3>
 						</div>
@@ -214,12 +228,13 @@ $this->registerCss(".container-fluid {padding: 0;}");
 								<div class="form-group">
 									<label class="col-sm-3 control-label" for="searchPointForm-tag"><span class="form-label">Tag</span></label>
 									<div class="col-sm-9">
-										<input class="form-field form-control input-sm" type="text" name="tag" id="searchPointForm-tag">
+										<input class="form-field form-control input-sm" type="text" name="tag" id="searchPointForm-tag" placeholder="-- opcjonalnie --">
 									</div>
 								</div>
 								<div class="form-group">
 									<div class="col-sm-offset-3 col-sm-9">	
-										<button class="btn btn-primary btn-sm">Szukaj</button>
+										<button id="searchSubmitBtn" class="btn btn-primary btn-sm">Szukaj</button>
+										<button id="searchResetBtn" class="btn btn-sm">Wyczyść</button>
 									</div>
 								</div>
 							</form>
