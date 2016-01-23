@@ -298,8 +298,8 @@ overflow: visible;
 
 .panel-section-infobox-pictures-list-item {
 display: inline-block;
-width: 50px;
-height: 50px;
+width: 100px;
+height: 100px;
 float: left;
 margin: 5px;
 }

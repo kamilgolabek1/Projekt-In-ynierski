@@ -1,132 +1,145 @@
 
 //#### HTML elements event listeners
-var addForm = document.getElementById('addCommentForm');
 
-document.getElementById('addPointSubmitBtn').addEventListener('click', function(e) {
-	e.preventDefault();
-	console.log("Dodawanie obrazka");
+if ( document.getElementById('addPointSubmitBtn') ) {
+	document.getElementById('addPointSubmitBtn').addEventListener('click', function(e) {
+		e.preventDefault();
+		console.log("Dodawanie obrazka");
+		
+		var selectList = document.getElementById('addPointForm').getElementsByTagName('select');
+		
+		
+		
+		var name = document.forms['addPointForm']['name'].value;
+		var addr = document.forms['addPointForm']['addr'].value;
+		var descr = document.forms['addPointForm']['descr'].value;
+		var lon = document.forms['addPointForm']['lon'].value;
+		var lat = document.forms['addPointForm']['lat'].value;
+		var zoom = document.forms['addPointForm']['zoom'].value;
+		var cat = selectList[0].options[selectList[0].selectedIndex].value;
+		var tag = document.forms['searchPointForm']['tag'].value;
+		var country = selectList[1].options[selectList[1].selectedIndex].value;
+		
+		if ( name == '' || lon == '' || lat == '' || descr == '' || zoom == '' || cat == -1 || addr == '' || country == -1 ) {
+			var addFormMsg = document.getElementById('addPointFormMsg');
+			addFormMsg.innerHTML = "Wypełnij wszystkie pola";
+			return false;
+		} else {		
+			var formData = new FormData();
+			formData.append('_csrf', document.forms.addPointForm._csrf.value);
+			formData.append("UploadForm[imageFile]", document.getElementById('addPointForm-image').files[0]);
+			formData.append("name", name);
+			formData.append("adress", addr);
+			formData.append("descr", descr);
+			formData.append("tag", tag);
+			formData.append("lon", lon);
+			formData.append("lat", lat);
+			formData.append("zoom", zoom);
+			formData.append("category", cat);
+			formData.append("country", country);
+			
+			$.ajax({
+			url: 'site/index',  //Server script to process data
+			type: 'POST',
+			
+			//Ajax events
+		       
+			success: function(data, textStatus, jqXHR)
+			{
+			    if(typeof data.error === 'undefined')
+			    {
+				// Success so call function to process the form
+				//submitForm(event, data);
+							document.forms["addPointForm"].reset();
+			    }
+			    else
+			    {
+				// Handle errors here
+				console.log('ERRORS: ' + data.error);
+			    }
+			},
+			error: function(jqXHR, textStatus, errorThrown)
+			{
+			    // Handle errors here
+			    console.log('ERRORS: ' + textStatus);
+			    // STOP LOADING SPINNER
+			},
+			// Form data
+			data: formData,
+			//Options to tell jQuery not to process data or worry about content-type.
+			cache: false,
+			contentType: false,
+			processData: false
+			
+		    });
+		}
+		return false;
+	});
 	
-	var selectList = document.getElementById('addPointForm').getElementsByTagName('select');
-	
-	
-	
-	var name = document.forms['addPointForm']['name'].value;
-	var addr = document.forms['addPointForm']['addr'].value;
-	var descr = document.forms['addPointForm']['descr'].value;
-	var lon = document.forms['addPointForm']['lon'].value;
-	var lat = document.forms['addPointForm']['lat'].value;
-	var zoom = document.forms['addPointForm']['zoom'].value;
-	var cat = selectList[0].options[selectList[0].selectedIndex].value;
-	var tag = document.forms['searchPointForm']['tag'].value;
-	var country = selectList[1].options[selectList[1].selectedIndex].value;
-	
-	var formData = new FormData();
-	formData.append('_csrf', document.forms.addPointForm._csrf.value);
-	formData.append("UploadForm[imageFile]", document.getElementById('addPointForm-image').files[0]);
-	formData.append("name", name);
-	formData.append("adress", addr);
-	formData.append("descr", descr);
-	formData.append("tag", tag);
-	formData.append("lon", lon);
-	formData.append("lat", lat);
-	formData.append("zoom", zoom);
-	formData.append("category", cat);
-	formData.append("country", country);
-	
-	$.ajax({
-        url: 'site/index',  //Server script to process data
-        type: 'POST',
-        
-        //Ajax events
-       
-        success: function(data, textStatus, jqXHR)
-        {
-            if(typeof data.error === 'undefined')
-            {
-                // Success so call function to process the form
-                //submitForm(event, data);
-					document.forms["addPointForm"].reset();
-            }
-            else
-            {
-                // Handle errors here
-                console.log('ERRORS: ' + data.error);
-            }
-        },
-        error: function(jqXHR, textStatus, errorThrown)
-        {
-            // Handle errors here
-            console.log('ERRORS: ' + textStatus);
-            // STOP LOADING SPINNER
-        },
-        // Form data
-        data: formData,
-        //Options to tell jQuery not to process data or worry about content-type.
-        cache: false,
-        contentType: false,
-        processData: false
-	
-    });
-	
-	
-	
-});
+}
 
-document.getElementById('addPointResetBtn').addEventListener('click', function(e) {
-	e.preventDefault();
-	document.forms['addPointForm'].reset();
-});
+if ( document.getElementById('addPointResetBtn') ) {
+	document.getElementById('addPointResetBtn').addEventListener('click', function(e) {
+		e.preventDefault();
+		document.forms['addPointForm'].reset();
+		return false;
+	});
+}
 
-document.getElementById('addPictureForm').addEventListener('submit', function(e) {
-	e.preventDefault();
-	console.log("Dodawanie obrazka");
-	
-	
-    //var formData = new FormData($('form')[2]);
-	var formData = new FormData();
-	
-	formData.append('_csrf', document.forms.addPictureForm._csrf.value);
-	formData.append('id', document.querySelector('#addPictureForm > [name=id]').value);
-	formData.append("UploadForm[imageFile]", document.getElementById('file2').files[0]);
-	//makeRequest('POST', 'site/upload', formData, log);
-	
-	$.ajax({
-        url: 'site/upload',  //Server script to process data
-        type: 'POST',
-        
-        //Ajax events
-       
-        success: function(data, textStatus, jqXHR)
-        {
-            if(typeof data.error === 'undefined')
-            {
-                // Success so call function to process the form
-               document.forms["addPictureForm"].reset();
-            }
-            else
-            {
-                // Handle errors here
-                console.log('ERRORS: ' + data.error);
-            }
-        },
-        error: function(jqXHR, textStatus, errorThrown)
-        {
-            // Handle errors here
-            console.log('ERRORS: ' + textStatus);
-            // STOP LOADING SPINNER
-        },
-        // Form data
-        data: formData,
-        //Options to tell jQuery not to process data or worry about content-type.
-        cache: false,
-        contentType: false,
-        processData: false
-	
-    });
-	
-	
-});
-	
+if( document.getElementById('addPictureForm') ) {
+	document.getElementById('addPictureForm').addEventListener('submit', function(e) {
+		e.preventDefault();
+		console.log("Dodawanie obrazka");
+		
+		if ( document.getElementById('file2').files[0] == undefined ) {
+		    //var formData = new FormData($('form')[2]);
+		    var addPictureFormMsg = document.getElementById('addPictureFormMsg');
+		    addPictureFormMsg.innerHTML = "Wybierz plik."
+		} else {
+			var formData = new FormData();
+			
+			formData.append('_csrf', document.forms.addPictureForm._csrf.value);
+			formData.append('id', document.querySelector('#addPictureForm > [name=id]').value);
+			formData.append("UploadForm[imageFile]", document.getElementById('file2').files[0]);
+			//makeRequest('POST', 'site/upload', formData, log);
+			
+			$.ajax({
+			url: 'site/upload',  //Server script to process data
+			type: 'POST',
+			
+			//Ajax events
+		       
+			success: function(data, textStatus, jqXHR)
+			{
+			    if(typeof data.error === 'undefined')
+			    {
+				// Success so call function to process the form
+			       document.forms["addPictureForm"].reset();
+			    }
+			    else
+			    {
+				// Handle errors here
+				console.log('ERRORS: ' + data.error);
+			    }
+			},
+			error: function(jqXHR, textStatus, errorThrown)
+			{
+			    // Handle errors here
+			    console.log('ERRORS: ' + textStatus);
+			    // STOP LOADING SPINNER
+			},
+			// Form data
+			data: formData,
+			//Options to tell jQuery not to process data or worry about content-type.
+			cache: false,
+			contentType: false,
+			processData: false
+			
+		    });
+		}	
+		return false;	
+	});
+}
 
 function log() {
 	console.log('zaldowano obrazek');
@@ -142,6 +155,7 @@ document.getElementById('searchSubmitBtn').addEventListener('click', function(e)
 document.getElementById('searchResetBtn').addEventListener('click', function(e) {
 	e.preventDefault();
 	document.forms['searchPointForm'].reset();
+	return false;
 });
 
 console.log(document.getElementById('navTabs').getElementsByTagName('li')[0]);
@@ -197,7 +211,7 @@ document.getElementsByClassName('panel-toggle-button')[0].addEventListener('clic
 	button.hasClass('glyphicon-chevron-left') ? button.removeClass('glyphicon-chevron-left').addClass('glyphicon-chevron-right') : button.removeClass('glyphicon-chevron-right').addClass('glyphicon-chevron-left');
 });
 
-if(addForm) {
+if( document.getElementById('addCommentForm') ) {
 	document.getElementById('addCommentInput').addEventListener('focus', function(e) {
 		e.target.placeholder = "";
 		e.target.rows = "1";
@@ -442,8 +456,9 @@ function main (){
 					//popup('popUpDiv');
     				
     			}
-			}
-		});
+		}
+		//,restrictedExtent: new OpenLayers.Bounds(-180, -90, 180, 90)
+	});
     
     // background WMS
 	
@@ -534,22 +549,23 @@ function main (){
             return color;
         },
 			radius: function(feature) {
-					var pix = 7;
-					if(feature.cluster) {
+					var pix = 10;
+					if(feature.attributes.count > 1 ) {
 						pix = Math.min(feature.attributes.count, 7) + 11;
 					}
 					return pix;
 				},
 			strokeWidth: function(feature) {
-					var pix = 7;
-					if(feature.cluster) {
+					var pix = 10;
+					if(feature.attributes.count > 1) {
 						pix = (Math.min(feature.attributes.count, 7) + 11) * 1.2;
 					}
 					return pix;
 				},
 			count: function(feature) {
 				if (feature.attributes.count === 1) {
-					return feature.cluster[0].attributes.label;
+					return '';
+					//return feature.cluster[0].attributes.label;
 				} else {
 					return feature.attributes.count;
 				}
@@ -836,18 +852,14 @@ function validateAddPointForm() {
 	var zoom = document.forms['addPointForm']['zoom'].value;
 	var cat = document.forms['addPointForm']['cat'].value;
 
-	/*if (name === '' || lon === '' || lat === '' || desc === '') {
+	if (name === '' || lon === '' || lat === '' || descr === '' || zoom === '' || cat === '' || addr === '') {
 		addFormMsg.innerHTML = "Wypełnij wszystkie pola";
 		return false;
 	} else {
-		addFormMsg.innerHTML = "Dodawanie...";
-
-		var data = 'lon=' + lon + '&lat=' + lat + '&name=' + name + '&addr=' + addr + '&desc=' + desc + '&zoom=' + zoom + '&cat=' + cat;
+		var data = 'lon=' + lon + '&lat=' + lat + '&name=' + name + '&addr=' + addr + '&descr=' + descr + '&zoom=' + zoom + '&cat=' + cat + '&userID=1';// + userID;
 		makeRequest('POST', 'addPoint.php', data, afterAdd);
-	}*/
-	var data = 'lon=' + lon + '&lat=' + lat + '&name=' + name + '&addr=' + addr + '&descr=' + descr + '&zoom=' + zoom + '&cat=' + cat + '&userID=1';// + userID;
-	makeRequest('POST', 'addPoint.php', data, afterAdd);
-	return false;
+		return false;
+	}
 }
 
 function afterAdd() {
@@ -886,7 +898,6 @@ function validateSearchPointForm() {
 		
 		var data = 'kraj=' + country + '&kategoria=' + cat + '&slowo=' + tag;
 		makeRequest('POST', 'site/points-search', data, alertContents);
-		return false;
 	}
 
 	/*if (comment === '') {
@@ -898,6 +909,7 @@ function validateSearchPointForm() {
 		var data = 'lon=' + lon + '&lat=' + lat + '&name=' + name + '&addr=' + addr + '&desc=' + desc + '&zoom=' + zoom + '&cat=' + cat;
 		makeRequest('POST', 'addPoint.php', data, afterAdd);
 	}*/
+	return false;
 }
 
 function addFeaturesToVector(layer, json) {
@@ -938,11 +950,14 @@ function addFeaturesToVector(layer, json) {
 	layer.addFeatures(features);
 
 	//layer.destroyFeatures();
-
+	
+	
 	appendMarkersLayer(layer);
 	layer.refresh({
 		force : true
 	});
+	
+
 }
 
 
@@ -981,7 +996,7 @@ function loadPointInfo(e) {
 	var infoDescr = document.getElementById('infoDescr');
 	
 	infoBoxLabel.innerHTML = '<span class="glyphicon glyphicon-chevron-right"></span> ' + data.name;
-	infoCords.innerHTML = data.lat.match(/^-?\d{1,3}\.\d{6}/) + ( data.lat > 0 ? ' N ' : ' S ' ) + ' ' + data.lon.match(/^-?\d{1,3}\.\d{6}/) + ( data.lon > 0 ? ' E ' : ' W ' );;
+	infoCords.innerHTML = data.lat.match(/^[-]?\d{1,3}\.\d{1,6}/) + ( data.lat > 0 ? ' N ' : ' S ' ) + ' ' + data.lon.match(/^[-]?\d{1,3}\.\d{1,6}/) + ( data.lon > 0 ? ' E ' : ' W ' );;
 	infoDescr.innerHTML = data.description;
 	
 	makeRequest('POST', 'site/get-comments', dataString, afterGetComments);
@@ -989,19 +1004,43 @@ function loadPointInfo(e) {
 	
 	activePointId = data.id;
 	document.getElementsByClassName('panel-content-holder')[0].scrollTop = 0;
-	document.querySelector('#addPictureForm > [name=id]').value = data.id;
+	var hiddenInputPoint = document.querySelector('#addPictureForm > [name=id]');
+	if ( hiddenInputPoint ) {
+		document.querySelector('#addPictureForm > [name=id]').value = data.id;
+	}
 	console.log(activePointId);
 	
 	$('#navTabs a[href="#infoBox"]').tab('show');
-	
-	document.forms["addPointForm"].reset();
-	document.forms["addPictureForm"].reset();
+	if ( document.forms["addPointForm"] ) {
+		document.forms["addPointForm"].reset();
+	};
+	if ( document.forms["addPictureForm"] ) {
+		document.forms["addPictureForm"].reset();
+	};
+	if ( document.forms["addCommentForm"] ) {
 	document.forms["addCommentForm"].reset();
+	};
 }
 
 function afterGetComments(responseText) {
 	activePointCommArr = JSON.parse(responseText);
-	generateCommList();
+	if ( activePointCommArr.length == 0 ) {
+		var parent = document.getElementById('commentsList');
+		
+		while (parent.firstChild) {
+			parent.removeChild(parent.firstChild);
+		}
+		
+		var commentListItem = document.createElement('li');
+		commentListItem.innerHTML = "Brak komentarzy."
+		parent.appendChild(commentListItem);
+		
+		var pagControls = document.getElementById('commPaginationContainer');
+		pagControls.style.display = 'none';
+		
+	} else {
+		generateCommList();
+	}
 }
 
 function generateCommList(page) {
@@ -1096,8 +1135,25 @@ function afterAddComment(responseText) {
 }
 
 function afterGetPics(responseText) {
+	
 	activePointPicsArr = JSON.parse(responseText);
-	generatePicsList();	
+	
+	if ( activePointPicsArr.length == 0 ) {
+		var parent = document.getElementById('picsList');
+		
+		while (parent.firstChild) {
+			parent.removeChild(parent.firstChild);
+		}
+		
+		var picsListItem = document.createElement('li');
+		picsListItem.innerHTML = "Brak zdjęć."
+		parent.appendChild(picsListItem);
+		
+		var pagControls = document.getElementById('picsPaginationContainer');
+		pagControls.style.display = 'none';
+	} else {
+		generatePicsList();
+	}
 } 
 
 function generatePicsList(page) {
@@ -1146,8 +1202,8 @@ function generatePicsList(page) {
 		var thumb = document.createElement('img');
 		thumb.className = 'img-resposive img-thumbnail';
 		thumb.src = 'uploads/thumbs/' + picsObjArr[i].filename;
-		thumb.style.width = 50 + 'px';
-		thumb.style.height = 50 + 'px';
+		thumb.style.width = 100 + 'px';
+		thumb.style.height = 100 + 'px';
 		thumb.alt = 'Miniaturka zdjęcia';
 		
 		link.appendChild(thumb);
@@ -1217,12 +1273,13 @@ function checkCustomMenuVisibility() {
 }
 function savePointCords(e) {
 	var menuOption = document.getElementById('secondCustomMenuOption');
-	
-	var lonlat = (map.getLonLatFromPixel(e.xy)).transform(new OpenLayers.Projection('EPSG:900913'), new OpenLayers.Projection('EPSG:4326'));
-	var lon = lonlat.lon;
-	var lat = lonlat.lat;
-	menuOption.dataset.lon = lon;
-	menuOption.dataset.lat = lat;
+	if ( menuOption ) {
+		var lonlat = (map.getLonLatFromPixel(e.xy)).transform(new OpenLayers.Projection('EPSG:900913'), new OpenLayers.Projection('EPSG:4326'));
+		var lon = lonlat.lon;
+		var lat = lonlat.lat;
+		menuOption.dataset.lon = lon;
+		menuOption.dataset.lat = lat;
+	}
 }
 
 (function fixSearchPointForm() {

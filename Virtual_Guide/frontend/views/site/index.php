@@ -62,7 +62,7 @@ $this->registerCss(".container-fluid {padding: 0;}");
 									</div>
 								</form>';
 								}?>
-								<ul id="commentsList" class="panel-section-infobox-comments-list">Tu są komentarze</ul>
+								<ul id="commentsList" class="panel-section-infobox-comments-list"><li>Tu są komentarze</li></ul>
 								<div id="commPaginationContainer"  class="pagination-links">
 									<div class="pagination-links-left">
 										<span class="glyphicon glyphicon-menu-left"></span><a href="#" id="commentsMore"> Poprzednie</a>
@@ -79,24 +79,24 @@ $this->registerCss(".container-fluid {padding: 0;}");
 								
 								<div id="addPicture">
 								<!-- Formularz 'Dodaj zdjęcie' -->
+								<?php if (!Yii::$app->user->isGuest) {
+									echo '
 									<form id="addPictureForm" class="form" name="addPictureForm action="#" method="post" enctype="multipart/form-data">
-										<input type="hidden" name="<?= Yii::$app->request->csrfParam; ?>" value="<?= Yii::$app->request->csrfToken; ?>">
+										<input type="hidden" name="'.Yii::$app->request->csrfParam.'" value="'.Yii::$app->request->csrfToken.'">
 										<input type="hidden" name="id" value="0" />
 										<div class="form-group field-uploadform-imagefile">
 											<label class="control-label" for="file5"/>
 											<input type="hidden" name="UploadForm[imageFile]" value="">
 											<input type="file" id="file2" name="UploadForm[imageFile]">
-											<div class="help-block"></div>
 										</div>
-										<button class="btn btn-default btn-sm">Dodaj zdjęcie</button>
+										<button class="btn btn-primary btn-sm">Dodaj zdjęcie</button>
 									</form>	
-									
-									
-									
-									<h3 id="addPictureFormMsg"/>
+									<div id="addPictureFormMsg"></div>';
+								}?>
 								</div>
 								
-								<ul id="picsList" class="panel-section-infobox-pictures-list">Tu są zdjęcia</ul>
+								
+								<ul id="picsList" class="panel-section-infobox-pictures-list"><li>Tu są zdjęcia</li></ul>
 								<div id="picsPaginationContainer" class="pagination-links">
 									<div class="pagination-links-left">
 										<span class="glyphicon glyphicon-menu-left"></span><a href="#" id="picsMore"> Poprzednie</a>
@@ -110,17 +110,19 @@ $this->registerCss(".container-fluid {padding: 0;}");
 					
 					
 						<div id="addPoint"  class="panel-section-addform-container tab-pane" role="tabpanel">
+							<?php if (!Yii::$app->user->isGuest) {
+										echo '
 							<h2 id="addPointTitle" class="panel-section-addform-label"><span class="glyphicon glyphicon-chevron-right"></span> Dane nowej lokalizacji</h2>
-							<!-- Formularz 'Dodaj punkt' -->
+							<!-- Formularz Dodaj punkt -->
 							<form id="addPointForm" class="form form-horizontal form-group" name="addPointForm" action="#" method="post" enctype="multipart/form-data">
-								<input type="hidden" name="<?= Yii::$app->request->csrfParam; ?>" value="<?= Yii::$app->request->csrfToken; ?>">   
+								<input type="hidden" name="'.Yii::$app->request->csrfParam.'" value="'.Yii::$app->request->csrfToken.'">   
 
 								<div class="form-group">
 								<label class="col-sm-3 control-label" for="addPointForm-image"><span class="form-label">Zdjęcie</span></label>
 									<div class="col-sm-9 field-uploadform-imagefile">
 										<input type="hidden" name="UploadForm[imageFile]" value="">
 										<input type="file" id="addPointForm-image" name="UploadForm[imageFile]">
-										<div class="help-block"></div>
+										<div id="addPicsFormMsg"></div>
 									</div>						    
 								</div>
 
@@ -151,10 +153,11 @@ $this->registerCss(".container-fluid {padding: 0;}");
 								<div class="form-group">
 									<label class="col-sm-3 control-label" for="addPointForm-cat><span class="form-label">Kategoria</span></label>
 									<div class="col-sm-9">
-										<select class="form-control input-sm" id="addPointForm-cat">
+										<select class="form-control input-sm" id="addPointForm-cat">';?>
 										<?php foreach($categories as $cat){ ?>
 											<option name="<?php echo $cat->name?>" value="<?php echo $cat->ID?>"><?php  echo $cat->name?></option>
 										<?php }?>
+										<?php echo '
 										</select>
 									</div>
 								</div>
@@ -184,10 +187,11 @@ $this->registerCss(".container-fluid {padding: 0;}");
 								<div class="form-group">
 									<label class="col-sm-3 control-label"><span class="form-label">Kraj</span></label>
 									<div class="col-sm-9">
-										<select class="form-control input-sm">
+										<select class="form-control input-sm">';?>
 										<?php foreach($countries as $country){ ?>
 											<option name="<?php echo $country->country_name?>" value="<?php echo $country->ID?>"><?php  echo $country->country_name?></option>
 										<?php }?>
+										<?php echo '
 										</select>
 									</div>
 								</div>
@@ -198,8 +202,11 @@ $this->registerCss(".container-fluid {padding: 0;}");
 									</div>
 								</div>
 							</form>		
+							<div id="addPointFormMsg"></div>';
+							} else {
+								echo '<h2 id="addPointTitle" class="panel-section-addform-label"><span class="glyphicon glyphicon-chevron-right"></span> Zaloguj się, aby dodać lokalizację</h2>';
+							}?>
 							
-							<h3 id="addPointFormMsg"></h3>
 						</div>
 						
 						<div id="searchPoint"  class="panel-section-searchform-container tab-pane active" role="tabpanel">
@@ -250,9 +257,12 @@ $this->registerCss(".container-fluid {padding: 0;}");
 		
 		<div id="custom-menu-container">
 			<ul class="custom-menu">
-			  <li id="firstCustomMenuOption">Dodaj lokalizację</li>
-			  <li id="secondCustomMenuOption">Dodaj lokalizację tutaj</li>
-			  <li id="thirdCustomMenuOption">Szukaj lokalizacji</li>
+				<?php if (!Yii::$app->user->isGuest) {
+				echo '
+				<li id="firstCustomMenuOption">Dodaj lokalizację</li>
+				<li id="secondCustomMenuOption">Dodaj lokalizację tutaj</li>';
+				}?> 
+				<li id="thirdCustomMenuOption">Szukaj lokalizacji</li>
 			</ul>
 		</div>
 		
