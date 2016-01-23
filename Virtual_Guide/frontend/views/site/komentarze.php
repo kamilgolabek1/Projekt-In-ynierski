@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	
 	
 <?php foreach($photos as $photo){ ?>
-	<a href="uploads/<?php echo $photo->filename ?>" data-lightbox="set"><img src="uploads/thumbs/<?php echo $photo->filename ?>" style="width: 50px; height: 50px;"></a>
+	<a href="uploads/<?php echo $photo->filename ?>" data-lightbox="set"><img src="uploads/thumbs/<?php echo $photo->filename ?>" style="width: 100px; height: 100px;"></a>
 	<?php }?>
 </div>
 
