@@ -43,30 +43,20 @@ CREATE TABLE IF NOT EXISTS `comment` (
   KEY `FkUser_IDx` (`userID`),
   CONSTRAINT `fklocation` FOREIGN KEY (`locationID`) REFERENCES `location` (`ID`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `fkuser` FOREIGN KEY (`userID`) REFERENCES `user` (`ID`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table virtualguide.comment: ~19 rows (approximately)
+-- Dumping data for table virtualguide.comment: ~9 rows (approximately)
 /*!40000 ALTER TABLE `comment` DISABLE KEYS */;
 INSERT INTO `comment` (`ID`, `locationID`, `comment`, `userID`, `date`) VALUES
-	(1, 3, 'Jak żywy', 1, '2015-12-21 06:56:08'),
-	(2, 1, 'Szaro, buro i ponuro', 1, '2015-12-21 06:57:05'),
-	(3, 1, 'Największe i najbardziej różnorodne miasto w Polsce', 1, '2015-12-21 06:57:35'),
-	(4, 1, 'W Warszawie nie można się nudzić', 1, '2015-12-21 06:57:54'),
-	(5, 1, 'Polecam plażowanie pod mostem Poniatowskiego', 1, '2015-12-21 06:58:36'),
-	(6, 1, 'Fantastyczna druga liniaa metra', 1, '2015-12-21 07:00:08'),
-	(7, 2, 'Szalone imprezy do rana gwarantowane', 1, '2015-12-21 07:01:08'),
-	(8, 5, 'Najlepszy widok na świecie\n', 1, '2015-12-21 07:02:08'),
-	(9, 2, 'nowiutki komentarz do Gdyni', NULL, '2015-12-28 19:47:36'),
-	(10, 5, 'jest z chelma', NULL, '2015-12-28 20:07:11'),
-	(11, 5, 'jest z chelma2', NULL, '2015-12-28 20:10:20'),
-	(12, 5, 'nowy z chelma', 1, '2015-12-28 20:12:48'),
-	(13, 7, 'wlochy takie se', 1, '2015-12-28 20:22:52'),
-	(14, 8, 'a w MAdrycie jeszcze nie bylo kma', 1, '2015-12-28 20:24:35'),
-	(15, 8, 'hahahahah', 1, '2015-12-28 22:07:15'),
-	(16, 1, 'calkowicie noiutki komcio', 1, '2015-12-29 13:14:00'),
-	(17, 1, 'cos takiego', 1, '2015-12-29 15:53:01'),
-	(18, 7, 'dfgdghdgf', 1, '2015-12-30 13:47:06'),
-	(19, 1, 'hahahahaha', 1, '2015-12-31 11:48:50');
+	(1, 1, 'Warszawa posiada dużo nowocześnie wyposażonych kin, teatrów. Znajduje się w niej dużo banków, różnego typu kawiarni i restauracji. Jest też bardzo dużo eleganckich sklepów  między innymi Złote Tarasy, Promenada itp.W centrum Warszawy jest tez dużo wieżowców.  Posiada też ścieżki rowerowe oraz piękne zadbane parki.', 1, '2016-01-23 21:14:01'),
+	(2, 1, 'Na pewno każdy kto pozna Warszawę powie o niej, że jest to nowoczesne miasto.', 1, '2016-01-23 21:14:37'),
+	(3, 2, 'Park jest piękny, przechadzające się z gracja Pawie, koncert na który trafiliśmy i urocze Wiewiórki', 1, '2016-01-23 21:15:33'),
+	(4, 2, 'Miejsce ma coś w sobie, za każdym razem jak jestem w Warszawie to spacer po Parku obowiązkowy :) Uwielbiam, latem jak i zimą :)', 1, '2016-01-23 21:16:15'),
+	(5, 2, 'Łazienki Królewskie-wracasz do nich od lat, w każdej porze roku i za każdym razem są inne- jakby piękniejsze. Zimowy klimat, piękne oświetlenie nadają magii, z kolei bujna zieleń latem czy ogniste czerwienie jesienią sprawiają, że czujesz się cząstką ogromnego żyjącego ogrodu- chyba najpiękniejszego w Warszawie.', 1, '2016-01-23 21:16:36'),
+	(6, 2, 'Zimą organizowane są spacery z przewodnikiem wzdłuż oświetlonych atrakcji. Nie powala, ale warto się i tak wybrać, jeśli nie jest za zimno ;) W parku brakuje mi fajnej kawiarni, miejsca z dobrą kawą czy lodami.', 1, '2016-01-23 21:17:06'),
+	(7, 2, 'Wspaniałe miejsce na spokojny spacer z rodziną . Urocze wiewiorki oczarują każdego turystę pragacego odpoczynku w stolicy.', 1, '2016-01-23 21:17:30'),
+	(8, 4, 'Czekamy na odrodzenie się polskich skoczków. Niedawno zapowiadał to Stoch, że w Polsce na pewno ono nastąpi, a między słowami można było zrozumiec, że jeśli nie w kraju to gdzie ?', 1, '2016-01-23 21:19:18'),
+	(9, 4, 'Halny w Zakopanem wieje, Stoch na skoczni nie poszaleje ; p', 1, '2016-01-23 21:20:09');
 /*!40000 ALTER TABLE `comment` ENABLE KEYS */;
 
 
@@ -346,25 +336,18 @@ CREATE TABLE IF NOT EXISTS `location` (
   `userID` int(11) NOT NULL,
   `tag` varchar(2000) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table virtualguide.location: ~14 rows (approximately)
+-- Dumping data for table virtualguide.location: ~7 rows (approximately)
 /*!40000 ALTER TABLE `location` DISABLE KEYS */;
 INSERT INTO `location` (`ID`, `name`, `descr`, `lon`, `lat`, `countryID`, `address`, `zoom`, `categoryID`, `userID`, `tag`) VALUES
-	(1, 'Warszawa', 'Warszawa, miasto stołeczne Warszawa – stolica Polski i województwa mazowieckiego, największe miasto kraju, położone w jego środkowo-wschodniej części, na Nizinie Środkowomazowieckiej, na Mazowszu, nad Wisłą.', '20.47851562499941', '52.187404745600105', 176, 'ul. 3 Maja', 3, 2, 1, NULL),
-	(2, 'Klub Marynarza', 'Najlepszy klub w trojmieście.', '18.543462753296', '54.51938770201077', 176, 'Skwer Kościuszki', 14, 4, 1, NULL),
-	(3, 'Neptun', ' Zabytkowa fontanna w Gdańsku, która powstała z inicjatywy burmistrza Bartłomieja Schachmanna[2] i rady miejskiej. Stoi w najbardziej reprezentacyjnej części Gdańska – na Długim Targu, przed wejściem do Dworu Artusa.', '18.653240203855805', '54.34854026920933', 176, 'Długa 17', 16, 3, 1, 'Neptun'),
-	(4, 'Berlin', 'Stare miasto', '13.382291793822903', '52.52569979185128', 80, 'Bundesstrasse 20', 7, 2, 1, NULL),
-	(5, 'Wieża Eiffla', 'Największa nitowana konstrukcja.', '2.3506450653067175', '48.85779759188319', 72, 'Champ de Mars, 5 Avenue Anatole', 10, 3, 1, NULL),
-	(6, 'Bitwa pod Grunwaldem', 'Największa bitwa średniowiecznej Europy w 1410 r.', '20.093908309936605', '53.484240766360735', 176, 'pola grunwaldzkie', 12, 6, 1, 'Krzyżacy 1410 '),
-	(7, 'Rzym', 'Miasto zbudowane na ruinach.', '12.494459152222017', '41.8862724708897', 106, '', 7, 2, 1, NULL),
-	(8, 'Madrid', ' morze i ostrygi', '-3.5', '40.17', NULL, 'barcelonska', 2, 2, 1, 'madryd'),
-	(9, 'Kazahstan', 'sfdgsfdg', '66.26953124999972', '47.635783590864804', NULL, NULL, 2, NULL, 1, 'sfdg'),
-	(21, 'Egipt', '', '31.223144531249936', '30.050076521697946', NULL, NULL, 6, NULL, 1, ''),
-	(22, 'Egipt', '', '31.223144531249936', '30.050076521697946', NULL, NULL, 6, NULL, 1, ''),
-	(23, 'Egipt', '', '31.223144531249936', '30.050076521697946', NULL, NULL, 6, NULL, 1, ''),
-	(24, 'Egipt', '', '31.223144531249936', '30.050076521697946', NULL, NULL, 6, NULL, 1, ''),
-	(25, 'Slav', '', '23.027343749999606', '1.4939713066293239', NULL, NULL, 3, NULL, 1, '');
+	(1, 'Warszawa', 'Warszawa, miasto stołeczne Warszawa – stolica Polski i województwa mazowieckiego, największe miasto kraju, położone w jego środkowo-wschodniej części, na Nizinie Środkowomazowieckiej, na Mazowszu, nad Wisłą.', '20.865783691405316', '52.219386890374295', 176, 'Plac Zamkowy 1', 6, 2, 1, ''),
+	(2, 'Łazienki Królewskie', 'zespół pałacowo-ogrodowy w Warszawie założony w XVIII wieku przez Stanisława Augusta Poniatowskiego.  Nazwa pochodzi od barokowego pawilonu Łaźni, wzniesionego w latach 80. XVII wieku przez Stanisława Herakliusza Lubomirskiego i przebudowanego przez Stanisława Augusta Poniatowskiego na pałac Na Wyspie[1]. Oprócz budynków pałacowych, pawilonów oraz wolnostojących rzeźb znajdują się tutaj cztery ogrody: Ogród Królewski, Ogród Romantyczny, Ogród Modernistyczny i Ogród Chiński.', '21.03379726409796', '52.21449637576063', 176, 'Śródmieście', 14, 3, 1, ''),
+	(3, 'Europejskie Centrum Solidarności', 'instytucja z siedzibą w Gdańsku, powołana na podstawie umowy z dnia 8 listopada 2007 w sprawie utworzenia i prowadzenia wspólnej instytucji kultury pod nazwą Europejskie Centrum Solidarności, zawartej między Ministrem Kultury i Dziedzictwa Narodowego, Województwem Pomorskim, Miastem Gdańsk, Niezależnym Samorządnym Związkiem Zawodowym „Solidarność” i Fundacją Centrum Solidarności.', '18.649249076842057', '54.36132009727348', 176, 'Plac Solidarności 1', 16, 3, 1, ''),
+	(4, 'Puchar Świata w skokach narciarskich', 'Spośród 67 zawodników w kwalifikacjach aż 12 to Polacy. Dziś skakać będą kolejno: Krzysztof Biegun, Krzysztof Miętus, Bartłomiej Kłusek, Jan Ziobro, Jakub Wolny, Andrzej Stękała, Dawid Kubacki, Klemens Murańka, Piotr Żyła, Maciej Kot, Stefan Hula oraz Kamil Stoch.', '19.955034255980852', '49.294918297960386', 176, 'Bronisława Czecha 1, 34-500 Zakopane', 13, 6, 1, ''),
+	(5, 'Москва́', ' столица Российской Федерации, город федерального значения, административный центр Центрального федерального округа и центр Московской области[6], в состав которой не входит. Крупнейший по численности населения город России и её субъект — 12 325 387[3] чел. (2016), самый населённый из городов, полностью расположенных в Европе, входит в первую десятку городов мира по численности населения[7]. Центр Московской городской агломерации.', '37.54028320312375', '55.74566603524778', 182, 'Россия', 7, 2, 1, ''),
+	(6, 'Sugarbar Barcelona Close', 'Po obfitej, długiej i późnej kolacji, jak to na hiszpańskie klimaty przystało, zbieramy się w barze mocno po 22giej.  Jako meeting point był, jest i będzie wyjątkowy i jedyny w swoim rodzaju SugarBar. Dobrze jest pojawić się w nim przed 23pm i wtedy załapiemy się na Happy Hours. Jak na Barcelonę, to ceny są wtedy wyjątkowe. Od 5 EUR za przyzwoite mojito.', '2.1762585639937306', '41.38140132212359', 202, 'Calle Rauric 21, Barcelona, Spain', 18, 4, 1, ''),
+	(7, 'Port lotniczy Ren-Men', 'największy port lotniczy w Niemczech, usytuowany we Frankfurcie nad Menem, w dzielnicy Flughafen. Właścicielem i operatorem zarządzającym portem jest spółka Fraport.  W Europie port lotniczy zajmuje trzecie miejsce pod względem liczby pasażerów (2008), drugie pod względem liczby operacji lotniczych (2005) i drugie pod względem liczby przeładowanych towarów (2005). Port zajmuje pierwsze miejsce na świecie pod względem obsługiwanych połączeń międzynarodowych.', '8.681259155274422', '50.115294694991306', 80, '60547 Frankfurt, Niemcy', 11, 3, 1, '');
 /*!40000 ALTER TABLE `location` ENABLE KEYS */;
 
 
@@ -381,24 +364,26 @@ CREATE TABLE IF NOT EXISTS `photo` (
   KEY `fkuserphoto_IDx` (`userID`),
   CONSTRAINT `fklocphoto` FOREIGN KEY (`locationID`) REFERENCES `location` (`ID`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `fkuserphoto` FOREIGN KEY (`userID`) REFERENCES `user` (`ID`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Dumping data for table virtualguide.photo: ~13 rows (approximately)
+-- Dumping data for table virtualguide.photo: ~15 rows (approximately)
 /*!40000 ALTER TABLE `photo` DISABLE KEYS */;
 INSERT INTO `photo` (`ID`, `locationID`, `filename`, `comment`, `userID`) VALUES
-	(1, 8, '1_2015_12_21_06_16_35.jpg', '', 1),
-	(2, 1, '1_2015_12_21_06_16_36.jpg', '', 1),
-	(3, 1, '1_2015_12_21_06_16_37.jpg', '', 1),
-	(4, 1, '1_2015_12_21_06_16_38.jpg', '', 1),
-	(5, 1, '1_2015_12_21_06_16_39.jpg', '', 1),
-	(6, 1, '1_2015_12_21_06_16_40.jpg', '', 1),
-	(7, 1, '1_2015_12_21_06_16_41.jpg', '', 1),
-	(8, 9, '1_2015_12_28_22_27_33.jpg', '', 1),
-	(20, 21, '1_2015_12_31_10_49_55.jpg', '', 1),
-	(21, 22, '1_2015_12_31_10_50_32.jpg', '', 1),
-	(22, 23, '1_2015_12_31_10_50_46.jpg', '', 1),
-	(23, 24, '1_2015_12_31_10_56_46.jpg', '', 1),
-	(24, 25, '1_2015_12_31_10_58_53.jpg', '', 1);
+	(1, 5, '5_2016_01_23_15_41_03.jpg', '', 1),
+	(2, 5, '5_2016_01_23_15_41_20.jpg', '', 1),
+	(3, 6, '6_2016_01_23_16_06_48.jpg', '', 1),
+	(4, 7, '7_2016_01_23_16_25_21.jpg', '', 1),
+	(5, 3, '3_2016_01_23_16_26_15.jpg', '', 1),
+	(6, 3, '3_2016_01_23_16_26_38.jpg', '', 1),
+	(7, 4, '4_2016_01_23_16_28_00.jpg', '', 1),
+	(8, 4, '4_2016_01_23_16_28_16.jpg', '', 1),
+	(9, 1, '1_2016_01_23_16_29_48.jpg', '', 1),
+	(10, 2, '2_2016_01_23_16_30_56.jpg', '', 1),
+	(11, 2, '2_2016_01_23_16_31_12.jpg', '', 1),
+	(12, 2, '2_2016_01_23_16_31_32.jpg', '', 1),
+	(13, 2, '2_2016_01_23_16_33_43.jpg', '', 1),
+	(14, 2, '2_2016_01_23_16_34_59.jpg', '', 1),
+	(15, 2, '2_2016_01_23_16_35_26.jpg', '', 1);
 /*!40000 ALTER TABLE `photo` ENABLE KEYS */;
 
 
@@ -455,7 +440,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 -- Dumping data for table virtualguide.user: ~1 rows (approximately)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`ID`, `username`, `auth_key`, `password_hash`, `password_reset_token`, `email`, `status`, `created_at`, `updated_at`) VALUES
-	(1, 'admin', 'Hd0JWsYIfKnQRT__OGRQ461qWrIDCmxk', '$2y$13$3S0L55C/uYEOfCk.mVP8r.fZqAKJnZhOLPqXietdTnjsilr30lGDK', NULL, 'the21@interia.pl', 10, 1450653333, 1450653333);
+	(1, 'Sław', 'P9YtZEk1MWpTIiuM2IyFOqIvKXLYTK6w', '$2y$13$.YhcRpPDzm.JV2sF3S.Dce/KpbfMfAGiDEbQtZG0BqE4gzVOkADgS', NULL, 'the21@interia.pl', 10, 1453559964, 1453559964);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;

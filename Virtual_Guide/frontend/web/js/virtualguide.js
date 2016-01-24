@@ -659,7 +659,14 @@ function main (){
    // map.addControl(select);
 	
    // select.activate();
-    vectorlayer.events.on({"featureselected": showInformation});
+    vectorlayer.events.on({"featureselected": showInformation,
+						"loadend": function (evt) {
+						    var deeds_extent = vectorlayer.getDataExtent();
+						    console.log("deeds_ext");
+						    //map.zoomToExtent(deeds_extent);
+						}
+	});
+    
 		//map.addControl(fpControl);
     
     map.addLayer(vectorlayer);
@@ -738,7 +745,7 @@ map.addControls([new OpenLayers.Control.LayerSwitcher(),
 		new OpenLayers.Control.Click({id : 'clickControl'})]
 );
     map.getControlsBy("id", "clickControl")[0].activate();
-   addFeaturesToVector(vectorlayer, json);
+   //addFeaturesToVector(vectorlayer, json);
     updateGeneralInformation();
 
     // the behaviour and methods for clustering strategies
@@ -852,7 +859,7 @@ function validateAddPointForm() {
 	var zoom = document.forms['addPointForm']['zoom'].value;
 	var cat = document.forms['addPointForm']['cat'].value;
 
-	if (name === '' || lon === '' || lat === '' || descr === '' || zoom === '' || cat === '' || addr === '') {
+	if (name === '' || lon === '' || lat === '' || descr === '' || zoom === '' || cat === '' ) {
 		addFormMsg.innerHTML = "Wypełnij wszystkie pola";
 		return false;
 	} else {
@@ -915,8 +922,8 @@ function validateSearchPointForm() {
 function addFeaturesToVector(layer, json) {
 	layer.destroyFeatures();
 
-	features = [];
-
+	var features = [];
+	var bounds = new OpenLayers.Bounds();
 	// transformacja wspolrzednych
 	var epsg4326 = new OpenLayers.Projection('EPSG:4326'); // Transform from WGS 1984
 	var epsg900913 = new OpenLayers.Projection('EPSG:900913'); // to Spherical Mercator Projection
@@ -942,25 +949,54 @@ function addFeaturesToVector(layer, json) {
 				lat : json[i].lat,
 				//forumID : json[i].forumID
 			});
+		bounds.extend(f.geometry.getBounds());
 		features.push(f);
-		console.log(f.id);
+		console.log(f);
 		console.log(layer.id);
+		
 	}
 	//appendList(json);
 	layer.addFeatures(features);
 
 	//layer.destroyFeatures();
-	
-	
+	console.log(bounds);
 	appendMarkersLayer(layer);
 	layer.refresh({
 		force : true
 	});
+	if ( features.length == 0 )	 {
+		map.zoomToMaxExtent();
+	} else {
+		var dr = bounds.right;
+		var dl = bounds.left;
+		var dt = bounds.top;
+		var db = bounds.bottom;
+		var dx = dr-dl;
+		var dy = dt-db;
+		var cx = dl + dx/2;
+		var cy = db + dy/2;
+		
+		var lonlat = new OpenLayers.LonLat(cx,cy);
+		map.zoomToExtent(bounds);
+		var zoom = map.getZoom();
+		map.moveTo(lonlat, zoom-1);
+		map.moveByPx(-200,0);
+	}
 	
-
 }
 
+function centerView() {
 
+	var layer = map.layers[0];
+	layer.events.on({"loadend": function() {
+		var dataBounds = layer.getDataExtent();
+		var lonlatCenter = dataBounds.getCenterLonLat();
+		var zoom = map.getZoom();
+		map.moveTo(lonlatCenter, zoom-1);
+	}});
+	
+	
+}
 
 function controlFeatureClick(e) {
 	console.log(e);	
