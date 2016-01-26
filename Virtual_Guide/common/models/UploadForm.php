@@ -3,6 +3,7 @@ namespace common\models;
 
 use yii\base\Model;
 use yii\web\UploadedFile;
+use yii\imagine\Image;
 
 class UploadForm extends Model
 {
@@ -27,7 +28,11 @@ class UploadForm extends Model
     public function upload($name)
     {
        // if ($this->validate()) {
-            $this->imageFile->saveAs('uploads/' . $name . '.' . $this->imageFile->extension);
+       		$fname = 'uploads/' . $name . '.' . $this->imageFile->extension;
+       		$fnamethumb = 'uploads/thumbs/' . $name . '.' . $this->imageFile->extension;
+            $this->imageFile->saveAs($fname);
+            Image::thumbnail($fname, 120, 120)
+            ->save($fnamethumb, ['quality' => 80]);
             return true;
        // } else {
             return false;

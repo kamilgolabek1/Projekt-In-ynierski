@@ -22,6 +22,7 @@ use common\models\Category;
 use common\models\Countries;
 use common\models\Photo;
 
+
 /**
  * Site controller
  */
@@ -81,62 +82,64 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-		
-
-    $modelup = new UploadForm();
-    $modelup2 = new UploadForm();
-
-        if (Yii::$app->request->isPost) {
-        	$request = Yii::$app->request;
-        	$name = $request->post('name');
-        	if(!isset($_POST['name'])) return;
-        	$adres= $request->post('adress');
-        	$opis = $request->post('descr');
-        	$zoom= $request->post('zoom');
-        	$kategoria = $request->post('category');
-        	$dlugosc= $request->post('lon');
-        	$szerokosc = $request->post('lat');
-        	$tag = $request->post('tag');
-        	$kraj = $request->post('country');
-        	
-        	$location = new Location();
-        	$location->name = $name;
-        	$location->descr = $opis;
-        	$location->lon = $dlugosc;
-        	$location->lat = $szerokosc;
-        	$location->countryID = $kraj;
-        	$location->address = $adres;
-        	$location->zoom = $zoom;
-        	$location->categoryID = $kategoria;
-        	$location->userID = $userId = \Yii::$app->user->identity->id;
-        	$location->tag = $tag;
-        	
-        	if($location->save()){
-        		$modelup->imageFile = UploadedFile::getInstance($modelup, 'imageFile');
-        		if($modelup->imageFile){
-        			$now =  date('Y_m_d_H_i_s');
-        			$name = (string)$location->userID."_".$now;
-        			$name = str_replace(" ", "_", $name);
-        			if ($modelup->upload($name)) {
-        				$photo =  new Photo();
-        				$photo->locationID = $location->ID;
-        				$photo->filename = $name.".".$modelup->imageFile->extension;
-        				$photo->comment = "";
-        				$photo->userID = $location->userID;
-        				$photo->save();
-        			}
-        		}
-			    
-        	}
-        	unset($_POST['name']);
-        }
-        
-		
+    	$modelup = new UploadForm();
+    	$modelup2 = new UploadForm();
         $categories = Category::find()->all();
 		$countries = Countries::find()->all();
 		$sql = "Select * from location ";
     	$locations = Yii::$app->db->createCommand($sql)->queryAll();
         return $this->render('index',['locations' => $locations,'modelup' => $modelup,'modelup2' => $modelup2,'categories' => $categories,'countries' => $countries] );
+    }
+    
+    public function actionAddPoint(){
+    	if (Yii::$app->request->isPost) {
+    		$modelup = new UploadForm();
+    		$modelup2 = new UploadForm();
+    		
+    		$request = Yii::$app->request;
+    		$name = $request->post('name');
+    		if(!isset($_POST['name'])) return;
+    		$adres= $request->post('adress');
+    		$opis = $request->post('descr');
+    		$zoom= $request->post('zoom');
+    		$kategoria = $request->post('category');
+    		$dlugosc= $request->post('lon');
+    		$szerokosc = $request->post('lat');
+    		$tag = $request->post('tag');
+    		$kraj = $request->post('country');
+    		 
+    		$location = new Location();
+    		$location->name = $name;
+    		$location->descr = $opis;
+    		$location->lon = $dlugosc;
+    		$location->lat = $szerokosc;
+    		$location->countryID = $kraj;
+    		$location->address = $adres;
+    		$location->zoom = $zoom;
+    		$location->categoryID = $kategoria;
+    		$location->userID = $userId = \Yii::$app->user->identity->id;
+    		$location->tag = $tag;
+    		 
+    		if($location->save()){
+    			$modelup->imageFile = UploadedFile::getInstance($modelup, 'imageFile');
+    			if($modelup->imageFile){
+    				$now =  date('Y_m_d_H_i_s');
+    				$name = (string)$location->userID."_".$now;
+    				$name = str_replace(" ", "_", $name);
+    				if ($modelup->upload($name)) {
+    					$photo =  new Photo();
+    					$photo->locationID = $location->ID;
+    					$photo->filename = $name.".".$modelup->imageFile->extension;
+    					$photo->comment = "";
+    					$photo->userID = $location->userID;
+    					$photo->save();
+    					
+    				}
+    			}
+    			return json_encode($location);
+    		}
+    	
+    	}
     }
     
     public function actionUpload()
@@ -156,9 +159,10 @@ class SiteController extends Controller
         		$photo->comment = "";
         		$photo->userID =  \Yii::$app->user->identity->id;
         		$photo->save();
+        		return json_encode($photo);
         	}
     	}
-    	return $this->redirect('index');
+    	return false;
     }
 	
 	

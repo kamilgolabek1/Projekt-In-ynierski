@@ -39,7 +39,7 @@ if ( document.getElementById('addPointSubmitBtn') ) {
 			formData.append("country", country);
 			
 			$.ajax({
-			url: 'site/index',  //Server script to process data
+			url: 'site/add-point',  //Server script to process data
 			type: 'POST',
 			
 			//Ajax events
