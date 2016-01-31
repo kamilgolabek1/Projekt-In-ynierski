@@ -120,7 +120,6 @@ class SiteController extends Controller
     		$location->categoryID = $kategoria;
     		$location->userID = $userId = \Yii::$app->user->identity->id;
     		$location->tag = $tag;
-    		 $loc2 = $location;
     		if($location->save()){
     			$modelup->imageFile = UploadedFile::getInstance($modelup, 'imageFile');
     			if($modelup->imageFile){
