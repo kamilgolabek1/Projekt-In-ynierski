@@ -51,6 +51,18 @@ if ( document.getElementById('addPointSubmitBtn') ) {
 				// Success so call function to process the form
 				//submitForm(event, data);
 							document.forms["addPointForm"].reset();
+							
+							var jsonObj = JSON.parse(data);
+					//alert(jsonObj);
+					json = [jsonObj];
+					//console.log(jsonObj);
+					console.log(json);
+					addPointFormMsg.innerHTML = "";
+					
+					if (map.popups[0]) {
+						map.removePopup(map.popups[0]);
+					}
+					addFeaturesToVector(vectorlayer, json);
 			    }
 			    else
 			    {

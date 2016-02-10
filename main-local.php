@@ -3,9 +3,9 @@ return [
     'components' => [
         'db' => [
             'class' => 'yii\db\Connection',
-            'dsn' => 'mysql:host=localhost;dbname=virtualguide',
-            'username' => 'root',
-            'password' => '',
+            'dsn' => 'mysql:host=localhost;dbname=rubiconx_vg',
+            'username' => 'rubiconx_vg',
+            'password' => 'Przewodnik1',
             'charset' => 'utf8',
         ],
          'mailer' => [
