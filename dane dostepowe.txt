@@ -1,0 +1,4 @@
+adminEmail
+\Virtual_Guide\frontend\config\params.php
+\Virtual_Guide\params.php
+Virtual_Guide\common\config\params.php
